@@ -1,1 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Security Journey — Selina</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f1f5f9;
+  min-height: 100vh;
+  padding: 24px 16px;
+  color: #1e293b;
+}
+.container { max-width: 1080px; margin: 0 auto; }
 
+/* Header */
+.header {
+  background: white;
+  border-radius: 16px;
+  padding: 22px 28px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.header-title { font-size: 1.55rem; font-weight: 700; color: #0f172a; }
+.header-subtitle { font-size: 0.85rem; color: #64748b; margin-top: 3px; }
+.header-date {
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 7px;
+  background: white;
+  border-radius: 16px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  flex-wrap: wrap;
+}
+.tab-btn {
+  padding: 7px 15px;
+  border-radius: 20px;
+  border: 1.5px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.tab-btn:hover { border-color: #94a3b8; color: #334155; }
+.tab-btn.active { background: #1d4ed8; border-color: #1d4ed8; color: white; }
+
+/* Tab visibility */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+  margin-bottom: 14px;
+}
+.card-title { font-size: 1rem; font-weight: 700; margin-bottom: 14px; color: #0f172a; }
+
+/* Stats grid */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+.stat-number { font-size: 1.9rem; font-weight: 700; line-height: 1.2; }
+.stat-label { font-size: 0.78rem; color: #64748b; margin-top: 3px; }
+
+/* Two col */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* Bible verse banner */
+.verse-banner {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 14px 20px;
+  text-align: center;
+  font-style: italic;
+  color: #15803d;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+/* Progress bars */
+.progress-bar { background: #f1f5f9; border-radius: 100px; height: 7px; overflow: hidden; margin-top: 6px; }
+.progress-fill { height: 100%; border-radius: 100px; transition: width 0.4s ease; }
+
+/* Phase section headers */
+.phase-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin: 18px 0 8px;
+}
+.phase-section {
+  background: #fafafa;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 4px 14px;
+  margin-bottom: 8px;
+}
+.cert-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.cert-row:last-child { border-bottom: none; }
+.cert-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.cert-name { flex: 1; font-size: 0.875rem; font-weight: 500; }
+.cert-badge {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.cert-pct { font-size: 0.82rem; font-weight: 700; width: 38px; text-align: right; }
+.cert-bar-wrap { width: 120px; }
+.added-tag {
+  font-size: 0.62rem;
+  background: #fce7f3;
+  color: #be185d;
+  padding: 2px 7px;
+  border-radius: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Badges */
+.badge-complete { background: #dcfce7; color: #16a34a; }
+.badge-inprogress { background: #dbeafe; color: #2563eb; }
+.badge-p2 { background: #f3e8ff; color: #7c3aed; }
+.badge-p3 { background: #fef3c7; color: #d97706; }
+.badge-p4 { background: #f1f5f9; color: #64748b; }
+
+/* Forms */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label { font-size: 0.8rem; font-weight: 600; color: #374151; }
+.form-input, .form-select, .form-textarea {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 0.85rem;
+  color: #374151;
+  background: white;
+  width: 100%;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #2563eb; }
+.form-textarea { resize: vertical; min-height: 72px; }
+.btn-primary {
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+.btn-primary:hover { background: #1e40af; }
+.btn-green { background: #16a34a; }
+.btn-green:hover { background: #15803d; }
+
+/* Active cert row */
+.active-cert-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8fafc;
+}
+.active-cert-row:last-child { border-bottom: none; }
+.active-cert-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.active-cert-name { font-size: 0.875rem; width: 120px; }
+.active-cert-bar { flex: 1; }
+.active-cert-pct { font-size: 0.82rem; font-weight: 700; width: 36px; text-align: right; }
+
+/* Focus items */
+.focus-item { margin-bottom: 7px; font-size: 0.875rem; line-height: 1.5; }
+.focus-label { font-weight: 700; }
+.focus-study { color: #2563eb; }
+.focus-build { color: #16a34a; }
+.focus-post { color: #7c3aed; }
+
+/* Big stats */
+.big-stat-wrap { text-align: center; padding: 8px 0; }
+.big-number { font-size: 3.2rem; font-weight: 800; line-height: 1; color: #d97706; }
+.big-label { font-size: 0.82rem; color: #d97706; margin-top: 6px; }
+
+/* Project cards */
+.project-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.project-title { font-size: 1rem; font-weight: 700; }
+.project-pct { font-size: 0.85rem; font-weight: 700; }
+.task-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f8fafc; }
+.task-item:last-child { border-bottom: none; }
+.task-checkbox {
+  width: 17px; height: 17px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  flex-shrink: 0;
+  cursor: pointer;
+  appearance: none;
+  margin-top: 2px;
+  transition: all 0.15s;
+  position: relative;
+}
+.task-checkbox:checked { background: #16a34a; border-color: #16a34a; }
+.task-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -1px;
+  left: 2px;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+.task-text { font-size: 0.865rem; line-height: 1.5; color: #374151; }
+.task-text.done { text-decoration: line-through; color: #94a3b8; }
+
+/* LinkedIn */
+.li-stats { display: flex; gap: 28px; margin-bottom: 18px; }
+.li-stat-num { font-size: 1.4rem; font-weight: 700; }
+.li-stat-label { font-size: 0.78rem; color: #64748b; }
+.post-row { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; }
+.post-row:last-child { border-bottom: none; }
+.post-num { font-size: 0.78rem; color: #94a3b8; width: 20px; flex-shrink: 0; padding-top: 3px; }
+.post-info { flex: 1; }
+.post-title { font-size: 0.865rem; font-weight: 500; margin-bottom: 2px; }
+.post-phase-tag { font-size: 0.7rem; color: #94a3b8; }
+.post-actions { display: flex; align-items: center; gap: 8px; }
+.post-cat {
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.post-status-sel {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-size: 0.75rem;
+  color: #374151;
+  background: white;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Study log */
+.session-history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.session-row { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; align-items: flex-start; }
+.session-row:last-child { border-bottom: none; }
+.session-meta { width: 90px; flex-shrink: 0; }
+.session-date { font-size: 0.78rem; color: #64748b; font-weight: 500; }
+.session-dur { font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+.session-mood-tag { font-size: 0.68rem; margin-top: 3px; font-weight: 600; }
+.session-content { flex: 1; }
+.session-topic { font-size: 0.875rem; font-weight: 600; margin-bottom: 3px; }
+.session-learned { font-size: 0.78rem; color: #16a34a; margin-top: 2px; }
+.session-review { font-size: 0.78rem; color: #d97706; margin-top: 2px; }
+.session-project { font-size: 0.78rem; color: #7c3aed; margin-top: 2px; }
+.session-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.session-cert-tag { font-size: 0.7rem; padding: 2px 9px; border-radius: 10px; background: #dbeafe; color: #2563eb; font-weight: 600; white-space: nowrap; }
+.session-del { color: #e2e8f0; cursor: pointer; font-size: 0.85rem; border: none; background: none; transition: color 0.15s; }
+.session-del:hover { color: #ef4444; }
+
+/* CISSP Experience */
+.cissp-info {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: #92400e;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+.domain-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f1f5f9; }
+.domain-row:last-child { border-bottom: none; }
+.domain-num { font-size: 0.72rem; color: #94a3b8; width: 18px; }
+.domain-name { flex: 1; font-size: 0.875rem; font-weight: 500; }
+.domain-bar { width: 100px; }
+.domain-months { font-size: 0.875rem; font-weight: 700; color: #2563eb; width: 60px; text-align: right; }
+.domain-status { font-size: 0.72rem; width: 60px; text-align: right; font-weight: 600; }
+.exp-entry-row { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; align-items: flex-start; }
+.exp-entry-row:last-child { border-bottom: none; }
+.exp-company { font-size: 0.85rem; font-weight: 600; }
+.exp-role { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
+.exp-dates { font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+.exp-domains { font-size: 0.72rem; color: #7c3aed; margin-top: 2px; }
+.exp-months-badge { background: #dbeafe; color: #2563eb; padding: 3px 10px; border-radius: 10px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+
+/* Cost Tracker */
+.cost-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+.cost-sum-card { border-radius: 12px; padding: 16px; text-align: center; }
+.cost-sum-num { font-size: 1.5rem; font-weight: 700; }
+.cost-sum-label { font-size: 0.78rem; color: #64748b; margin-top: 4px; }
+.cost-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+.cost-row:last-child { border-bottom: none; }
+.cost-cert-name { flex: 1; font-size: 0.875rem; font-weight: 500; }
+.cost-phase { font-size: 0.72rem; padding: 2px 8px; border-radius: 8px; font-weight: 600; }
+.cost-fee { font-size: 0.875rem; color: #64748b; width: 70px; text-align: right; }
+.cost-mat { font-size: 0.875rem; color: #64748b; width: 70px; text-align: right; }
+.cost-status { font-size: 0.72rem; padding: 2px 9px; border-radius: 8px; font-weight: 600; width: 70px; text-align: center; }
+.cost-paid { background: #dcfce7; color: #16a34a; }
+.cost-upcoming { background: #f1f5f9; color: #64748b; }
+
+/* Inspiration */
+.insp-card { border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; }
+.insp-context { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 8px; }
+.insp-verse { font-style: italic; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; line-height: 1.5; }
+.insp-quote { font-size: 0.83rem; color: #64748b; }
+
+/* Section heading */
+.section-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 20px 0 10px;
+}
+
+/* Slider */
+.range-slider { width: 100%; accent-color: #2563eb; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-grid { grid-template-columns: 1fr; }
+  .cost-summary-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .cert-bar-wrap { display: none; }
+  .post-actions { flex-direction: column; align-items: flex-start; }
+}
+
+.empty-state { text-align: center; padding: 32px; color: #94a3b8; font-size: 0.875rem; }
+.tag-new { font-size: 0.62rem; background: #fce7f3; color: #be185d; padding: 1px 6px; border-radius: 6px; font-weight: 700; vertical-align: middle; margin-left: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="header-title">AI Security Journey</div>
+      <div class="header-subtitle" id="headerSubtitle">Phase 1 · AWS SAA + CKA · 36-month certification plan</div>
+    </div>
+    <div class="header-date" id="headerDate"></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+    <button class="tab-btn" onclick="switchTab('certifications')">Certifications</button>
+    <button class="tab-btn" onclick="switchTab('projects')">Projects</button>
+    <button class="tab-btn" onclick="switchTab('linkedin')">LinkedIn posts</button>
+    <button class="tab-btn" onclick="switchTab('studylog')">Study log</button>
+    <button class="tab-btn" onclick="switchTab('cissp')">CISSP Experience</button>
+    <button class="tab-btn" onclick="switchTab('costs')">Cost tracker</button>
+    <button class="tab-btn" onclick="switchTab('inspiration')">Daily inspiration</button>
+  </div>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <div id="tab-overview" class="tab-content active">
+
+    <div class="verse-banner" id="dailyVerse"></div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" style="color:#2563eb" id="statSessions">0</div>
+        <div class="stat-label">Study sessions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:#16a34a" id="statCerts">2</div>
+        <div class="stat-label">Certs held</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:#7c3aed" id="statPosts">0</div>
+        <div class="stat-label">Posts published</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:#d97706" id="statStreak">0</div>
+        <div class="stat-label">Day streak</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div style="font-size:2.4rem;font-weight:800;color:#2563eb;line-height:1" id="overallPct">1%</div>
+        <div style="font-size:0.82rem;color:#2563eb;margin-top:4px;margin-bottom:10px">Overall 36-month journey progress</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="overallBar" style="background:#2563eb;width:1%"></div>
+        </div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center">
+        <div class="big-number" id="streakBig">0</div>
+        <div class="big-label" id="streakLabel">day study streak — keep going</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Active cert progress</div>
+        <div id="activeCerts"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">This week's focus</div>
+        <div id="weekFocusDisplay"></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #f1f5f9">
+          <div style="font-size:0.78rem;font-weight:600;color:#94a3b8;margin-bottom:8px">UPDATE FOCUS</div>
+          <input class="form-input" id="focusStudy" placeholder="Study focus..." style="margin-bottom:6px">
+          <input class="form-input" id="focusBuild" placeholder="Build focus..." style="margin-bottom:6px">
+          <input class="form-input" id="focusPost" placeholder="Post topic..." style="margin-bottom:8px">
+          <button class="btn-primary" onclick="saveFocus()" style="width:100%">Save focus</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick log -->
+    <div class="card">
+      <div class="card-title">Quick log a session</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Topic studied</label>
+          <input class="form-input" id="qlTopic" placeholder="e.g. IAM permission boundaries">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Certification</label>
+          <select class="form-select" id="qlCert"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration</label>
+          <select class="form-select" id="qlDuration">
+            <option>30 min</option><option>1 hr</option><option>1.5 hr</option>
+            <option>2 hr</option><option>2.5 hr</option><option>3 hr</option><option>3+ hr</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mood</label>
+          <select class="form-select" id="qlMood">
+            <option value="5">5 — Excellent</option><option value="4">4 — Good</option>
+            <option value="3" selected>3 — Okay</option><option value="2">2 — Tired</option>
+            <option value="1">1 — Rough</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Key learning — write it in your own words</label>
+          <textarea class="form-textarea" id="qlLearned" placeholder="What did you actually understand today?"></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Needs re-review</label>
+          <input class="form-input" id="qlReview" placeholder="What still feels fuzzy?">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="logSession()">Log session</button>
+    </div>
+
+  </div>
+
+  <!-- ===================== CERTIFICATIONS ===================== -->
+  <div id="tab-certifications" class="tab-content">
+
+    <div class="card">
+      <div class="phase-header">Already earned — your foundation</div>
+      <div class="phase-section">
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#16a34a"></div>
+          <div class="cert-name">ISC2 CC — Certified in Cybersecurity</div>
+          <div class="cert-badge badge-complete">Complete ✓</div>
+          <div class="cert-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="background:#16a34a;width:100%"></div></div></div>
+          <div class="cert-pct" style="color:#16a34a">100%</div>
+        </div>
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#16a34a"></div>
+          <div class="cert-name">Aviatrix ACE — Multi-Cloud Associate</div>
+          <div class="cert-badge badge-complete">Complete ✓</div>
+          <div class="cert-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="background:#16a34a;width:100%"></div></div></div>
+          <div class="cert-pct" style="color:#16a34a">100%</div>
+        </div>
+      </div>
+
+      <div class="phase-header">Phase 1 — Months 1–5 (Active now)</div>
+      <div class="phase-section" id="certPhase1"></div>
+
+      <div class="phase-header">Phase 2 — Months 5–10</div>
+      <div class="phase-section" id="certPhase2"></div>
+
+      <div class="phase-header">Phase 3 — Months 10–18</div>
+      <div class="phase-section" id="certPhase3"></div>
+
+      <div class="phase-header">Phase 4 — Months 18–36</div>
+      <div class="phase-section" id="certPhase4"></div>
+    </div>
+
+    <!-- Update progress -->
+    <div class="card">
+      <div class="card-title">Update cert progress</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Certification</label>
+          <select class="form-select" id="updateCertSel" onchange="updateSliderDisplay()"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Progress: <span id="sliderVal" style="color:#2563eb;font-weight:700">0%</span></label>
+          <input type="range" class="range-slider" id="progressSlider" min="0" max="100" value="0" oninput="document.getElementById('sliderVal').textContent=this.value+'%'">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="updateStatusSel">
+            <option value="upcoming">Upcoming</option>
+            <option value="inprogress">In Progress</option>
+            <option value="complete">Complete ✓</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Exam date (if scheduled)</label>
+          <input type="date" class="form-input" id="updateExamDate">
+        </div>
+      </div>
+      <button class="btn-primary btn-green" onclick="saveCertProgress()">Save progress</button>
+    </div>
+
+  </div>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <div id="tab-projects" class="tab-content">
+    <div id="projectsContainer"></div>
+  </div>
+
+  <!-- ===================== LINKEDIN ===================== -->
+  <div id="tab-linkedin" class="tab-content">
+    <div class="card">
+      <div class="li-stats">
+        <div>
+          <div class="li-stat-num" style="color:#16a34a" id="liPublished">0</div>
+          <div class="li-stat-label">published</div>
+        </div>
+        <div>
+          <div class="li-stat-num" style="color:#2563eb" id="liScheduled">0</div>
+          <div class="li-stat-label">scheduled</div>
+        </div>
+        <div>
+          <div class="li-stat-num" style="color:#94a3b8" id="liUpcoming">0</div>
+          <div class="li-stat-label">upcoming</div>
+        </div>
+      </div>
+      <div style="font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:12px">Post calendar — update status as you publish</div>
+      <div id="postList"></div>
+    </div>
+  </div>
+
+  <!-- ===================== STUDY LOG ===================== -->
+  <div id="tab-studylog" class="tab-content">
+    <div class="card">
+      <div class="card-title">Add a study session</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Topic</label>
+          <input class="form-input" id="slTopic" placeholder="What did you study?">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Certification</label>
+          <select class="form-select" id="slCert"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration</label>
+          <select class="form-select" id="slDuration">
+            <option>30 min</option><option>1 hr</option><option>1.5 hr</option>
+            <option>2 hr</option><option>2.5 hr</option><option>3 hr</option><option>3+ hr</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mood</label>
+          <select class="form-select" id="slMood">
+            <option value="5">5 — Excellent</option><option value="4">4 — Good</option>
+            <option value="3" selected>3 — Okay</option><option value="2">2 — Tired</option>
+            <option value="1">1 — Rough</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Key learning — in your own words (this is what makes it stick)</label>
+          <textarea class="form-textarea" id="slLearned" placeholder="What did you actually understand today? Write it like you're explaining it to a friend."></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Needs re-review</label>
+          <input class="form-input" id="slReview" placeholder="What still feels fuzzy or unclear?">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Project step applied this session</label>
+          <input class="form-input" id="slProject" placeholder="Which project step did you work on?">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addStudySession()">Add to study log</button>
+    </div>
+
+    <div class="card">
+      <div class="session-history-header">
+        <div class="card-title" style="margin-bottom:0">Session history</div>
+        <div style="font-size:0.82rem;color:#94a3b8" id="sessionCount">0 sessions</div>
+      </div>
+      <div id="sessionHistory"></div>
+    </div>
+  </div>
+
+  <!-- ===================== CISSP EXPERIENCE ===================== -->
+  <div id="tab-cissp" class="tab-content">
+
+    <div class="cissp-info">
+      <strong>⚠️ No degree — full 5 years required.</strong> Without a 4-year degree, you need the complete 60 months of paid work experience across at least 2 of the 8 CISSP domains. Start logging your experience now so there are no surprises at exam time. Your Aviatrix work almost certainly covers Communication & Network Security, Security Architecture, and IAM.
+    </div>
+
+    <div class="card">
+      <div class="card-title">Domain experience tracker</div>
+      <div style="display:flex;gap:20px;margin-bottom:16px;flex-wrap:wrap">
+        <div style="font-size:0.875rem">Total qualifying months: <strong id="totalExpMonths" style="color:#2563eb">0</strong> / 60</div>
+        <div style="font-size:0.875rem">Domains with experience: <strong id="domainsWithExp" style="color:#7c3aed">0</strong> / 8 (need ≥2)</div>
+        <div style="font-size:0.875rem;font-weight:700" id="cisspeStatus"></div>
+      </div>
+      <div class="progress-bar" style="height:10px;margin-bottom:20px">
+        <div class="progress-fill" id="cisspeProgressBar" style="background:#2563eb;width:0%"></div>
+      </div>
+      <div id="domainRows"></div>
+    </div>
+
+    <!-- Add experience entry -->
+    <div class="card">
+      <div class="card-title">Log work experience</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Company / Organization</label>
+          <input class="form-input" id="expCompany" placeholder="e.g. Aviatrix">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role / Title</label>
+          <input class="form-input" id="expRole" placeholder="e.g. Security Engineer">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Start date</label>
+          <input type="month" class="form-input" id="expStart">
+        </div>
+        <div class="form-group">
+          <label class="form-label">End date (leave blank if current)</label>
+          <input type="month" class="form-input" id="expEnd">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">CISSP domains covered (select all that apply)</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px" id="domainCheckboxes"></div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Notes</label>
+          <input class="form-input" id="expNotes" placeholder="Brief description of security work performed">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addExpEntry()">Add experience entry</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Experience log</div>
+      <div id="expEntries"><div class="empty-state">No experience entries yet. Log your work history above.</div></div>
+    </div>
+
+  </div>
+
+  <!-- ===================== COST TRACKER ===================== -->
+  <div id="tab-costs" class="tab-content">
+
+    <div class="cost-summary-grid">
+      <div class="cost-sum-card" style="background:#eff6ff">
+        <div class="cost-sum-num" style="color:#2563eb" id="totalExamFees">$0</div>
+        <div class="cost-sum-label">Total exam fees</div>
+      </div>
+      <div class="cost-sum-card" style="background:#f0fdf4">
+        <div class="cost-sum-num" style="color:#16a34a" id="totalSpent">$0</div>
+        <div class="cost-sum-label">Amount spent so far</div>
+      </div>
+      <div class="cost-sum-card" style="background:#fef3c7">
+        <div class="cost-sum-num" style="color:#d97706" id="totalRemaining">$0</div>
+        <div class="cost-sum-label">Remaining to budget</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Exam fee breakdown</div>
+      <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:10px;padding:8px 0;border-bottom:2px solid #f1f5f9;font-size:0.75rem;font-weight:700;color:#94a3b8;text-transform:uppercase">
+        <div>Certification</div><div>Phase</div><div style="text-align:right">Exam fee</div><div style="text-align:right">Materials</div><div style="text-align:center">Status</div>
+      </div>
+      <div id="costRows"></div>
+      <div style="display:grid;grid-template-columns:1fr auto auto auto auto;gap:10px;padding:12px 0 0;font-size:0.875rem;font-weight:700;border-top:2px solid #f1f5f9;margin-top:4px" id="costTotalsRow">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Study materials budget</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Certification</label>
+          <select class="form-select" id="matCertSel"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Material / Course</label>
+          <input class="form-input" id="matName" placeholder="e.g. A Cloud Guru subscription">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cost ($)</label>
+          <input type="number" class="form-input" id="matCost" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="matStatus">
+            <option value="paid">Paid</option>
+            <option value="planned">Planned</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addMaterial()">Add material cost</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Materials log</div>
+      <div id="materialsLog"><div class="empty-state">No materials logged yet.</div></div>
+    </div>
+
+  </div>
+
+  <!-- ===================== DAILY INSPIRATION ===================== -->
+  <div id="tab-inspiration" class="tab-content">
+
+    <div class="card">
+      <div class="card-title">Today's inspiration</div>
+      <div id="todayInspiration"></div>
+    </div>
+
+    <div class="section-heading">Full inspiration library — pull one before every session</div>
+    <div id="fullInspiration"></div>
+
+  </div>
+
+</div><!-- end container -->
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const CERTS = [
+  // Phase 1
+  { id:'awssaa', name:'AWS Solutions Architect Associate (SAA-C03)', phase:'1', status:'inprogress', progress:5, color:'#2563eb', examFee:300, added:false },
+  { id:'cka', name:'CKA — Certified Kubernetes Administrator', phase:'1', status:'inprogress', progress:0, color:'#2563eb', examFee:395, added:false },
+  { id:'az900', name:'AZ-900 — Azure Fundamentals', phase:'1', status:'upcoming', progress:0, color:'#2563eb', examFee:165, added:true },
+  { id:'gcdl', name:'Google Cloud Digital Leader', phase:'1', status:'upcoming', progress:0, color:'#2563eb', examFee:200, added:true },
+  // Phase 2
+  { id:'awssec', name:'AWS Security Specialty (SCS-C03)', phase:'2', status:'upcoming', progress:0, color:'#7c3aed', examFee:300, added:false },
+  { id:'cca', name:'Claude Certified Architect — Foundations (CCA)', phase:'2', status:'upcoming', progress:0, color:'#7c3aed', examFee:0, added:false },
+  // Phase 3
+  { id:'caisp', name:'CAISP — Certified AI Security Professional', phase:'3', status:'upcoming', progress:0, color:'#d97706', examFee:599, added:false },
+  { id:'cissp', name:'CISSP — Certified Information Systems Security Professional', phase:'3', status:'upcoming', progress:0, color:'#d97706', examFee:749, added:false },
+  { id:'az500', name:'AZ-500 — Azure Security Engineer', phase:'3', status:'upcoming', progress:0, color:'#d97706', examFee:165, added:true },
+  // Phase 4
+  { id:'aaism', name:'AAISM — Advanced AI Security Management (ISACA)', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:575, added:false },
+  { id:'ccsp', name:'CCSP — Certified Cloud Security Professional', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:599, added:false },
+  { id:'awssap', name:'AWS Solutions Architect Professional (SAP-C02)', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:300, added:true },
+  { id:'gcpse', name:'GCP Professional Cloud Security Engineer', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:200, added:true },
+];
+
+const CISSP_DOMAINS = [
+  'Security and Risk Management',
+  'Asset Security',
+  'Security Architecture and Engineering',
+  'Communication and Network Security',
+  'Identity and Access Management (IAM)',
+  'Security Assessment and Testing',
+  'Security Operations',
+  'Software Development Security',
+];
+
+const PROJECTS = [
+  {
+    id:'p1', title:'Project 1: AI-Secured K8s Cluster on AWS', color:'#2563eb',
+    tasks:[
+      'VPC: 3-tier subnets, NAT gateway, VPC endpoints (S3+SSM), no public node IPs',
+      'IAM: Terraform module with permission boundaries baked in by default',
+      'EKS cluster: private endpoint, KMS etcd encryption, IMDSv2 enforced',
+      'IRSA: IAM Roles for Service Accounts per workload namespace',
+      'RBAC: least-privilege ClusterRole + dedicated ServiceAccount per app',
+      'NetworkPolicy: default deny-all + explicit allow rules per service',
+      'GuardDuty: EKS runtime protection + S3 threat detection enabled',
+      'Security Hub: CIS benchmark standard enabled, findings aggregated',
+      'Falco: deployed via Helm, 2 custom rules (shell-in-container, privilege escalation)',
+      'CloudWatch: alarm → SNS → Lambda auto-remediation pipeline wired up',
+      'Node.js app: ECR image scanning + Secrets Manager integration deployed',
+      'README: architecture diagram, security decisions, threat model complete',
+      'GitHub: tagged release v1.0 — LinkedIn post published',
+    ]
+  },
+  {
+    id:'p2', title:'Project 2: MITRE Caldera + AI Red Team Lab', color:'#d97706',
+    tasks:[
+      'Vulnerable AI agent: LangChain + Docker Compose one-command setup',
+      'Threat model document: MITRE ATLAS technique mapping created',
+      'Caldera: custom ability — prompt injection payloads built',
+      'Caldera: custom ability — indirect injection via tool output',
+      'Caldera: adversary profile built + full operation run completed',
+      'Attack results documented with ATLAS technique IDs and severity',
+      'Defense layer 1: input validation implemented',
+      'Defense layer 2: output filtering and prompt hardening',
+      'Re-run Caldera operation — document what is now blocked vs bypassed',
+      'GitHub: ATLAS mapping table, defense guide, Docker Compose setup',
+      'Blog article published + cross-posted to MITRE ATLAS community',
+    ]
+  },
+  {
+    id:'p3', title:'Project 3: Claude MCP Security Copilot', color:'#7c3aed',
+    tasks:[
+      'MCP server skeleton: Python project initialized on GitHub',
+      'MCP tool 1: get_security_findings() — Security Hub via boto3',
+      'MCP tool 2: get_guardduty_threats() — live GuardDuty data',
+      'MCP tool 3: get_vpc_flow_anomalies() — Athena query integration',
+      'Claude system prompt: security analyst role + MITRE ATT&CK context',
+      'Agentic loop: fetch findings → analyze → Terraform remediation → summarize',
+      'IAM role: least-privilege read-only for all tools (Terraform deployed)',
+      'Node.js UI: chat interface for natural language security queries',
+      'Demo video: 3-minute walkthrough recorded and edited',
+      'GitHub README: architecture diagram, setup guide, example queries',
+      'LinkedIn major visibility post + Anthropic community showcase submitted',
+    ]
+  },
+];
+
+const POSTS = [
+  { id:1, title:"I'm going all in on AI security — my 24-month plan and why", phase:'P1', cat:'Journey launch' },
+  { id:2, title:"IAM permission boundaries — the concept that broke my brain + GitHub link", phase:'P1', cat:'Concept' },
+  { id:3, title:"First project commit: zero-trust EKS on AWS — architecture + decisions", phase:'P1', cat:'Project update' },
+  { id:4, title:"Month 1 SAA complete — mock exam score, what I built, what surprised me", phase:'P1', cat:'Study debrief' },
+  { id:5, title:"Studying AWS SAA + CKA at the same time — how they reinforce each other", phase:'P1', cat:'Concept' },
+  { id:6, title:"EKS cluster deployed — 5 security settings AWS skips by default", phase:'P1', cat:'Project update' },
+  { id:7, title:"IRSA explained — why IAM roles for K8s service accounts matter (Dev.to)", phase:'P1', cat:'Article' },
+  { id:8, title:"Added Falco runtime security — what it detected in 24 hours", phase:'P1', cat:'Project update' },
+  { id:9, title:"I enabled GuardDuty EKS monitoring — here's what showed up immediately", phase:'P1', cat:'Concept' },
+  { id:10, title:"SAA mock exam debrief — my score by domain, what I'm fixing", phase:'P1', cat:'Study debrief' },
+  { id:11, title:"Project 1 complete: zero-trust EKS cluster — GitHub + architecture diagram", phase:'P1', cat:'Project update' },
+  { id:12, title:"I passed AWS SAA — honest review, resources, what I wish I'd known", phase:'P1', cat:'Milestone' },
+  { id:13, title:"The most underrated CKA skill: etcd backup/restore — my exact script", phase:'P1', cat:'Concept' },
+  { id:14, title:"Taking CKA this week — my honest prep breakdown", phase:'P1', cat:'Study debrief' },
+  { id:15, title:"I passed CKA — killer.sh vs real exam + my kubectl cheat sheet", phase:'P1', cat:'Milestone' },
+  { id:16, title:"Starting Phase 2: AWS Security Specialty + Claude CCA together. Here's why.", phase:'P2', cat:'Journey launch' },
+  { id:17, title:"I asked Claude to analyze my GuardDuty findings — here's what happened", phase:'P2', cat:'Concept' },
+  { id:18, title:"Building a Claude-powered security copilot with MCP — architecture decisions (Dev.to)", phase:'P2', cat:'Article' },
+  { id:19, title:"Project 3 complete: Claude MCP security copilot — demo video + GitHub", phase:'P2', cat:'Project update' },
+  { id:20, title:"I passed Claude Certified Architect — honest review of what it really tests", phase:'P2', cat:'Milestone' },
+  { id:21, title:"I passed AWS Security Specialty — what it tested, what prep worked", phase:'P2', cat:'Milestone' },
+  { id:22, title:"AI Red Team Lab Week 1 — building a deliberately vulnerable AI agent", phase:'P3', cat:'Study debrief' },
+  { id:23, title:"I used MITRE Caldera to attack my own AI agent — operation results", phase:'P3', cat:'Project update' },
+  { id:24, title:"Red teaming an AI agent with MITRE Caldera — full walkthrough (Dev.to)", phase:'P3', cat:'Article' },
+  { id:25, title:"I passed CAISP — hardest cert I've taken. Here's what it really tests.", phase:'P3', cat:'Milestone' },
+  { id:26, title:"18 months in — 6 certs, 3 projects, what I learned about learning", phase:'P3', cat:'Study debrief' },
+  { id:27, title:"I passed CISSP — the long game. My honest 6-month study breakdown.", phase:'P3', cat:'Milestone' },
+  { id:28, title:"Starting Phase 4: CCSP + AAISM. What the multi-cloud AI security stack looks like.", phase:'P4', cat:'Journey launch' },
+  { id:29, title:"I passed CCSP — how CISSP study carried 70% of the prep", phase:'P4', cat:'Milestone' },
+  { id:30, title:"Journey complete: every cert, every lesson, what I'd tell 2026 Selina", phase:'P4', cat:'Milestone' },
+];
+
+const INSPIRATION = [
+  { context:'WHEN YOU START', color:'#f0fdf4', contextColor:'#16a34a', verse:'"This is the day the Lord has made; let us rejoice and be glad in it."', ref:'— Psalm 118:24', quote:'"The journey of a thousand miles begins with a single step." — Lao Tzu' },
+  { context:'WHEN AFRAID', color:'#eff6ff', contextColor:'#2563eb', verse:'"For God has not given us a spirit of fear, but of power and love and of a sound mind."', ref:'— 2 Timothy 1:7', quote:'"Feel the fear and do it anyway." — Susan Jeffers' },
+  { context:'WHEN STUCK', color:'#f5f3ff', contextColor:'#7c3aed', verse:'"I press on toward the goal for the prize of the upward call of God."', ref:'— Philippians 3:14', quote:'"What stands in the way becomes the way." — Marcus Aurelius' },
+  { context:'STAY CONSISTENT', color:'#fefce8', contextColor:'#ca8a04', verse:'"Do not grow weary in doing good, for in due season you will reap."', ref:'— Galatians 6:9', quote:'"Success is the sum of small efforts, repeated day in and day out." — Robert Collier' },
+  { context:'BEFORE BUILDING', color:'#fff7ed', contextColor:'#ea580c', verse:'"Whatever your hand finds to do, do it with all your might."', ref:'— Ecclesiastes 9:10', quote:'"Talk is cheap. Show me the code." — Linus Torvalds' },
+  { context:'BEFORE AN EXAM', color:'#fdf2f8', contextColor:'#9333ea', verse:'"Be still and know that I am God."', ref:'— Psalm 46:10', quote:'"You are braver than you believe, stronger than you seem, and smarter than you think." — A.A. Milne' },
+  { context:'AFTER PASSING', color:'#f0fdf4', contextColor:'#16a34a', verse:'"Well done, good and faithful servant."', ref:'— Matthew 25:23', quote:'"You did the thing you said you would do. That is who you are."' },
+  { context:'ON POSTING PUBLICLY', color:'#fffbeb', contextColor:'#d97706', verse:'"Let your light shine before others."', ref:'— Matthew 5:16', quote:'"Vulnerability is the birthplace of innovation, creativity, and change." — Brené Brown' },
+  { context:'ON YOUR BACKGROUND', color:'#fef3c7', contextColor:'#b45309', verse:'"He who began a good work in you will carry it on to completion."', ref:'— Philippians 1:6', quote:'"Your Aviatrix, multi-cloud experience is your unfair advantage — no cert can give that."' },
+  { context:'ON AI SECURITY', color:'#fdf4ff', contextColor:'#a21caf', verse:'"Guard your heart above all else, for it determines the course of your life."', ref:'— Proverbs 4:23', quote:'"Security is not a product, but a process." — Bruce Schneier' },
+  { context:'ON THE LONG GAME', color:'#eff6ff', contextColor:'#1d4ed8', verse:'"For I know the plans I have for you — plans to prosper you and not to harm you."', ref:'— Jeremiah 29:11', quote:'"Compound interest is the 8th wonder of the world." — Einstein' },
+  { context:'ON COURAGE', color:'#f0fdf4', contextColor:'#15803d', verse:'"Be strong and courageous. Do not be afraid or terrified."', ref:'— Joshua 1:9', quote:'"The expert in anything was once a beginner." — Helen Hayes' },
+  { context:'ON BUILDING IN PUBLIC', color:'#f0f9ff', contextColor:'#0369a1', verse:'"In all your ways acknowledge Him, and He will direct your paths."', ref:'— Proverbs 3:6', quote:'"Share your knowledge. It is a way to achieve immortality." — Dalai Lama' },
+  { context:'ON BAD DAYS', color:'#fef2f2', contextColor:'#dc2626', verse:'"Though he fall, he shall not be cast headlong, for the Lord upholds his hand."', ref:'— Psalm 37:24', quote:'"Our greatest glory is not in never falling, but in rising every time we fall." — Confucius' },
+  { context:'ON GIVING BACK', color:'#f5f3ff', contextColor:'#7c3aed', verse:'"Each of you should use whatever gift you have received to serve others."', ref:'— 1 Peter 4:10', quote:'"To whom much is given, much will be required." — Luke 12:48' },
+  { context:'ON PURPOSE', color:'#fff7ed', contextColor:'#c2410c', verse:'"For we are God\'s handiwork, created in Christ Jesus to do good works."', ref:'— Ephesians 2:10', quote:'"The two most important days in your life are the day you are born and the day you find out why." — Mark Twain' },
+  { context:'ON WISDOM', color:'#fefce8', contextColor:'#a16207', verse:'"If any of you lacks wisdom, let him ask God, who gives generously to all."', ref:'— James 1:5', quote:'"The more I learn, the more I realize how much I don\'t know." — Einstein' },
+  { context:'ON NO DEGREE', color:'#f0fdf4', contextColor:'#15803d', verse:'"For the Lord does not see as man sees; man looks at the outward appearance, but the Lord looks at the heart."', ref:'— 1 Samuel 16:7', quote:'"Credentials are entry tickets. Expertise is the real currency." — Unknown' },
+];
+
+const CAT_COLORS = {
+  'Journey launch': { bg:'#dbeafe', color:'#2563eb' },
+  'Concept': { bg:'#f3e8ff', color:'#7c3aed' },
+  'Project update': { bg:'#dcfce7', color:'#16a34a' },
+  'Study debrief': { bg:'#dbeafe', color:'#0369a1' },
+  'Milestone': { bg:'#fef3c7', color:'#d97706' },
+  'Article': { bg:'#fce7f3', color:'#be185d' },
+};
+
+const MOOD_LABELS = { '5':'Excellent', '4':'Good', '3':'Okay', '2':'Tired', '1':'Rough' };
+const MOOD_COLORS = { '5':'#16a34a', '4':'#2563eb', '3':'#d97706', '2':'#d97706', '1':'#dc2626' };
+
+// ============================================================
+// STATE
+// ============================================================
+function loadState() {
+  const saved = localStorage.getItem('selina_ai_journey_v3');
+  if (saved) {
+    try { return JSON.parse(saved); } catch(e) {}
+  }
+  // Default state
+  const certState = {};
+  CERTS.forEach(c => { certState[c.id] = { progress: c.progress, status: c.status, examDate: '' }; });
+  const postState = {};
+  POSTS.forEach(p => { postState[p.id] = 'Upcoming'; });
+  // Pre-set the first two as Published to match screenshot
+  postState[1] = 'Published';
+  postState[2] = 'Published';
+  const taskState = {};
+  PROJECTS.forEach(p => {
+    taskState[p.id] = {};
+    p.tasks.forEach((t,i) => { taskState[p.id][i] = false; });
+  });
+  const domainExp = {};
+  CISSP_DOMAINS.forEach((d,i) => { domainExp[i] = 0; });
+  return {
+    certState,
+    postState,
+    taskState,
+    sessions: [],
+    expEntries: [],
+    materials: [],
+    domainExp,
+    weekFocus: {
+      study: 'IAM — policies, roles, permission boundaries, SCPs',
+      build: 'Terraform IAM module → commit to aws-secure-eks repo',
+      post: '"IAM permission boundaries explained simply"',
+    },
+    streak: { lastDate: null, current: 0 },
+  };
+}
+
+let S = loadState();
+
+function saveState() {
+  localStorage.setItem('selina_ai_journey_v3', JSON.stringify(S));
+}
+
+// ============================================================
+// UTILITY
+// ============================================================
+function formatDate(d) {
+  if (!d) return '';
+  const dt = new Date(d);
+  return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
+
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function todayFull() {
+  return new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+}
+
+function getPhaseLabel(phase) {
+  if (phase === '1') return 'Phase 1';
+  if (phase === '2') return 'Phase 2';
+  if (phase === '3') return 'Phase 3';
+  return 'Phase 4';
+}
+
+function getPhaseBadgeClass(phase) {
+  if (phase === '1') return 'badge-inprogress';
+  if (phase === '2') return 'badge-p2';
+  if (phase === '3') return 'badge-p3';
+  return 'badge-p4';
+}
+
+function getStatusBadge(status, phase) {
+  if (status === 'complete') return `<span class="cert-badge badge-complete">Complete ✓</span>`;
+  if (status === 'inprogress') return `<span class="cert-badge badge-inprogress">In progress</span>`;
+  return `<span class="cert-badge ${getPhaseBadgeClass(phase)}">${getPhaseLabel(phase)}</span>`;
+}
+
+// ============================================================
+// OVERALL PROGRESS
+// ============================================================
+function calcOverallProgress() {
+  // Count earned certs (2 already earned + those marked complete)
+  let totalCerts = CERTS.length + 2; // +2 for earned
+  let completedCerts = 2; // ISC2 CC + ACE
+  let totalProgress = 200; // 2 certs at 100%
+  CERTS.forEach(c => {
+    const cs = S.certState[c.id];
+    totalProgress += (cs ? cs.progress : c.progress);
+    if (cs && cs.status === 'complete') completedCerts++;
+  });
+  const pct = Math.round(totalProgress / (totalCerts * 100) * 100);
+  return { pct, completedCerts, totalCerts };
+}
+
+// ============================================================
+// RENDER OVERVIEW
+// ============================================================
+function renderOverview() {
+  document.getElementById('headerDate').textContent = todayFull();
+
+  // Daily verse (rotate by day of year)
+  const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0))/(1000*60*60*24));
+  const insp = INSPIRATION[dayOfYear % INSPIRATION.length];
+  document.getElementById('dailyVerse').innerHTML = `${insp.verse} ${insp.ref}`;
+
+  // Stats
+  document.getElementById('statSessions').textContent = S.sessions.length;
+  const completedCerts = Object.values(S.certState).filter(c => c.status === 'complete').length + 2;
+  document.getElementById('statCerts').textContent = completedCerts;
+  const published = Object.values(S.postState).filter(v => v === 'Published').length;
+  document.getElementById('statPosts').textContent = published;
+  document.getElementById('statStreak').textContent = S.streak.current;
+  document.getElementById('streakBig').textContent = S.streak.current;
+  document.getElementById('streakLabel').textContent = S.streak.current === 1 ? 'day study streak — keep going' : 'day study streak — keep going';
+
+  // Overall progress
+  const { pct } = calcOverallProgress();
+  document.getElementById('overallPct').textContent = pct + '%';
+  document.getElementById('overallBar').style.width = pct + '%';
+
+  // Active certs
+  const activeCerts = CERTS.filter(c => {
+    const cs = S.certState[c.id];
+    return cs && (cs.status === 'inprogress' || (cs.status === 'upcoming' && c.progress > 0));
+  });
+  const allInProgress = CERTS.filter(c => {
+    const cs = S.certState[c.id];
+    return cs && cs.status === 'inprogress';
+  });
+  let activeCertsHtml = '';
+  (allInProgress.length ? allInProgress : CERTS.filter(c => c.phase === '1')).slice(0,4).forEach(c => {
+    const cs = S.certState[c.id];
+    const prog = cs ? cs.progress : c.progress;
+    const pctColor = prog > 0 ? c.color : '#94a3b8';
+    activeCertsHtml += `
+      <div class="active-cert-row">
+        <div class="active-cert-dot" style="background:${c.color}"></div>
+        <div class="active-cert-name" style="font-size:0.82rem">${c.name.split(' ').slice(0,3).join(' ')}</div>
+        <div class="active-cert-bar">
+          <div class="progress-bar">
+            <div class="progress-fill" style="background:${c.color};width:${prog}%"></div>
+          </div>
+        </div>
+        <div class="active-cert-pct" style="color:${pctColor}">${prog}%</div>
+      </div>`;
+  });
+  document.getElementById('activeCerts').innerHTML = activeCertsHtml || '<div style="color:#94a3b8;font-size:0.85rem;padding:8px 0">No active certs yet — log your first session!</div>';
+
+  // Week focus
+  renderWeekFocus();
+
+  // Populate cert selects
+  populateCertSelects();
+}
+
+function renderWeekFocus() {
+  const f = S.weekFocus;
+  document.getElementById('weekFocusDisplay').innerHTML = `
+    <div class="focus-item"><span class="focus-label focus-study">Study: </span>${f.study}</div>
+    <div class="focus-item"><span class="focus-label focus-build">Build: </span>${f.build}</div>
+    <div class="focus-item"><span class="focus-label focus-post">Post: </span>${f.post}</div>
+  `;
+  document.getElementById('focusStudy').value = f.study;
+  document.getElementById('focusBuild').value = f.build;
+  document.getElementById('focusPost').value = f.post;
+}
+
+function saveFocus() {
+  S.weekFocus = {
+    study: document.getElementById('focusStudy').value,
+    build: document.getElementById('focusBuild').value,
+    post: document.getElementById('focusPost').value,
+  };
+  saveState();
+  renderWeekFocus();
+  showToast('Focus updated!');
+}
+
+function populateCertSelects() {
+  const selIds = ['qlCert', 'slCert', 'updateCertSel', 'matCertSel'];
+  selIds.forEach(selId => {
+    const sel = document.getElementById(selId);
+    if (!sel) return;
+    const curr = sel.value;
+    sel.innerHTML = CERTS.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    if (curr) sel.value = curr;
+  });
+  updateSliderDisplay();
+}
+
+function updateSliderDisplay() {
+  const sel = document.getElementById('updateCertSel');
+  if (!sel) return;
+  const certId = sel.value;
+  const cs = S.certState[certId];
+  if (cs) {
+    document.getElementById('progressSlider').value = cs.progress;
+    document.getElementById('sliderVal').textContent = cs.progress + '%';
+    document.getElementById('updateStatusSel').value = cs.status;
+    if (cs.examDate) document.getElementById('updateExamDate').value = cs.examDate;
+  }
+}
+
+// ============================================================
+// RENDER CERTIFICATIONS
+// ============================================================
+function renderCertifications() {
+  ['1','2','3','4'].forEach(phase => {
+    const phaseCerts = CERTS.filter(c => c.phase === phase);
+    let html = '';
+    phaseCerts.forEach(c => {
+      const cs = S.certState[c.id];
+      const prog = cs ? cs.progress : c.progress;
+      const status = cs ? cs.status : c.status;
+      const pctColor = status === 'complete' ? '#16a34a' : (status === 'inprogress' ? c.color : '#94a3b8');
+      const pctText = status === 'complete' ? '100%' : prog + '%';
+      html += `
+        <div class="cert-row">
+          <div class="cert-dot" style="background:${status === 'upcoming' ? '#cbd5e1' : c.color}"></div>
+          <div class="cert-name">${c.name}${c.added ? ' <span class="added-tag">★ Added</span>' : ''}</div>
+          ${getStatusBadge(status, phase)}
+          <div class="cert-bar-wrap">
+            <div class="progress-bar">
+              <div class="progress-fill" style="background:${pctColor};width:${prog}%"></div>
+            </div>
+          </div>
+          <div class="cert-pct" style="color:${pctColor}">${pctText}</div>
+        </div>`;
+    });
+    document.getElementById('certPhase' + phase).innerHTML = html;
+  });
+}
+
+function saveCertProgress() {
+  const certId = document.getElementById('updateCertSel').value;
+  const prog = parseInt(document.getElementById('progressSlider').value);
+  const status = document.getElementById('updateStatusSel').value;
+  const examDate = document.getElementById('updateExamDate').value;
+  S.certState[certId] = { progress: status === 'complete' ? 100 : prog, status, examDate };
+  saveState();
+  renderCertifications();
+  renderOverview();
+  showToast('Progress saved!');
+}
+
+// ============================================================
+// RENDER PROJECTS
+// ============================================================
+function renderProjects() {
+  let html = '';
+  PROJECTS.forEach(p => {
+    const tasks = S.taskState[p.id] || {};
+    const total = p.tasks.length;
+    const done = Object.values(tasks).filter(Boolean).length;
+    const pct = Math.round(done / total * 100);
+    let tasksHtml = '';
+    p.tasks.forEach((t, i) => {
+      const checked = tasks[i] ? 'checked' : '';
+      const doneClass = tasks[i] ? 'done' : '';
+      tasksHtml += `
+        <div class="task-item">
+          <input type="checkbox" class="task-checkbox" ${checked} onchange="toggleTask('${p.id}',${i},this.checked)">
+          <div class="task-text ${doneClass}">${t}</div>
+        </div>`;
+    });
+    html += `
+      <div class="card">
+        <div class="project-header">
+          <div class="project-title" style="color:${p.color}">${p.title}</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="font-size:0.82rem;color:#94a3b8">${done}/${total}</div>
+            <div class="project-pct" style="color:${p.color}">${pct}% done</div>
+          </div>
+        </div>
+        <div class="progress-bar" style="margin-bottom:14px">
+          <div class="progress-fill" style="background:${p.color};width:${pct}%"></div>
+        </div>
+        ${tasksHtml}
+      </div>`;
+  });
+  document.getElementById('projectsContainer').innerHTML = html;
+}
+
+function toggleTask(projectId, taskIndex, checked) {
+  if (!S.taskState[projectId]) S.taskState[projectId] = {};
+  S.taskState[projectId][taskIndex] = checked;
+  saveState();
+  renderProjects();
+}
+
+// ============================================================
+// RENDER LINKEDIN POSTS
+// ============================================================
+function renderPosts() {
+  let published = 0, scheduled = 0, upcoming = 0;
+  Object.values(S.postState).forEach(v => {
+    if (v === 'Published') published++;
+    else if (v === 'Scheduled') scheduled++;
+    else upcoming++;
+  });
+  document.getElementById('liPublished').textContent = published;
+  document.getElementById('liScheduled').textContent = scheduled;
+  document.getElementById('liUpcoming').textContent = upcoming;
+
+  let html = '';
+  POSTS.forEach(p => {
+    const status = S.postState[p.id] || 'Upcoming';
+    const cat = CAT_COLORS[p.cat] || { bg:'#f1f5f9', color:'#64748b' };
+    const statusColor = status === 'Published' ? '#16a34a' : status === 'Scheduled' ? '#2563eb' : '#94a3b8';
+    html += `
+      <div class="post-row">
+        <div class="post-num">${p.id}</div>
+        <div class="post-info">
+          <div class="post-title">${p.title}</div>
+          <div class="post-phase-tag">${p.phase}</div>
+        </div>
+        <div class="post-actions">
+          <span class="post-cat" style="background:${cat.bg};color:${cat.color}">${p.cat}</span>
+          <select class="post-status-sel" style="color:${statusColor}" onchange="updatePostStatus(${p.id},this.value)">
+            <option ${status==='Upcoming'?'selected':''}>Upcoming</option>
+            <option ${status==='Scheduled'?'selected':''}>Scheduled</option>
+            <option ${status==='Published'?'selected':''}>Published</option>
+          </select>
+        </div>
+      </div>`;
+  });
+  document.getElementById('postList').innerHTML = html;
+}
+
+function updatePostStatus(postId, value) {
+  S.postState[postId] = value;
+  saveState();
+  renderPosts();
+  renderOverview();
+}
+
+// ============================================================
+// STUDY LOG
+// ============================================================
+function logSession() {
+  const topic = document.getElementById('qlTopic').value.trim();
+  if (!topic) { showToast('Please enter a topic', 'error'); return; }
+  addSessionToState(
+    topic,
+    document.getElementById('qlCert').value,
+    document.getElementById('qlDuration').value,
+    document.getElementById('qlMood').value,
+    document.getElementById('qlLearned').value.trim(),
+    document.getElementById('qlReview').value.trim(),
+    ''
+  );
+  document.getElementById('qlTopic').value = '';
+  document.getElementById('qlLearned').value = '';
+  document.getElementById('qlReview').value = '';
+  showToast('Session logged! Keep going 🙌');
+}
+
+function addStudySession() {
+  const topic = document.getElementById('slTopic').value.trim();
+  if (!topic) { showToast('Please enter a topic', 'error'); return; }
+  addSessionToState(
+    topic,
+    document.getElementById('slCert').value,
+    document.getElementById('slDuration').value,
+    document.getElementById('slMood').value,
+    document.getElementById('slLearned').value.trim(),
+    document.getElementById('slReview').value.trim(),
+    document.getElementById('slProject').value.trim()
+  );
+  document.getElementById('slTopic').value = '';
+  document.getElementById('slLearned').value = '';
+  document.getElementById('slReview').value = '';
+  document.getElementById('slProject').value = '';
+  renderStudyLog();
+  showToast('Session added!');
+}
+
+function addSessionToState(topic, certId, duration, mood, learned, review, project) {
+  const todayStr = today();
+  S.sessions.unshift({ id: Date.now(), date: todayStr, topic, certId, duration, mood, learned, review, project });
+  // Update streak
+  if (S.streak.lastDate === todayStr) {
+    // already counted
+  } else {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    if (S.streak.lastDate === yesterday) {
+      S.streak.current++;
+    } else if (S.streak.lastDate !== todayStr) {
+      S.streak.current = 1;
+    }
+    S.streak.lastDate = todayStr;
+  }
+  saveState();
+  renderOverview();
+}
+
+function deleteSession(id) {
+  S.sessions = S.sessions.filter(s => s.id !== id);
+  saveState();
+  renderStudyLog();
+  renderOverview();
+}
+
+function renderStudyLog() {
+  document.getElementById('sessionCount').textContent = S.sessions.length + ' session' + (S.sessions.length !== 1 ? 's' : '');
+  if (!S.sessions.length) {
+    document.getElementById('sessionHistory').innerHTML = '<div class="empty-state">No sessions yet. Log your first one above!</div>';
+    return;
+  }
+  let html = '';
+  S.sessions.forEach(s => {
+    const cert = CERTS.find(c => c.id === s.certId);
+    const certName = cert ? cert.name.split(' ').slice(0,3).join(' ') : s.certId;
+    const moodColor = MOOD_COLORS[s.mood] || '#64748b';
+    const moodLabel = MOOD_LABELS[s.mood] || s.mood;
+    html += `
+      <div class="session-row">
+        <div class="session-meta">
+          <div class="session-date">${formatDate(s.date)}</div>
+          <div class="session-dur">${s.duration}</div>
+          <div class="session-mood-tag" style="color:${moodColor}">${moodLabel}</div>
+        </div>
+        <div class="session-content">
+          <div class="session-topic">${s.topic}</div>
+          ${s.learned ? `<div class="session-learned">Learned: ${s.learned}</div>` : ''}
+          ${s.review ? `<div class="session-review">Re-review: ${s.review}</div>` : ''}
+          ${s.project ? `<div class="session-project">Project: ${s.project}</div>` : ''}
+        </div>
+        <div class="session-right">
+          <span class="session-cert-tag">${certName}</span>
+          <button class="session-del" onclick="deleteSession(${s.id})">✕</button>
+        </div>
+      </div>`;
+  });
+  document.getElementById('sessionHistory').innerHTML = html;
+}
+
+// ============================================================
+// CISSP EXPERIENCE
+// ============================================================
+function renderCISSP() {
+  // Domain checkboxes for add form
+  let checkHtml = '';
+  CISSP_DOMAINS.forEach((d, i) => {
+    checkHtml += `<label style="display:flex;align-items:center;gap:7px;font-size:0.82rem;cursor:pointer">
+      <input type="checkbox" id="domCb_${i}" style="accent-color:#2563eb"> ${d}
+    </label>`;
+  });
+  document.getElementById('domainCheckboxes').innerHTML = checkHtml;
+
+  // Calculate domain totals from entries
+  const domainTotals = {};
+  CISSP_DOMAINS.forEach((d, i) => { domainTotals[i] = 0; });
+  S.expEntries.forEach(e => {
+    if (e.domains) {
+      e.domains.forEach(di => {
+        if (!domainTotals[di]) domainTotals[di] = 0;
+        domainTotals[di] += parseInt(e.months) || 0;
+      });
+    }
+  });
+
+  // Total months = max across domains credited (simplified: sum all unique months)
+  // ISC2 actually counts total paid experience, not sum of domains
+  // We'll show total unique months of work experience
+  const totalMonths = S.expEntries.reduce((sum, e) => sum + (parseInt(e.months) || 0), 0);
+  const domainsWithExp = Object.values(domainTotals).filter(v => v > 0).length;
+  const pct = Math.min(100, Math.round(totalMonths / 60 * 100));
+
+  document.getElementById('totalExpMonths').textContent = totalMonths;
+  document.getElementById('domainsWithExp').textContent = domainsWithExp;
+  document.getElementById('cisspeProgressBar').style.width = pct + '%';
+
+  let statusHtml = '';
+  if (totalMonths >= 60 && domainsWithExp >= 2) {
+    statusHtml = '<span style="color:#16a34a;font-weight:700">✓ Experience requirement met!</span>';
+  } else {
+    const needed = 60 - totalMonths;
+    statusHtml = `<span style="color:#d97706">${needed} more months needed</span>`;
+  }
+  document.getElementById('cisspeStatus').innerHTML = statusHtml;
+
+  // Domain rows
+  let domHtml = '';
+  CISSP_DOMAINS.forEach((d, i) => {
+    const months = domainTotals[i] || 0;
+    const pctW = Math.min(100, Math.round(months / 60 * 100));
+    const hasExp = months > 0;
+    domHtml += `
+      <div class="domain-row">
+        <div class="domain-num">${i+1}</div>
+        <div class="domain-name">${d}</div>
+        <div class="domain-bar">
+          <div class="progress-bar">
+            <div class="progress-fill" style="background:${hasExp ? '#2563eb' : '#e2e8f0'};width:${pctW}%"></div>
+          </div>
+        </div>
+        <div class="domain-months">${months > 0 ? months + ' mo' : '—'}</div>
+        <div class="domain-status" style="color:${hasExp ? '#16a34a' : '#94a3b8'}">${hasExp ? '✓ Active' : 'No exp'}</div>
+      </div>`;
+  });
+  document.getElementById('domainRows').innerHTML = domHtml;
+
+  // Experience entries
+  if (!S.expEntries.length) {
+    document.getElementById('expEntries').innerHTML = '<div class="empty-state">No experience entries yet. Log your work history above.</div>';
+    return;
+  }
+  let expHtml = '';
+  S.expEntries.forEach((e, idx) => {
+    const domNames = (e.domains || []).map(di => CISSP_DOMAINS[di]).filter(Boolean).join(', ');
+    expHtml += `
+      <div class="exp-entry-row">
+        <div style="flex:1">
+          <div class="exp-company">${e.company}</div>
+          <div class="exp-role">${e.role}</div>
+          <div class="exp-dates">${e.startDate || ''} ${e.endDate ? '→ ' + e.endDate : '→ Present'}</div>
+          ${domNames ? `<div class="exp-domains">Domains: ${domNames}</div>` : ''}
+          ${e.notes ? `<div style="font-size:0.78rem;color:#64748b;margin-top:2px">${e.notes}</div>` : ''}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <span class="exp-months-badge">${e.months} mo</span>
+          <button class="session-del" onclick="deleteExpEntry(${idx})">✕</button>
+        </div>
+      </div>`;
+  });
+  document.getElementById('expEntries').innerHTML = expHtml;
+}
+
+function addExpEntry() {
+  const company = document.getElementById('expCompany').value.trim();
+  const role = document.getElementById('expRole').value.trim();
+  if (!company || !role) { showToast('Please enter company and role', 'error'); return; }
+  const startDate = document.getElementById('expStart').value;
+  const endDate = document.getElementById('expEnd').value;
+  // Calculate months
+  let months = 0;
+  if (startDate) {
+    const start = new Date(startDate + '-01');
+    const end = endDate ? new Date(endDate + '-01') : new Date();
+    months = Math.max(0, Math.round((end - start) / (1000*60*60*24*30.44)));
+  }
+  const domains = [];
+  CISSP_DOMAINS.forEach((d, i) => {
+    if (document.getElementById('domCb_' + i) && document.getElementById('domCb_' + i).checked) {
+      domains.push(i);
+    }
+  });
+  S.expEntries.push({ company, role, startDate, endDate, months, domains, notes: document.getElementById('expNotes').value.trim() });
+  saveState();
+  document.getElementById('expCompany').value = '';
+  document.getElementById('expRole').value = '';
+  document.getElementById('expStart').value = '';
+  document.getElementById('expEnd').value = '';
+  document.getElementById('expNotes').value = '';
+  renderCISSP();
+  showToast('Experience entry added!');
+}
+
+function deleteExpEntry(idx) {
+  S.expEntries.splice(idx, 1);
+  saveState();
+  renderCISSP();
+}
+
+// ============================================================
+// COST TRACKER
+// ============================================================
+function renderCosts() {
+  let totalExam = 0;
+  let totalPaid = 0;
+
+  // Pre-populate with exam fees
+  let costHtml = '';
+  CERTS.forEach(c => {
+    const phaseBadgeClass = getPhaseBadgeClass(c.phase);
+    totalExam += c.examFee;
+    const mat = S.materials.filter(m => m.certId === c.id).reduce((sum, m) => sum + parseFloat(m.cost || 0), 0);
+    const feeText = c.examFee > 0 ? '$' + c.examFee : 'Free';
+    const matText = mat > 0 ? '$' + mat.toFixed(0) : '—';
+    const cs = S.certState[c.id];
+    const isPaid = cs && cs.status === 'complete';
+    if (isPaid) totalPaid += c.examFee;
+
+    costHtml += `
+      <div class="cost-row">
+        <div class="cost-cert-name">${c.name}${c.added ? ' <span class="added-tag">★</span>' : ''}</div>
+        <span class="cost-phase cert-badge ${phaseBadgeClass}" style="font-size:0.68rem">P${c.phase}</span>
+        <div class="cost-fee">${feeText}</div>
+        <div class="cost-mat">${matText}</div>
+        <div class="cost-status ${isPaid ? 'cost-paid' : 'cost-upcoming'}">${isPaid ? 'Paid ✓' : 'Upcoming'}</div>
+      </div>`;
+  });
+
+  const totalMaterials = S.materials.reduce((sum, m) => sum + parseFloat(m.cost || 0), 0);
+  const totalAll = totalExam + totalMaterials;
+  const remaining = totalAll - totalPaid;
+
+  document.getElementById('totalExamFees').textContent = '$' + totalExam.toLocaleString();
+  document.getElementById('totalSpent').textContent = '$' + totalPaid.toLocaleString();
+  document.getElementById('totalRemaining').textContent = '$' + Math.max(0, remaining).toLocaleString();
+
+  document.getElementById('costRows').innerHTML = costHtml;
+  document.getElementById('costTotalsRow').innerHTML = `
+    <div style="font-weight:700">Total (exam fees + materials)</div>
+    <div></div>
+    <div style="text-align:right;font-weight:700;color:#2563eb">$${totalExam.toLocaleString()}</div>
+    <div style="text-align:right;font-weight:700;color:#7c3aed">$${totalMaterials.toFixed(0)}</div>
+    <div style="text-align:center;font-weight:700;color:#0f172a">$${totalAll.toLocaleString()}</div>
+  `;
+
+  // Materials log
+  if (!S.materials.length) {
+    document.getElementById('materialsLog').innerHTML = '<div class="empty-state">No materials logged yet.</div>';
+    return;
+  }
+  let matHtml = '';
+  S.materials.forEach((m, idx) => {
+    const cert = CERTS.find(c => c.id === m.certId);
+    matHtml += `
+      <div class="cost-row">
+        <div class="cost-cert-name">
+          <div style="font-weight:500">${m.name}</div>
+          <div style="font-size:0.75rem;color:#94a3b8">${cert ? cert.name.split(' ').slice(0,4).join(' ') : m.certId}</div>
+        </div>
+        <div></div>
+        <div class="cost-fee">$${parseFloat(m.cost).toFixed(2)}</div>
+        <div></div>
+        <div class="cost-status ${m.status === 'paid' ? 'cost-paid' : 'cost-upcoming'}">${m.status === 'paid' ? 'Paid ✓' : 'Planned'}</div>
+        <button class="session-del" onclick="deleteMaterial(${idx})">✕</button>
+      </div>`;
+  });
+  document.getElementById('materialsLog').innerHTML = matHtml;
+}
+
+function addMaterial() {
+  const certId = document.getElementById('matCertSel').value;
+  const name = document.getElementById('matName').value.trim();
+  const cost = document.getElementById('matCost').value;
+  if (!name || !cost) { showToast('Please fill in material name and cost', 'error'); return; }
+  S.materials.push({ certId, name, cost: parseFloat(cost), status: document.getElementById('matStatus').value });
+  saveState();
+  document.getElementById('matName').value = '';
+  document.getElementById('matCost').value = '';
+  renderCosts();
+  showToast('Material added!');
+}
+
+function deleteMaterial(idx) {
+  S.materials.splice(idx, 1);
+  saveState();
+  renderCosts();
+}
+
+// ============================================================
+// INSPIRATION
+// ============================================================
+function renderInspiration() {
+  // Today's = rotate by day
+  const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(),0,0))/(1000*60*60*24));
+  const todayInsp = INSPIRATION[dayOfYear % INSPIRATION.length];
+  document.getElementById('todayInspiration').innerHTML = buildInspCard(todayInsp);
+
+  let html = '';
+  INSPIRATION.forEach(insp => {
+    html += buildInspCard(insp);
+  });
+  document.getElementById('fullInspiration').innerHTML = html;
+}
+
+function buildInspCard(insp) {
+  return `
+    <div class="insp-card" style="background:${insp.color}">
+      <div class="insp-context" style="color:${insp.contextColor}">${insp.context}</div>
+      <div class="insp-verse" style="color:${insp.contextColor}">${insp.verse} ${insp.ref}</div>
+      <div class="insp-quote">${insp.quote}</div>
+    </div>`;
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function switchTab(tabName) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','inspiration'];
+  const idx = tabs.indexOf(tabName);
+  if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+
+  // Render on demand
+  if (tabName === 'certifications') renderCertifications();
+  if (tabName === 'projects') renderProjects();
+  if (tabName === 'linkedin') renderPosts();
+  if (tabName === 'studylog') renderStudyLog();
+  if (tabName === 'cissp') renderCISSP();
+  if (tabName === 'costs') renderCosts();
+  if (tabName === 'inspiration') renderInspiration();
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type) {
+  const existing = document.getElementById('toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.id = 'toast';
+  t.style.cssText = `
+    position:fixed;bottom:28px;right:28px;
+    background:${type === 'error' ? '#dc2626' : '#0f172a'};
+    color:white;padding:12px 20px;border-radius:10px;
+    font-size:0.875rem;font-weight:500;z-index:9999;
+    box-shadow:0 4px 20px rgba(0,0,0,0.2);
+    animation:slideIn 0.2s ease;
+  `;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2800);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  populateCertSelects();
+  renderOverview();
+  renderInspiration();
+});
+
+// CSS animation for toast
+const style = document.createElement('style');
+style.textContent = `@keyframes slideIn { from { transform: translateY(10px); opacity:0; } to { transform: translateY(0); opacity:1; } }`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
