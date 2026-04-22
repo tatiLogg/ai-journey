@@ -372,6 +372,103 @@ body {
 
 .empty-state { text-align: center; padding: 32px; color: #94a3b8; font-size: 0.875rem; }
 .tag-new { font-size: 0.62rem; background: #fce7f3; color: #be185d; padding: 1px 6px; border-radius: 6px; font-weight: 700; vertical-align: middle; margin-left: 4px; }
+
+/* ---- GRADIENT HEADER ---- */
+.header {
+  border-radius: 16px;
+  padding: 26px 30px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 55%, #7c3aed 100%);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(29,78,216,0.22);
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: 32%;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.header-title { font-size: 1.6rem; font-weight: 800; color: white; }
+.header-subtitle { font-size: 0.82rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.header-date { background: rgba(255,255,255,0.15); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 500; white-space: nowrap; backdrop-filter: blur(4px); }
+
+/* ---- STAT CARDS WITH ICONS ---- */
+.stat-card { display: flex; align-items: center; gap: 13px; }
+.stat-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+
+/* ---- COUNTDOWN ---- */
+.countdown-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 14px; }
+.countdown-card { border-radius: 12px; padding: 18px 20px; position: relative; overflow: hidden; }
+.countdown-days { font-size: 2.6rem; font-weight: 900; line-height: 1; color: white; }
+.countdown-unit { font-size: 0.75rem; color: rgba(255,255,255,0.75); margin-top: 2px; }
+.countdown-cert-name { font-size: 0.82rem; font-weight: 700; color: white; margin-top: 8px; }
+.countdown-sub { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.countdown-bar { height: 4px; border-radius: 100px; margin-top: 10px; background: rgba(255,255,255,0.2); }
+.countdown-bar-fill { height: 100%; border-radius: 100px; background: rgba(255,255,255,0.65); }
+.countdown-date-pill { background: rgba(255,255,255,0.15); border-radius: 8px; padding: 4px 10px; font-size: 0.72rem; color: white; font-weight: 600; }
+
+/* ---- HEATMAP ---- */
+.heatmap-wrap { overflow-x: auto; padding-bottom: 6px; }
+.heatmap-grid { display: flex; gap: 3px; align-items: flex-start; }
+.heatmap-col { display: flex; flex-direction: column; gap: 3px; }
+.heatmap-cell { width: 13px; height: 13px; border-radius: 2px; cursor: pointer; transition: transform 0.1s; flex-shrink: 0; }
+.heatmap-cell:hover { transform: scale(1.4); z-index: 10; }
+.heatmap-legend { display: flex; align-items: center; gap: 5px; margin-top: 10px; font-size: 0.7rem; color: #94a3b8; }
+.heatmap-legend-cell { width: 11px; height: 11px; border-radius: 2px; }
+.heatmap-stat-row { display: flex; gap: 22px; margin-bottom: 14px; flex-wrap: wrap; }
+.heatmap-stat-num { font-size: 1.25rem; font-weight: 800; }
+.heatmap-stat-label { font-size: 0.72rem; color: #64748b; margin-top: 1px; }
+
+/* ---- SCORE TRACKER ---- */
+.score-chart-wrap { position: relative; height: 90px; margin-bottom: 6px; }
+.score-pass-line { position: absolute; left: 0; right: 0; border-top: 2px dashed #16a34a; }
+.score-pass-label { position: absolute; right: 0; font-size: 0.62rem; color: #16a34a; font-weight: 700; transform: translateY(-14px); }
+.score-bars { display: flex; align-items: flex-end; gap: 6px; height: 100%; position: relative; z-index: 2; }
+.score-bar-col { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; height: 100%; justify-content: flex-end; }
+.score-bar-rect { width: 100%; border-radius: 4px 4px 0 0; min-height: 3px; }
+.score-bar-date { font-size: 0.62rem; color: #94a3b8; }
+.score-bar-pct { font-size: 0.7rem; font-weight: 700; }
+.score-cert-section { padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+.score-cert-section:last-child { border-bottom: none; }
+
+/* ---- RE-REVIEW BOARD ---- */
+.review-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-radius: 10px; margin-bottom: 6px; }
+.review-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.review-text { font-size: 0.875rem; flex: 1; line-height: 1.4; }
+.review-cert-tag { font-size: 0.68rem; padding: 2px 8px; border-radius: 8px; font-weight: 600; white-space: nowrap; }
+.review-date { font-size: 0.66rem; color: #94a3b8; white-space: nowrap; margin-left: 4px; }
+.review-resolve { background: none; border: 1px solid #e2e8f0; border-radius: 6px; padding: 2px 8px; font-size: 0.68rem; color: #94a3b8; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.review-resolve:hover { background: #dcfce7; color: #15803d; border-color: #16a34a; }
+
+/* ---- VERSE BANNER ---- */
+.verse-banner { display: flex; align-items: center; gap: 12px; }
+.verse-text { flex: 1; }
+.verse-refresh-btn { background: rgba(21,128,61,0.12); border: none; border-radius: 8px; padding: 8px 13px; font-size: 0.78rem; font-weight: 600; color: #15803d; cursor: pointer; transition: background 0.15s; white-space: nowrap; flex-shrink: 0; }
+.verse-refresh-btn:hover { background: rgba(21,128,61,0.22); }
+
+/* ---- SCROLLABLE TABS ON MOBILE ---- */
+@media (max-width: 768px) {
+  .tabs { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; }
+  .countdown-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -379,17 +476,17 @@ body {
 
   <!-- Header -->
   <div class="header">
-    <div>
+    <div style="position:relative;z-index:1">
       <div class="header-title">AI Security Journey</div>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:4px;flex-wrap:wrap">
-        <div style="font-size:0.95rem;font-weight:700;color:#2563eb">Selina Loggins</div>
-        <div style="width:4px;height:4px;border-radius:50%;background:#cbd5e1"></div>
-        <div class="header-subtitle" id="headerSubtitle" style="margin-top:0">Phase 1 · AWS SAA + CKA · 36-month certification plan</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap">
+        <div style="font-size:0.95rem;font-weight:700;color:rgba(255,255,255,0.9)">Selina Loggins</div>
+        <div style="width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,0.4)"></div>
+        <div class="header-subtitle" id="headerSubtitle">Phase 1 · AWS SAA + CKA · 36-month plan</div>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
       <div class="header-date" id="headerDate"></div>
-      <div style="font-size:0.68rem;color:#cbd5e1;font-weight:500;text-align:right">© 2026 Selina Loggins · Personal use only</div>
+      <div style="font-size:0.62rem;color:rgba(255,255,255,0.3);font-weight:500;text-align:right">© 2026 Selina Loggins · Personal use only</div>
     </div>
   </div>
 
@@ -402,30 +499,47 @@ body {
     <button class="tab-btn" onclick="switchTab('studylog')">Study log</button>
     <button class="tab-btn" onclick="switchTab('cissp')">CISSP Experience</button>
     <button class="tab-btn" onclick="switchTab('costs')">Cost tracker</button>
+    <button class="tab-btn" onclick="switchTab('scores')">Exam scores</button>
+    <button class="tab-btn" onclick="switchTab('boss')" style="border-color:#16a34a;color:#16a34a">Boss's Picks ★</button>
     <button class="tab-btn" onclick="switchTab('inspiration')">Daily inspiration</button>
   </div>
 
   <!-- ===================== OVERVIEW ===================== -->
   <div id="tab-overview" class="tab-content active">
 
-    <div class="verse-banner" id="dailyVerse"></div>
+    <div class="verse-banner" style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px 20px;margin-bottom:14px">
+      <div class="verse-text" style="font-style:italic;color:#15803d;font-size:0.9rem;line-height:1.6" id="dailyVerse"></div>
+      <button class="verse-refresh-btn" onclick="cycleVerse()">New verse ↻</button>
+    </div>
 
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-number" style="color:#2563eb" id="statSessions">0</div>
-        <div class="stat-label">Study sessions</div>
+        <div class="stat-icon" style="background:#eff6ff">📚</div>
+        <div>
+          <div class="stat-number" style="color:#2563eb" id="statSessions">0</div>
+          <div class="stat-label">Study sessions</div>
+        </div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" style="color:#16a34a" id="statCerts">2</div>
-        <div class="stat-label">Certs held</div>
+        <div class="stat-icon" style="background:#f0fdf4">🏆</div>
+        <div>
+          <div class="stat-number" style="color:#16a34a" id="statCerts">2</div>
+          <div class="stat-label">Certs held</div>
+        </div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" style="color:#7c3aed" id="statPosts">0</div>
-        <div class="stat-label">Posts published</div>
+        <div class="stat-icon" style="background:#f5f3ff">✍️</div>
+        <div>
+          <div class="stat-number" style="color:#7c3aed" id="statPosts">0</div>
+          <div class="stat-label">Posts published</div>
+        </div>
       </div>
       <div class="stat-card">
-        <div class="stat-number" style="color:#d97706" id="statStreak">0</div>
-        <div class="stat-label">Day streak</div>
+        <div class="stat-icon" style="background:#fff7ed">🔥</div>
+        <div>
+          <div class="stat-number" style="color:#d97706" id="statStreak">0</div>
+          <div class="stat-label">Day streak</div>
+        </div>
       </div>
     </div>
 
@@ -461,6 +575,31 @@ body {
       </div>
     </div>
 
+    <!-- Exam countdowns -->
+    <div id="countdownSection"></div>
+
+    <!-- Study Heatmap -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-title" style="margin-bottom:0">Study activity</div>
+        <div style="font-size:0.72rem;color:#94a3b8">Hover a day to see details</div>
+      </div>
+      <div class="heatmap-stat-row" id="heatmapStats"></div>
+      <div class="heatmap-wrap"><div id="heatmapGrid"></div></div>
+      <div class="heatmap-legend">
+        <span>Less</span>
+        <div class="heatmap-legend-cell" style="background:#f1f5f9"></div>
+        <div class="heatmap-legend-cell" style="background:#bbf7d0"></div>
+        <div class="heatmap-legend-cell" style="background:#4ade80"></div>
+        <div class="heatmap-legend-cell" style="background:#16a34a"></div>
+        <div class="heatmap-legend-cell" style="background:#14532d"></div>
+        <span>More</span>
+      </div>
+    </div>
+
+    <!-- Re-review board -->
+    <div class="card" id="reviewBoard"></div>
+
     <!-- Quick log -->
     <div class="card">
       <div class="card-title">Quick log a session</div>
@@ -468,6 +607,10 @@ body {
         <div class="form-group">
           <label class="form-label">Topic studied</label>
           <input class="form-input" id="qlTopic" placeholder="e.g. IAM permission boundaries">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date studied</label>
+          <input type="date" class="form-input" id="qlDate">
         </div>
         <div class="form-group">
           <label class="form-label">Certification</label>
@@ -602,6 +745,10 @@ body {
         <div class="form-group">
           <label class="form-label">Topic</label>
           <input class="form-input" id="slTopic" placeholder="What did you study?">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date studied <span style="color:#16a34a;font-size:0.72rem;font-weight:600">← pick yesterday if logging past session</span></label>
+          <input type="date" class="form-input" id="slDate">
         </div>
         <div class="form-group">
           <label class="form-label">Certification</label>
@@ -767,6 +914,114 @@ body {
 
   </div>
 
+  <!-- ===================== EXAM SCORES ===================== -->
+  <div id="tab-scores" class="tab-content">
+    <div class="card" style="border-left:4px solid #2563eb;margin-bottom:14px">
+      <div style="font-size:0.82rem;color:#64748b;line-height:1.6">Log your Udemy practice exam scores here. When your last 3 attempts are all above the pass line, you're ready to book the real exam. The pass line for AWS SAA is <strong>72%</strong>.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Log a mock exam score</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Certification</label>
+          <select class="form-select" id="scoreCertSel"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Score (%)</label>
+          <input type="number" class="form-input" id="scoreVal" min="0" max="100" placeholder="e.g. 72">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date taken</label>
+          <input type="date" class="form-input" id="scoreDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Practice test source</label>
+          <input class="form-input" id="scoreSource" placeholder="e.g. Udemy — Stephane Maarek Practice #1">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Weak domains (what to focus on next)</label>
+          <input class="form-input" id="scoreNotes" placeholder="e.g. Route 53 routing policies, S3 encryption types">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addScore()">Log score</button>
+    </div>
+    <div id="scoreResults"></div>
+  </div>
+
+  <!-- ===================== BOSS'S PICKS ===================== -->
+  <div id="tab-boss" class="tab-content">
+
+    <div class="card" style="border-left:4px solid #16a34a">
+      <div style="font-size:0.78rem;font-weight:700;color:#16a34a;margin-bottom:6px">★ FROM YOUR BOSS</div>
+      <div class="card-title" style="margin-bottom:4px">Professional Development Track</div>
+      <div style="font-size:0.85rem;color:#64748b">Resources recommended by your manager to build business, sales, and leadership skills alongside your technical certifications.</div>
+    </div>
+
+    <!-- Force Management Podcast -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+        <div>
+          <div class="card-title" style="margin-bottom:2px">The Audible-Ready Sales Podcast</div>
+          <div style="font-size:0.8rem;color:#64748b">Force Management · John Kaplan · <a href="https://www.forcemanagement.com/resources/the-audible-ready-sales-podcast" target="_blank" style="color:#2563eb">forcemanagement.com</a> · Free on Spotify & Apple Podcasts</div>
+        </div>
+        <div id="podcastProgress" style="font-size:0.85rem;font-weight:700;color:#16a34a;white-space:nowrap"></div>
+      </div>
+      <div style="font-size:0.8rem;color:#64748b;background:#f0fdf4;border-radius:8px;padding:10px 14px;margin-bottom:14px;line-height:1.6">
+        <strong style="color:#15803d">Why this matters for you:</strong> At Aviatrix you work at the intersection of technical and business. These episodes teach you how to connect security solutions to business pain, run great discovery conversations, and communicate value — the skills that move engineers into leadership.
+      </div>
+      <div class="progress-bar" style="margin-bottom:14px">
+        <div class="progress-fill" id="podcastBar" style="background:#16a34a;width:0%"></div>
+      </div>
+      <div id="podcastList"></div>
+    </div>
+
+    <!-- Boss Recommended Certs -->
+    <div class="card">
+      <div class="card-title">Boss-Recommended Certifications</div>
+      <div style="font-size:0.8rem;color:#64748b;margin-bottom:14px">These have been added to your certification phases above and the cost tracker.</div>
+      <div class="phase-section">
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#2563eb"></div>
+          <div class="cert-name">CompTIA Security+ <span class="added-tag">Phase 1</span></div>
+          <div style="font-size:0.78rem;color:#64748b;flex:1">Foundational security cert — maps directly to CISSP domains. Free via Gale/Udemy library access.</div>
+          <div style="font-size:0.78rem;font-weight:700;color:#2563eb">$392</div>
+        </div>
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#2563eb"></div>
+          <div class="cert-name">CompTIA Network+ <span class="added-tag">Phase 1</span></div>
+          <div style="font-size:0.78rem;color:#64748b;flex:1">Networking fundamentals — essential for AWS advanced networking and CISSP. Free via Gale/Udemy library access.</div>
+          <div style="font-size:0.78rem;font-weight:700;color:#2563eb">$338</div>
+        </div>
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#7c3aed"></div>
+          <div class="cert-name">IBM Ethical Hacking — Coursera <span class="added-tag">Phase 2</span></div>
+          <div style="font-size:0.78rem;color:#64748b;flex:1">Kali Linux, Wireshark, Metasploit, OpenVAS. Pairs with CAISP red team work. <a href="https://www.coursera.org/professional-certificates/ibm-ethical-hacking-with-open-source-tools" target="_blank" style="color:#2563eb">coursera.org</a></div>
+          <div style="font-size:0.78rem;font-weight:700;color:#7c3aed">~$49/mo</div>
+        </div>
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#64748b"></div>
+          <div class="cert-name">ITIL 4 Strategic Leader <span class="added-tag">Phase 4</span></div>
+          <div style="font-size:0.78rem;color:#64748b;flex:1">IT governance + digital strategy leadership cert. Requires ITIL 4 Foundation first. Best after CISSP/CCSP for CISO track.</div>
+          <div style="font-size:0.78rem;font-weight:700;color:#64748b">$1,500+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IBM Resources -->
+    <div class="card">
+      <div class="card-title">IBM Thought Leadership</div>
+      <div style="font-size:0.8rem;color:#64748b;margin-bottom:12px">Strategic reading for CIO/security leadership perspective. No signup required.</div>
+      <div class="phase-section">
+        <div class="cert-row">
+          <div class="cert-dot" style="background:#0f62fe"></div>
+          <div class="cert-name" style="flex:1">IBM Institute for Business Value — CIO, Technology & Security</div>
+          <a href="https://www.ibm.com/thought-leadership/institute-business-value/en-us/role/cio-technology-and-security" target="_blank" style="font-size:0.78rem;color:#2563eb;font-weight:600;white-space:nowrap">Open →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- ===================== DAILY INSPIRATION ===================== -->
   <div id="tab-inspiration" class="tab-content">
 
@@ -805,11 +1060,14 @@ const CERTS = [
   // Phase 1
   { id:'awssaa', name:'AWS Solutions Architect Associate (SAA-C03)', phase:'1', status:'inprogress', progress:5, color:'#2563eb', examFee:300, added:false },
   { id:'cka', name:'CKA — Certified Kubernetes Administrator', phase:'1', status:'inprogress', progress:0, color:'#2563eb', examFee:395, added:false },
+  { id:'secplus', name:'CompTIA Security+', phase:'1', status:'upcoming', progress:0, color:'#2563eb', examFee:392, added:true, boss:true },
+  { id:'netplus', name:'CompTIA Network+', phase:'1', status:'upcoming', progress:0, color:'#2563eb', examFee:338, added:true, boss:true },
   { id:'az900', name:'AZ-900 — Azure Fundamentals', phase:'1', status:'upcoming', progress:0, color:'#2563eb', examFee:165, added:true },
   { id:'gcdl', name:'Google Cloud Digital Leader', phase:'1', status:'upcoming', progress:0, color:'#2563eb', examFee:200, added:true },
   // Phase 2
   { id:'awssec', name:'AWS Security Specialty (SCS-C03)', phase:'2', status:'upcoming', progress:0, color:'#7c3aed', examFee:300, added:false },
   { id:'cca', name:'Claude Certified Architect — Foundations (CCA)', phase:'2', status:'upcoming', progress:0, color:'#7c3aed', examFee:0, added:false },
+  { id:'ibmeth', name:'IBM Ethical Hacking with Open Source Tools (Coursera)', phase:'2', status:'upcoming', progress:0, color:'#7c3aed', examFee:49, added:true, boss:true },
   // Phase 3
   { id:'caisp', name:'CAISP — Certified AI Security Professional', phase:'3', status:'upcoming', progress:0, color:'#d97706', examFee:599, added:false },
   { id:'cissp', name:'CISSP — Certified Information Systems Security Professional', phase:'3', status:'upcoming', progress:0, color:'#d97706', examFee:749, added:false },
@@ -819,6 +1077,7 @@ const CERTS = [
   { id:'ccsp', name:'CCSP — Certified Cloud Security Professional', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:599, added:false },
   { id:'awssap', name:'AWS Solutions Architect Professional (SAP-C02)', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:300, added:true },
   { id:'gcpse', name:'GCP Professional Cloud Security Engineer', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:200, added:true },
+  { id:'itil', name:'ITIL 4 Strategic Leader (DPI + Digital & IT Strategy)', phase:'4', status:'upcoming', progress:0, color:'#64748b', examFee:1500, added:true, boss:true },
 ];
 
 const CISSP_DOMAINS = [
@@ -948,6 +1207,19 @@ const CAT_COLORS = {
   'Article': { bg:'#fce7f3', color:'#be185d' },
 };
 
+const PODCAST_EPISODES = [
+  { id:'p1', title:'Maximize the Effectiveness of Proof Points', guest:'John Kaplan' },
+  { id:'p2', title:'Influencing Your Customers\' Solution Requirements', guest:'' },
+  { id:'p3', title:'Technical and Business Pain', guest:'' },
+  { id:'p4', title:'The Art of the Demo', guest:'John Kaplan' },
+  { id:'p5', title:'Leveraging the Technical Mind', guest:'John Kaplan' },
+  { id:'p6', title:'Competing Against Do Nothing', guest:'John Kaplan' },
+  { id:'p7', title:'Pairing Value and Metrics', guest:'' },
+  { id:'p8', title:'How to Summarize a Great Discovery Meeting', guest:'' },
+  { id:'p9', title:'Uncovering Business Pain', guest:'' },
+  { id:'p10', title:'Finding the Business Pain', guest:'John Kaplan' },
+];
+
 const MOOD_LABELS = { '5':'Excellent', '4':'Good', '3':'Okay', '2':'Tired', '1':'Rough' };
 const MOOD_COLORS = { '5':'#16a34a', '4':'#2563eb', '3':'#d97706', '2':'#d97706', '1':'#dc2626' };
 
@@ -988,6 +1260,9 @@ function loadState() {
       post: '"IAM permission boundaries explained simply"',
     },
     streak: { lastDate: null, current: 0 },
+    podcastDone: {},
+    scores: [],
+    resolvedReviews: [],
   };
 }
 
@@ -1110,6 +1385,11 @@ function renderOverview() {
 
   // Populate cert selects
   populateCertSelects();
+
+  // New visual widgets
+  renderCountdowns();
+  renderHeatmap();
+  renderReviewBoard();
 }
 
 function renderWeekFocus() {
@@ -1136,7 +1416,7 @@ function saveFocus() {
 }
 
 function populateCertSelects() {
-  const selIds = ['qlCert', 'slCert', 'updateCertSel', 'matCertSel'];
+  const selIds = ['qlCert', 'slCert', 'updateCertSel', 'matCertSel', 'scoreCertSel'];
   selIds.forEach(selId => {
     const sel = document.getElementById(selId);
     if (!sel) return;
@@ -1299,6 +1579,7 @@ function updatePostStatus(postId, value) {
 function logSession() {
   const topic = document.getElementById('qlTopic').value.trim();
   if (!topic) { showToast('Please enter a topic', 'error'); return; }
+  const dateVal = document.getElementById('qlDate').value || today();
   addSessionToState(
     topic,
     document.getElementById('qlCert').value,
@@ -1306,17 +1587,20 @@ function logSession() {
     document.getElementById('qlMood').value,
     document.getElementById('qlLearned').value.trim(),
     document.getElementById('qlReview').value.trim(),
-    ''
+    '',
+    dateVal
   );
   document.getElementById('qlTopic').value = '';
   document.getElementById('qlLearned').value = '';
   document.getElementById('qlReview').value = '';
+  document.getElementById('qlDate').value = '';
   showToast('Session logged! Keep going 🙌');
 }
 
 function addStudySession() {
   const topic = document.getElementById('slTopic').value.trim();
   if (!topic) { showToast('Please enter a topic', 'error'); return; }
+  const dateVal = document.getElementById('slDate').value || today();
   addSessionToState(
     topic,
     document.getElementById('slCert').value,
@@ -1324,31 +1608,38 @@ function addStudySession() {
     document.getElementById('slMood').value,
     document.getElementById('slLearned').value.trim(),
     document.getElementById('slReview').value.trim(),
-    document.getElementById('slProject').value.trim()
+    document.getElementById('slProject').value.trim(),
+    dateVal
   );
   document.getElementById('slTopic').value = '';
   document.getElementById('slLearned').value = '';
   document.getElementById('slReview').value = '';
   document.getElementById('slProject').value = '';
+  document.getElementById('slDate').value = '';
   renderStudyLog();
   showToast('Session added!');
 }
 
-function addSessionToState(topic, certId, duration, mood, learned, review, project) {
+function addSessionToState(topic, certId, duration, mood, learned, review, project, dateStr) {
+  const sessionDate = dateStr || today();
   const todayStr = today();
-  S.sessions.unshift({ id: Date.now(), date: todayStr, topic, certId, duration, mood, learned, review, project });
-  // Update streak
-  if (S.streak.lastDate === todayStr) {
-    // already counted
-  } else {
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    if (S.streak.lastDate === yesterday) {
-      S.streak.current++;
-    } else if (S.streak.lastDate !== todayStr) {
-      S.streak.current = 1;
+  S.sessions.unshift({ id: Date.now(), date: sessionDate, topic, certId, duration, mood, learned, review, project });
+  // Update streak only if logging today
+  if (sessionDate === todayStr) {
+    if (S.streak.lastDate === todayStr) {
+      // already counted today
+    } else {
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+      if (S.streak.lastDate === yesterday) {
+        S.streak.current++;
+      } else {
+        S.streak.current = 1;
+      }
+      S.streak.lastDate = todayStr;
     }
-    S.streak.lastDate = todayStr;
   }
+  // Sort sessions by date descending
+  S.sessions.sort((a,b) => new Date(b.date) - new Date(a.date));
   saveState();
   renderOverview();
 }
@@ -1637,12 +1928,316 @@ function buildInspCard(insp) {
 }
 
 // ============================================================
+// VERSE CYCLING
+// ============================================================
+let verseIndex = 0;
+function cycleVerse() {
+  verseIndex = (verseIndex + 1) % INSPIRATION.length;
+  const insp = INSPIRATION[verseIndex];
+  document.getElementById('dailyVerse').textContent = insp.verse + ' ' + insp.ref;
+}
+
+// ============================================================
+// COUNTDOWN TIMERS
+// ============================================================
+function renderCountdowns() {
+  const activeCerts = CERTS.filter(c => {
+    const cs = S.certState[c.id];
+    return cs && (cs.status === 'inprogress' || cs.status === 'upcoming') && cs.examDate;
+  });
+  if (!activeCerts.length) {
+    document.getElementById('countdownSection').innerHTML = '';
+    return;
+  }
+  const gradients = [
+    'linear-gradient(135deg,#1e3a5f,#1d4ed8)',
+    'linear-gradient(135deg,#4c1d95,#7c3aed)',
+    'linear-gradient(135deg,#78350f,#d97706)',
+    'linear-gradient(135deg,#14532d,#16a34a)',
+  ];
+  let html = '<div class="countdown-grid">';
+  activeCerts.slice(0,4).forEach((c, i) => {
+    const cs = S.certState[c.id];
+    const examDate = new Date(cs.examDate);
+    const now = new Date();
+    const daysLeft = Math.max(0, Math.ceil((examDate - now) / (1000*60*60*24)));
+    const totalDays = 90;
+    const pct = Math.min(100, Math.round((1 - daysLeft/totalDays)*100));
+    const dateLabel = examDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    html += `
+      <div class="countdown-card" style="background:${gradients[i % gradients.length]}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="countdown-days">${daysLeft}</div>
+            <div class="countdown-unit">days to exam</div>
+          </div>
+          <div class="countdown-date-pill">${dateLabel}</div>
+        </div>
+        <div class="countdown-cert-name">${c.name.split('(')[0].trim()}</div>
+        <div class="countdown-sub">${cs.progress || 0}% study progress complete</div>
+        <div class="countdown-bar"><div class="countdown-bar-fill" style="width:${pct}%"></div></div>
+      </div>`;
+  });
+  html += '</div>';
+  document.getElementById('countdownSection').innerHTML = html;
+}
+
+// ============================================================
+// STUDY HEATMAP
+// ============================================================
+function renderHeatmap() {
+  const COLORS = ['#f1f5f9','#bbf7d0','#4ade80','#16a34a','#14532d'];
+  const sessionsByDate = {};
+  S.sessions.forEach(s => {
+    if (!sessionsByDate[s.date]) sessionsByDate[s.date] = 0;
+    sessionsByDate[s.date]++;
+  });
+
+  const totalSessions = S.sessions.length;
+  const totalHours = S.sessions.reduce((sum, s) => {
+    const hr = s.duration === '30 min' ? 0.5 : s.duration === '1 hr' ? 1 : s.duration === '1.5 hr' ? 1.5 : s.duration === '2 hr' ? 2 : s.duration === '2.5 hr' ? 2.5 : s.duration === '3 hr' ? 3 : 3.5;
+    return sum + hr;
+  }, 0);
+
+  document.getElementById('heatmapStats').innerHTML = `
+    <div><div class="heatmap-stat-num" style="color:#16a34a">${totalSessions}</div><div class="heatmap-stat-label">total sessions</div></div>
+    <div><div class="heatmap-stat-num" style="color:#2563eb">${totalHours.toFixed(1)}</div><div class="heatmap-stat-label">hours studied</div></div>
+    <div><div class="heatmap-stat-num" style="color:#d97706">${S.streak.current}</div><div class="heatmap-stat-label">current streak</div></div>
+  `;
+
+  const weeks = 26;
+  const grid = document.createElement('div');
+  grid.className = 'heatmap-grid';
+
+  const dayLabels = document.createElement('div');
+  dayLabels.style.cssText = 'display:flex;flex-direction:column;gap:3px;margin-right:4px;padding-top:2px';
+  ['','M','','W','','F',''].forEach(d => {
+    const l = document.createElement('div');
+    l.style.cssText = 'height:13px;font-size:0.6rem;color:#94a3b8;line-height:13px;width:10px;text-align:right';
+    l.textContent = d;
+    dayLabels.appendChild(l);
+  });
+  grid.appendChild(dayLabels);
+
+  const now = new Date();
+  const startDate = new Date(now);
+  startDate.setDate(startDate.getDate() - weeks * 7);
+  startDate.setDate(startDate.getDate() - startDate.getDay());
+
+  for (let w = 0; w < weeks; w++) {
+    const col = document.createElement('div');
+    col.className = 'heatmap-col';
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + w * 7 + d);
+      const key = date.toISOString().split('T')[0];
+      const count = sessionsByDate[key] || 0;
+      const cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      cell.style.background = COLORS[Math.min(count, 4)];
+      const dl = date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      cell.title = count > 0 ? `${dl}: ${count} session${count>1?'s':''}` : `${dl}: no study`;
+      col.appendChild(cell);
+    }
+    grid.appendChild(col);
+  }
+
+  const container = document.getElementById('heatmapGrid');
+  container.innerHTML = '';
+  container.appendChild(grid);
+}
+
+// ============================================================
+// RE-REVIEW BOARD
+// ============================================================
+function renderReviewBoard() {
+  const board = document.getElementById('reviewBoard');
+  if (!board) return;
+  if (!S.resolvedReviews) S.resolvedReviews = [];
+  const reviewItems = S.sessions
+    .filter(s => s.review && s.review.trim() && !S.resolvedReviews.includes(s.id + '_' + s.review))
+    .slice(0, 10);
+
+  if (!reviewItems.length) {
+    board.innerHTML = `<div class="card-title">Needs re-review</div><div class="empty-state">Nothing flagged yet — great work! Items you mark as fuzzy in your study log will appear here.</div>`;
+    return;
+  }
+
+  const certColors = { '1':'#2563eb','2':'#7c3aed','3':'#d97706','4':'#64748b' };
+  const bgColors = ['#fef2f2','#fef2f2','#fffbeb','#fffbeb','#eff6ff'];
+  const dotColors = ['#dc2626','#dc2626','#d97706','#d97706','#2563eb'];
+
+  let html = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="card-title" style="margin-bottom:0">Needs re-review</div>
+      <div style="font-size:0.75rem;color:#94a3b8">${reviewItems.length} item${reviewItems.length!==1?'s':''} · from your study log</div>
+    </div>
+    <div style="font-size:0.78rem;color:#64748b;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:9px 13px;margin-bottom:12px;line-height:1.5">
+      These are topics you flagged as fuzzy across your sessions. Mark resolved once you've nailed it.
+    </div>`;
+
+  reviewItems.forEach((s, i) => {
+    const cert = CERTS.find(c => c.id === s.certId);
+    const certName = cert ? cert.name.split(' ').slice(0,3).join(' ') : s.certId;
+    const phase = cert ? cert.phase : '1';
+    const color = certColors[phase] || '#64748b';
+    const bg = bgColors[i % bgColors.length];
+    const dot = dotColors[i % dotColors.length];
+    html += `
+      <div class="review-item" style="background:${bg}">
+        <div class="review-dot" style="background:${dot}"></div>
+        <div class="review-text">${s.review}</div>
+        <span class="review-cert-tag" style="background:${color}22;color:${color}">${certName}</span>
+        <div class="review-date">${formatDate(s.date)}</div>
+        <button class="review-resolve" onclick="resolveReview(${s.id},'${s.review.replace(/'/g,"\\'")}')">✓ resolved</button>
+      </div>`;
+  });
+  html += `<div style="text-align:center;font-size:0.75rem;color:#94a3b8;margin-top:10px;padding-top:10px;border-top:1px solid #f1f5f9">${reviewItems.length} item${reviewItems.length!==1?'s':''} need review before your next exam</div>`;
+  board.innerHTML = html;
+}
+
+function resolveReview(sessionId, reviewText) {
+  if (!S.resolvedReviews) S.resolvedReviews = [];
+  S.resolvedReviews.push(sessionId + '_' + reviewText);
+  saveState();
+  renderReviewBoard();
+  showToast('Marked as resolved ✓');
+}
+
+// ============================================================
+// EXAM SCORE TRACKER
+// ============================================================
+const PASS_SCORES = { awssaa:72, awssec:75, cissp:70, cka:66, ccsp:70, caisp:70, default:70 };
+
+function renderScores() {
+  const sel = document.getElementById('scoreCertSel');
+  if (sel && !sel.options.length) {
+    sel.innerHTML = CERTS.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+    document.getElementById('scoreDate').value = today();
+  }
+  if (!S.scores || !S.scores.length) {
+    document.getElementById('scoreResults').innerHTML = '<div class="card"><div class="empty-state">No scores logged yet. Log your first Udemy practice exam score above.</div></div>';
+    return;
+  }
+  const byCert = {};
+  S.scores.forEach(s => {
+    if (!byCert[s.certId]) byCert[s.certId] = [];
+    byCert[s.certId].push(s);
+  });
+  let html = '';
+  Object.entries(byCert).forEach(([certId, scores]) => {
+    const cert = CERTS.find(c => c.id === certId);
+    const certName = cert ? cert.name : certId;
+    const passLine = PASS_SCORES[certId] || PASS_SCORES.default;
+    const latest = scores[scores.length - 1];
+    const isReady = scores.slice(-3).length === 3 && scores.slice(-3).every(s => s.score >= passLine);
+    const maxScore = 100;
+    const barHtml = scores.slice(-6).map(s => {
+      const pct = s.score;
+      const color = pct >= passLine ? '#4ade80' : pct >= passLine - 10 ? '#fde68a' : '#fca5a5';
+      return `
+        <div class="score-bar-col">
+          <div class="score-bar-pct" style="color:${pct>=passLine?'#16a34a':pct>=passLine-10?'#d97706':'#dc2626'}">${pct}%</div>
+          <div class="score-bar-rect" style="background:${color};height:${Math.max(4,(pct/maxScore)*60)}px"></div>
+          <div class="score-bar-date">${formatDate(s.date).split(',')[0]}</div>
+        </div>`;
+    }).join('');
+    const passLineBottom = (passLine / maxScore) * 60;
+    html += `
+      <div class="card score-cert-section">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+          <div>
+            <div style="font-size:0.9rem;font-weight:700">${certName}</div>
+            <div style="font-size:0.75rem;color:#64748b;margin-top:2px">${scores.length} attempt${scores.length!==1?'s':''} · Pass line: ${passLine}%</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:1.6rem;font-weight:900;color:${latest.score>=passLine?'#16a34a':latest.score>=passLine-10?'#d97706':'#dc2626'}">${latest.score}%</div>
+            <div style="font-size:0.72rem;color:#64748b">latest</div>
+            ${isReady ? '<div style="background:#dcfce7;color:#15803d;font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:8px;margin-top:4px">Ready to book ✓</div>' : ''}
+          </div>
+        </div>
+        <div style="position:relative;padding-top:20px">
+          <div style="position:absolute;bottom:${passLineBottom + 22}px;left:0;right:0;border-top:2px dashed #16a34a;z-index:1">
+            <span style="position:absolute;right:0;top:-15px;font-size:0.62rem;color:#16a34a;font-weight:700">Pass: ${passLine}%</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:6px;height:60px;position:relative;z-index:2">${barHtml}</div>
+        </div>
+        ${scores[scores.length-1].notes ? `<div style="margin-top:10px;font-size:0.78rem;color:#d97706;background:#fffbeb;padding:8px 12px;border-radius:8px">Focus next: ${scores[scores.length-1].notes}</div>` : ''}
+        <button class="session-del" onclick="deleteScore('${certId}',${scores.length-1})" style="margin-top:8px;font-size:0.75rem;color:#94a3b8">Remove last entry</button>
+      </div>`;
+  });
+  document.getElementById('scoreResults').innerHTML = html;
+}
+
+function addScore() {
+  const certId = document.getElementById('scoreCertSel').value;
+  const score = parseInt(document.getElementById('scoreVal').value);
+  if (!score || score < 0 || score > 100) { showToast('Enter a valid score between 0–100', 'error'); return; }
+  if (!S.scores) S.scores = [];
+  S.scores.push({
+    certId,
+    score,
+    date: document.getElementById('scoreDate').value || today(),
+    source: document.getElementById('scoreSource').value.trim(),
+    notes: document.getElementById('scoreNotes').value.trim(),
+  });
+  saveState();
+  document.getElementById('scoreVal').value = '';
+  document.getElementById('scoreSource').value = '';
+  document.getElementById('scoreNotes').value = '';
+  renderScores();
+  showToast('Score logged!');
+}
+
+function deleteScore(certId, idx) {
+  if (!S.scores) return;
+  const certScores = S.scores.filter(s => s.certId === certId);
+  const toRemove = certScores[idx];
+  S.scores = S.scores.filter(s => s !== toRemove);
+  saveState();
+  renderScores();
+}
+
+// ============================================================
+// BOSS'S PICKS
+// ============================================================
+function renderBoss() {
+  if (!S.podcastDone) S.podcastDone = {};
+  const done = Object.values(S.podcastDone).filter(Boolean).length;
+  const total = PODCAST_EPISODES.length;
+  const pct = Math.round(done / total * 100);
+  document.getElementById('podcastProgress').textContent = done + '/' + total + ' listened';
+  document.getElementById('podcastBar').style.width = pct + '%';
+
+  let html = '';
+  PODCAST_EPISODES.forEach((ep, i) => {
+    const checked = S.podcastDone[ep.id] ? 'checked' : '';
+    const doneClass = S.podcastDone[ep.id] ? 'done' : '';
+    html += `
+      <div class="task-item">
+        <input type="checkbox" class="task-checkbox" ${checked} onchange="togglePodcast('${ep.id}',this.checked)">
+        <div class="task-text ${doneClass}">
+          <strong>${i+1}. ${ep.title}</strong>${ep.guest ? ` <span style="font-size:0.75rem;color:#94a3b8">w/ ${ep.guest}</span>` : ''}
+        </div>
+      </div>`;
+  });
+  document.getElementById('podcastList').innerHTML = html;
+}
+
+function togglePodcast(id, checked) {
+  if (!S.podcastDone) S.podcastDone = {};
+  S.podcastDone[id] = checked;
+  saveState();
+  renderBoss();
+}
+
+// ============================================================
 // TAB SWITCHING
 // ============================================================
 function switchTab(tabName) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','inspiration'];
+  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','scores','boss','inspiration'];
   const idx = tabs.indexOf(tabName);
   if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-' + tabName).classList.add('active');
@@ -1651,10 +2246,18 @@ function switchTab(tabName) {
   if (tabName === 'certifications') renderCertifications();
   if (tabName === 'projects') renderProjects();
   if (tabName === 'linkedin') renderPosts();
-  if (tabName === 'studylog') renderStudyLog();
+  if (tabName === 'studylog') { renderStudyLog(); initDateFields(); }
   if (tabName === 'cissp') renderCISSP();
   if (tabName === 'costs') renderCosts();
+  if (tabName === 'scores') renderScores();
+  if (tabName === 'boss') renderBoss();
   if (tabName === 'inspiration') renderInspiration();
+}
+
+function initDateFields() {
+  const t = today();
+  if (!document.getElementById('slDate').value) document.getElementById('slDate').value = t;
+  if (!document.getElementById('qlDate').value) document.getElementById('qlDate').value = t;
 }
 
 // ============================================================
@@ -1685,6 +2288,11 @@ document.addEventListener('DOMContentLoaded', () => {
   populateCertSelects();
   renderOverview();
   renderInspiration();
+  // Set date fields to today by default
+  const t = today();
+  document.getElementById('qlDate').value = t;
+  document.getElementById('slDate').value = t;
+  document.getElementById('scoreDate').value = t;
 });
 
 // CSS animation for toast
