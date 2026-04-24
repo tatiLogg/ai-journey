@@ -472,6 +472,43 @@ body {
 </style>
 </head>
 <body>
+
+<!-- PASSWORD LOCK OVERLAY -->
+<div id="lockScreen" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1e3a5f 0%,#1d4ed8 55%,#7c3aed 100%);display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <div style="background:white;border-radius:20px;padding:40px 44px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:8px">🔐</div>
+    <div style="font-size:1.4rem;font-weight:800;color:#0f172a;margin-bottom:4px">AI Security Journey</div>
+    <div style="font-size:0.85rem;color:#64748b;margin-bottom:24px">Selina Loggins · Enter your access code to continue</div>
+
+    <!-- Step 1: Code entry -->
+    <div id="lockStep1">
+      <input id="lockInput" type="password" placeholder="Enter password or access code"
+        style="width:100%;padding:12px 16px;border:2px solid #e2e8f0;border-radius:10px;font-size:1rem;outline:none;margin-bottom:10px;box-sizing:border-box"
+        onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'"
+        onkeydown="if(event.key==='Enter')checkPassword()">
+      <div id="lockError" style="color:#dc2626;font-size:0.8rem;margin-bottom:10px;min-height:18px"></div>
+      <button onclick="checkPassword()" style="width:100%;background:#1d4ed8;color:white;border:none;padding:13px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">Continue →</button>
+    </div>
+
+    <!-- Step 2: Guest registration -->
+    <div id="lockStep2" style="display:none">
+      <div id="lockStep2Msg" style="font-size:0.85rem;color:#64748b;margin-bottom:16px;background:#f1f5f9;border-radius:8px;padding:10px 14px"></div>
+      <input id="guestName" placeholder="Full name (required)"
+        style="width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;outline:none;margin-bottom:8px;box-sizing:border-box"
+        onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'">
+      <input id="guestEmail" placeholder="Email address (required)"
+        style="width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:10px;font-size:0.9rem;outline:none;margin-bottom:10px;box-sizing:border-box"
+        onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'"
+        onkeydown="if(event.key==='Enter')completeGuestLogin()">
+      <div id="lockError2" style="color:#dc2626;font-size:0.8rem;margin-bottom:10px;min-height:18px"></div>
+      <button onclick="completeGuestLogin()" style="width:100%;background:#1d4ed8;color:white;border:none;padding:13px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer">Access Dashboard →</button>
+      <button onclick="backToStep1()" style="width:100%;background:none;border:none;color:#94a3b8;font-size:0.8rem;margin-top:8px;cursor:pointer">← Back</button>
+    </div>
+
+    <div style="font-size:0.72rem;color:#94a3b8;margin-top:20px">"Be strong and courageous. Do not be afraid." — Joshua 1:9</div>
+  </div>
+</div>
+
 <div class="container">
 
   <!-- Header -->
@@ -491,7 +528,7 @@ body {
   </div>
 
   <!-- Backup bar -->
-  <div style="background:white;border-radius:16px;padding:12px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+  <div id="backupBar" style="background:white;border-radius:16px;padding:12px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
     <div style="font-size:0.82rem;color:#64748b">🔒 <strong style="color:#0f172a">Your data is saved in this browser.</strong> Export weekly to keep a permanent backup.</div>
     <div style="display:flex;gap:8px">
       <button onclick="exportData()" style="background:#16a34a;border:none;color:white;padding:8px 18px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(22,163,74,0.3)">⬇ Export backup</button>
@@ -1403,9 +1440,11 @@ function renderOverview() {
   document.getElementById('statCerts').textContent = completedCerts;
   const published = Object.values(S.postState).filter(v => v === 'Published').length;
   document.getElementById('statPosts').textContent = published;
-  document.getElementById('statStreak').textContent = S.streak.current;
-  document.getElementById('streakBig').textContent = S.streak.current;
-  document.getElementById('streakLabel').textContent = S.streak.current === 1 ? 'day study streak — keep going' : 'day study streak — keep going';
+  const currentStreak = calcStreak();
+  S.streak.current = currentStreak;
+  document.getElementById('statStreak').textContent = currentStreak;
+  document.getElementById('streakBig').textContent = currentStreak;
+  document.getElementById('streakLabel').textContent = currentStreak === 1 ? 'day study streak — keep going' : 'day study streak — keep going';
 
   // Overall progress
   const { pct } = calcOverallProgress();
@@ -1732,26 +1771,39 @@ function addStudySession() {
   showToast('Session added!');
 }
 
-function addSessionToState(topic, certId, duration, mood, learned, review, project, dateStr) {
-  const sessionDate = dateStr || today();
+function calcStreak() {
+  // Get all unique dates studied, sorted descending
+  const dates = [...new Set(S.sessions.map(s => s.date))].sort((a,b) => new Date(b) - new Date(a));
+  if (dates.length === 0) return 0;
+
   const todayStr = today();
-  S.sessions.unshift({ id: Date.now(), date: sessionDate, topic, certId, duration, mood, learned, review, project });
-  // Update streak only if logging today
-  if (sessionDate === todayStr) {
-    if (S.streak.lastDate === todayStr) {
-      // already counted today
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+  // Streak must start from today or yesterday to be active
+  if (dates[0] !== todayStr && dates[0] !== yesterday) return 0;
+
+  let streak = 1;
+  for (let i = 0; i < dates.length - 1; i++) {
+    const curr = new Date(dates[i]);
+    const next = new Date(dates[i + 1]);
+    const diff = (curr - next) / (1000 * 60 * 60 * 24);
+    if (diff === 1) {
+      streak++;
     } else {
-      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-      if (S.streak.lastDate === yesterday) {
-        S.streak.current++;
-      } else {
-        S.streak.current = 1;
-      }
-      S.streak.lastDate = todayStr;
+      break;
     }
   }
+  return streak;
+}
+
+function addSessionToState(topic, certId, duration, mood, learned, review, project, dateStr) {
+  const sessionDate = dateStr || today();
+  S.sessions.unshift({ id: Date.now(), date: sessionDate, topic, certId, duration, mood, learned, review, project });
   // Sort sessions by date descending
   S.sessions.sort((a,b) => new Date(b.date) - new Date(a.date));
+  // Recalculate streak from actual session dates
+  S.streak.current = calcStreak();
+  S.streak.lastDate = today();
   saveState();
   renderOverview();
 }
@@ -2394,17 +2446,328 @@ function showToast(msg, type) {
 }
 
 // ============================================================
-// INIT
+// PASSWORD LOCK — THREE-TIER ACCESS CONTROL
 // ============================================================
+const OWNER_PASSWORD  = 'Phil3v14!';
+const RECRUITER_CODE  = 'Joshua1v9#';
+const FAMILY_CODE     = '70386';
+const SESSION_KEY     = 'selina_unlocked_v1';
+const SESSION_ROLE    = 'selina_role_v1';
+const FAMILY_FP_KEY   = 'selina_family_fps';   // { email: { fp, views, name, firstSeen, lastSeen } }
+const ACCESS_LOG_KEY  = 'selina_access_log_v1'; // [ { name, email, role, note, ts } ]
+
+let pendingTier = null; // 'recruiter' | 'family'
+
+// ---- Browser fingerprint (locks family to original browser) ----
+function generateFingerprint() {
+  const parts = [
+    navigator.userAgent,
+    screen.width + 'x' + screen.height,
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+    navigator.language
+  ];
+  let hash = 0;
+  const str = parts.join('|');
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+// ---- Business email check (block personal domains) ----
+const PERSONAL_DOMAINS = ['gmail','yahoo','hotmail','outlook','aol','icloud','protonmail','live','msn','ymail','me','mac','googlemail','zoho','inbox','mail','gmx','tutanota','fastmail','icloud'];
+function isBusinessEmail(email) {
+  const domain = (email.toLowerCase().split('@')[1] || '');
+  const base   = domain.split('.')[0];
+  return !PERSONAL_DOMAINS.includes(base);
+}
+
+// ---- Append an entry to the access log ----
+function logAccess(name, email, role, note) {
+  const log = JSON.parse(localStorage.getItem(ACCESS_LOG_KEY) || '[]');
+  log.unshift({ name, email, role, note, ts: new Date().toLocaleString() });
+  localStorage.setItem(ACCESS_LOG_KEY, JSON.stringify(log.slice(0, 100)));
+}
+
+// ---- Recruiter mode: hide Cost Tracker + Re-Review + all forms ----
+function applyGuestMode() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    if (btn.textContent.trim() === 'Cost tracker') btn.style.display = 'none';
+  });
+  const costTab = document.getElementById('tab-costs');
+  if (costTab) costTab.style.display = 'none';
+
+  const rb = document.getElementById('reviewBoard');
+  if (rb) rb.style.display = 'none';
+
+  ['#backupBar','.btn-primary','.form-input','.form-select','.form-label',
+   '#focusStudy','#focusBuild','#focusPost','#focusHistoryToggle'].forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => el.style.display = 'none');
+  });
+
+  const banner = document.createElement('div');
+  banner.style.cssText = 'background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:10px 18px;font-size:0.82rem;color:#92400e;font-weight:600;margin-bottom:14px;text-align:center';
+  banner.innerHTML = '👔 You are viewing <strong>Selina Loggins\'</strong> AI Security Journey in <strong>Recruiter view</strong> — read-only.';
+  const container = document.querySelector('.container');
+  const header    = document.querySelector('.header');
+  if (container && header) container.insertBefore(banner, header.nextSibling);
+}
+
+// ---- Family mode: all tabs visible, forms hidden ----
+function applyFamilyMode() {
+  ['#backupBar','.btn-primary','.form-input','.form-select','.form-label',
+   '#focusStudy','#focusBuild','#focusPost','#focusHistoryToggle'].forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => el.style.display = 'none');
+  });
+
+  const banner = document.createElement('div');
+  banner.style.cssText = 'background:#d1fae5;border:1px solid #6ee7b7;border-radius:10px;padding:10px 18px;font-size:0.82rem;color:#065f46;font-weight:600;margin-bottom:14px;text-align:center';
+  banner.innerHTML = '💚 You are viewing <strong>Selina\'s</strong> AI Security Journey — Family & Friends access.';
+  const container = document.querySelector('.container');
+  const header    = document.querySelector('.header');
+  if (container && header) container.insertBefore(banner, header.nextSibling);
+}
+
+// ---- Step 1: validate the code entered ----
+function checkPassword() {
+  const input   = document.getElementById('lockInput').value.trim();
+  const errorEl = document.getElementById('lockError');
+  errorEl.textContent = '';
+
+  if (input === OWNER_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    sessionStorage.setItem(SESSION_ROLE, 'owner');
+    unlockDashboard();
+
+  } else if (input === RECRUITER_CODE) {
+    pendingTier = 'recruiter';
+    document.getElementById('lockStep1').style.display = 'none';
+    document.getElementById('lockStep2Msg').textContent = '👔 Recruiter access — please enter your name and business email to continue.';
+    document.getElementById('lockStep2').style.display = 'block';
+    document.getElementById('guestName').focus();
+
+  } else if (input === FAMILY_CODE) {
+    pendingTier = 'family';
+    document.getElementById('lockStep1').style.display = 'none';
+    document.getElementById('lockStep2Msg').textContent = '💚 Family & Friends access — please enter your full name and email to continue.';
+    document.getElementById('lockStep2').style.display = 'block';
+    document.getElementById('guestName').focus();
+
+  } else {
+    errorEl.textContent = '❌ Incorrect code — please try again.';
+    document.getElementById('lockInput').value = '';
+    document.getElementById('lockInput').focus();
+  }
+}
+
+// ---- Formspree notification (silent — fires and forgets) ----
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvaywpl';
+function notifyFormspree(name, email, role, note) {
+  fetch(FORMSPREE_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: `[AI Journey] ${role === 'recruiter' ? '👔 Recruiter' : '💚 Family/Friend'} viewed your dashboard`,
+      Name: name,
+      Email: email,
+      Role: role,
+      Note: note,
+      Time: new Date().toLocaleString()
+    })
+  }).catch(() => {}); // silent fail — never block the user
+}
+
+// ---- Step 2: registration & validation ----
+function completeGuestLogin() {
+  const name    = document.getElementById('guestName').value.trim();
+  const email   = document.getElementById('guestEmail').value.trim().toLowerCase();
+  const errorEl = document.getElementById('lockError2');
+  errorEl.textContent = '';
+
+  if (!name || name.length < 2) {
+    errorEl.textContent = '❌ Please enter your full name.';
+    document.getElementById('guestName').focus();
+    return;
+  }
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    errorEl.textContent = '❌ Please enter a valid email address.';
+    document.getElementById('guestEmail').focus();
+    return;
+  }
+
+  // — RECRUITER —
+  if (pendingTier === 'recruiter') {
+    if (!isBusinessEmail(email)) {
+      errorEl.textContent = '❌ Recruiter access requires a business email address (Gmail, Yahoo, Hotmail etc. are not accepted).';
+      document.getElementById('guestEmail').focus();
+      return;
+    }
+    const note = 'Recruiter accessed dashboard';
+    logAccess(name, email, 'recruiter', note);
+    notifyFormspree(name, email, 'recruiter', note);
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    sessionStorage.setItem(SESSION_ROLE, 'guest');
+    sessionStorage.setItem('selina_visitor_name', name);
+    unlockDashboard();
+
+  // — FAMILY —
+  } else if (pendingTier === 'family') {
+    const fp     = generateFingerprint();
+    const stored = JSON.parse(localStorage.getItem(FAMILY_FP_KEY) || '{}');
+
+    if (stored[email]) {
+      const rec = stored[email];
+      // Wrong browser?
+      if (rec.fp !== fp) {
+        errorEl.innerHTML = '🔒 Access is locked to your original browser and device. If you need help, please <strong>contact Selina</strong>.';
+        logAccess(name, email, 'family', 'BLOCKED — browser/device mismatch');
+        notifyFormspree(name, email, 'family', 'BLOCKED — browser/device mismatch');
+        return;
+      }
+      // View limit reached?
+      if (rec.views >= 2) {
+        errorEl.innerHTML = '🔒 You have used both of your allotted views. Please <strong>contact Selina</strong> to request additional access.';
+        logAccess(name, email, 'family', 'BLOCKED — view limit (2/2) reached');
+        notifyFormspree(name, email, 'family', 'BLOCKED — view limit (2/2) reached — wants more access');
+        return;
+      }
+      // Allow — increment view
+      rec.views   += 1;
+      rec.lastSeen = new Date().toLocaleString();
+      stored[email] = rec;
+      localStorage.setItem(FAMILY_FP_KEY, JSON.stringify(stored));
+      const note = `Family/friend view ${rec.views} of 2`;
+      logAccess(name, email, 'family', note);
+      notifyFormspree(name, email, 'family', note);
+
+    } else {
+      // First visit — register fingerprint
+      stored[email] = {
+        fp, views: 1, name,
+        firstSeen: new Date().toLocaleString(),
+        lastSeen:  new Date().toLocaleString()
+      };
+      localStorage.setItem(FAMILY_FP_KEY, JSON.stringify(stored));
+      const note = 'Family/friend first visit — browser registered (view 1 of 2)';
+      logAccess(name, email, 'family', note);
+      notifyFormspree(name, email, 'family', note);
+    }
+
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    sessionStorage.setItem(SESSION_ROLE, 'family');
+    sessionStorage.setItem('selina_visitor_name', name);
+    unlockDashboard();
+  }
+}
+
+// ---- Back to step 1 ----
+function backToStep1() {
+  pendingTier = null;
+  document.getElementById('lockStep2').style.display = 'none';
+  document.getElementById('lockError2').textContent  = '';
+  document.getElementById('guestName').value  = '';
+  document.getElementById('guestEmail').value = '';
+  document.getElementById('lockStep1').style.display = 'block';
+  document.getElementById('lockInput').value  = '';
+  document.getElementById('lockInput').focus();
+}
+
+// ---- Unlock & fade out lock screen ----
+function unlockDashboard() {
+  const lock = document.getElementById('lockScreen');
+  lock.style.opacity    = '0';
+  lock.style.transition = 'opacity 0.4s ease';
+  setTimeout(() => {
+    lock.style.display = 'none';
+    const role = sessionStorage.getItem(SESSION_ROLE);
+    if (role === 'guest')  applyGuestMode();
+    if (role === 'family') applyFamilyMode();
+    renderAccessLog();
+  }, 400);
+}
+
+// ---- Render access log (owner only, injected into Overview tab) ----
+function renderAccessLog() {
+  const role = sessionStorage.getItem(SESSION_ROLE);
+  if (role !== 'owner') return;
+
+  const log = JSON.parse(localStorage.getItem(ACCESS_LOG_KEY) || '[]');
+  const fps = JSON.parse(localStorage.getItem(FAMILY_FP_KEY)  || '{}');
+  if (log.length === 0 && Object.keys(fps).length === 0) return;
+
+  // Build or find the access log card
+  let section = document.getElementById('accessLogSection');
+  if (!section) {
+    section = document.createElement('div');
+    section.id = 'accessLogSection';
+    section.className = 'card';
+    section.style.marginTop = '16px';
+    const overviewTab = document.getElementById('tab-overview');
+    if (overviewTab) overviewTab.appendChild(section);
+  }
+
+  const familyRows = Object.entries(fps).map(([email, r]) =>
+    `<div style="font-size:0.78rem;color:#475569;padding:3px 0">
+       ${r.name} (${email}) — <strong style="color:${r.views>=2?'#dc2626':'#16a34a'}">${r.views}/2 views used</strong>
+       · registered: ${r.firstSeen}
+     </div>`
+  ).join('');
+
+  const logRows = log.slice(0, 30).map(e =>
+    `<div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #f1f5f9;font-size:0.78rem;align-items:flex-start">
+       <div style="flex:1">
+         <span style="font-weight:700;color:#0f172a">${e.name}</span>
+         <span style="color:#64748b"> · ${e.email}</span><br>
+         <span style="color:${e.note.includes('BLOCKED')?'#dc2626':'#16a34a'};font-weight:600">${e.note}</span>
+         <span style="color:#94a3b8;font-size:0.72rem"> · ${e.role}</span>
+       </div>
+       <div style="color:#94a3b8;white-space:nowrap;font-size:0.72rem">${e.ts}</div>
+     </div>`
+  ).join('');
+
+  section.innerHTML = `
+    <div style="font-weight:800;font-size:0.95rem;color:#0f172a;margin-bottom:12px">🔒 Guest Access Log</div>
+    ${familyRows ? `<div style="margin-bottom:12px;padding:10px;background:#f8fafc;border-radius:8px"><div style="font-weight:700;font-size:0.8rem;color:#0f172a;margin-bottom:6px">Family & Friends view counts:</div>${familyRows}</div>` : ''}
+    ${logRows || '<div style="color:#94a3b8;font-size:0.82rem">No guest visits recorded yet.</div>'}
+  `;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  const role = sessionStorage.getItem(SESSION_ROLE);
+  if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+    document.getElementById('lockScreen').style.display = 'none';
+    if (role === 'guest')  applyGuestMode();
+    if (role === 'family') applyFamilyMode();
+    renderAccessLog();
+  } else {
+    document.getElementById('lockInput').focus();
+  }
+
   populateCertSelects();
   renderOverview();
   renderInspiration();
-  // Set date fields to today by default
   const t = today();
-  document.getElementById('qlDate').value = t;
-  document.getElementById('slDate').value = t;
+  document.getElementById('qlDate').value   = t;
+  document.getElementById('slDate').value   = t;
   document.getElementById('scoreDate').value = t;
+});
+
+// ---- Copy protection ----
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  const key = e.key.toLowerCase();
+  if (
+    (e.ctrlKey && ['u','s','p'].includes(key)) ||
+    (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(key)) ||
+    e.key === 'F12'
+  ) {
+    e.preventDefault();
+  }
+});
+document.addEventListener('selectstart', e => {
+  const r = sessionStorage.getItem(SESSION_ROLE);
+  if (r === 'guest' || r === 'family') e.preventDefault();
 });
 
 // CSS animation for toast
