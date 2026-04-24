@@ -572,6 +572,12 @@ body {
           <input class="form-input" id="focusPost" placeholder="Post topic..." style="margin-bottom:8px">
           <button class="btn-primary" onclick="saveFocus()" style="width:100%">Save focus</button>
         </div>
+        <!-- Focus History -->
+        <div id="focusHistorySection" style="margin-top:14px;padding-top:14px;border-top:1px solid #f1f5f9;display:none">
+          <div style="font-size:0.78rem;font-weight:700;color:#94a3b8;margin-bottom:10px;letter-spacing:0.05em">PREVIOUS WEEKS</div>
+          <div id="focusHistoryList"></div>
+        </div>
+        <button onclick="toggleFocusHistory()" id="focusHistoryToggle" style="margin-top:10px;background:none;border:none;color:#64748b;font-size:0.78rem;cursor:pointer;padding:0;font-weight:500">▼ View focus history</button>
       </div>
     </div>
 
@@ -1259,6 +1265,7 @@ function loadState() {
       build: 'Terraform IAM module → commit to aws-secure-eks repo',
       post: '"IAM permission boundaries explained simply"',
     },
+    focusHistory: [],
     streak: { lastDate: null, current: 0 },
     podcastDone: {},
     scores: [],
@@ -1402,9 +1409,43 @@ function renderWeekFocus() {
   document.getElementById('focusStudy').value = f.study;
   document.getElementById('focusBuild').value = f.build;
   document.getElementById('focusPost').value = f.post;
+  // Update history toggle label
+  const hist = S.focusHistory || [];
+  const toggleBtn = document.getElementById('focusHistoryToggle');
+  if (toggleBtn) {
+    toggleBtn.textContent = hist.length > 0
+      ? `▼ View focus history (${hist.length} week${hist.length > 1 ? 's' : ''})`
+      : '▼ View focus history';
+  }
+}
+
+function toggleFocusHistory() {
+  const section = document.getElementById('focusHistorySection');
+  const btn = document.getElementById('focusHistoryToggle');
+  if (!section) return;
+  const isHidden = section.style.display === 'none';
+  if (isHidden) {
+    renderFocusHistory();
+    section.style.display = 'block';
+    btn.textContent = btn.textContent.replace('▼', '▲');
+  } else {
+    section.style.display = 'none';
+    btn.textContent = btn.textContent.replace('▲', '▼');
+  }
 }
 
 function saveFocus() {
+  // Archive current focus to history before overwriting
+  const prev = S.weekFocus;
+  if (prev.study || prev.build || prev.post) {
+    if (!S.focusHistory) S.focusHistory = [];
+    // Avoid duplicate if saving same content again
+    const last = S.focusHistory[0];
+    const isDuplicate = last && last.study === prev.study && last.build === prev.build && last.post === prev.post;
+    if (!isDuplicate) {
+      S.focusHistory.unshift({ ...prev, savedOn: today() });
+    }
+  }
   S.weekFocus = {
     study: document.getElementById('focusStudy').value,
     build: document.getElementById('focusBuild').value,
@@ -1412,7 +1453,25 @@ function saveFocus() {
   };
   saveState();
   renderWeekFocus();
-  showToast('Focus updated!');
+  showToast('Focus updated & previous week archived!');
+}
+
+function renderFocusHistory() {
+  if (!S.focusHistory) S.focusHistory = [];
+  const el = document.getElementById('focusHistoryList');
+  if (!el) return;
+  if (S.focusHistory.length === 0) {
+    el.innerHTML = '<div style="color:#94a3b8;font-size:0.82rem;padding:8px 0;text-align:center">No history yet — your previous focus weeks will appear here each time you save a new one.</div>';
+    return;
+  }
+  el.innerHTML = S.focusHistory.map((h, i) => `
+    <div style="border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:8px;background:#fafafa">
+      <div style="font-size:0.7rem;font-weight:700;color:#94a3b8;margin-bottom:8px;letter-spacing:0.05em">WEEK OF ${h.savedOn || 'earlier'}</div>
+      <div style="font-size:0.83rem;margin-bottom:4px"><span style="color:#2563eb;font-weight:600">Study: </span>${h.study || '—'}</div>
+      <div style="font-size:0.83rem;margin-bottom:4px"><span style="color:#16a34a;font-weight:600">Build: </span>${h.build || '—'}</div>
+      <div style="font-size:0.83rem"><span style="color:#7c3aed;font-weight:600">Post: </span>${h.post || '—'}</div>
+    </div>
+  `).join('');
 }
 
 function populateCertSelects() {
