@@ -486,6 +486,10 @@ body {
     </div>
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
       <div class="header-date" id="headerDate"></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button onclick="exportData()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:white;padding:5px 12px;border-radius:8px;font-size:0.72rem;font-weight:600;cursor:pointer;backdrop-filter:blur(4px);transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">⬇ Export</button>
+        <label style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:white;padding:5px 12px;border-radius:8px;font-size:0.72rem;font-weight:600;cursor:pointer;backdrop-filter:blur(4px);transition:background 0.15s" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">⬆ Import<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
+      </div>
       <div style="font-size:0.62rem;color:rgba(255,255,255,0.3);font-weight:500;text-align:right">© 2026 Selina Loggins · Personal use only</div>
     </div>
   </div>
@@ -1277,6 +1281,50 @@ let S = loadState();
 
 function saveState() {
   localStorage.setItem('selina_ai_journey_v3', JSON.stringify(S));
+}
+
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
+function exportData() {
+  const data = JSON.stringify(S, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const dateStr = new Date().toISOString().split('T')[0];
+  a.href = url;
+  a.download = `selina-ai-journey-backup-${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✅ Backup downloaded! Save it somewhere safe.');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      // Basic validation — check it has expected keys
+      if (!imported.sessions || !imported.certState) {
+        showToast('❌ Invalid backup file — please use a file exported from this dashboard.', 'error');
+        return;
+      }
+      if (!confirm('This will replace ALL your current dashboard data with the backup. Are you sure?')) return;
+      S = imported;
+      saveState();
+      renderOverview();
+      showToast('✅ Data restored successfully from backup!');
+    } catch(err) {
+      showToast('❌ Could not read file — make sure it is a valid JSON backup.', 'error');
+    }
+  };
+  reader.readAsText(file);
+  // Reset file input so same file can be re-imported if needed
+  event.target.value = '';
 }
 
 // ============================================================
