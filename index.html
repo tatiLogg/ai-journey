@@ -486,11 +486,16 @@ body {
     </div>
     <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
       <div class="header-date" id="headerDate"></div>
-      <div style="display:flex;gap:6px;align-items:center">
-        <button onclick="exportData()" style="background:#16a34a;border:none;color:white;padding:6px 14px;border-radius:8px;font-size:0.75rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.2);transition:background 0.15s" onmouseover="this.style.background='#15803d'" onmouseout="this.style.background='#16a34a'">⬇ Export</button>
-        <label style="background:#2563eb;border:none;color:white;padding:6px 14px;border-radius:8px;font-size:0.75rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.2);transition:background 0.15s" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">⬆ Import<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
-      </div>
       <div style="font-size:0.62rem;color:rgba(255,255,255,0.3);font-weight:500;text-align:right">© 2026 Selina Loggins · Personal use only</div>
+    </div>
+  </div>
+
+  <!-- Backup bar -->
+  <div style="background:white;border-radius:16px;padding:12px 20px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div style="font-size:0.82rem;color:#64748b">🔒 <strong style="color:#0f172a">Your data is saved in this browser.</strong> Export weekly to keep a permanent backup.</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="exportData()" style="background:#16a34a;border:none;color:white;padding:8px 18px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(22,163,74,0.3)">⬇ Export backup</button>
+      <label style="background:#2563eb;border:none;color:white;padding:8px 18px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(37,99,235,0.3)">⬆ Import backup<input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
     </div>
   </div>
 
