@@ -373,6 +373,64 @@ body {
 .empty-state { text-align: center; padding: 32px; color: #94a3b8; font-size: 0.875rem; }
 .tag-new { font-size: 0.62rem; background: #fce7f3; color: #be185d; padding: 1px 6px; border-radius: 6px; font-weight: 700; vertical-align: middle; margin-left: 4px; }
 
+/* ---- READING LIST ---- */
+.book-phase-header {
+  display: flex; align-items: center; gap: 10px;
+  margin: 18px 0 10px;
+}
+.book-phase-label {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.07em;
+  text-transform: uppercase; color: #94a3b8;
+}
+.book-phase-line { flex: 1; height: 1px; background: #f1f5f9; }
+.book-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid #f8fafc;
+}
+.book-row:last-child { border-bottom: none; }
+.book-spine { width: 5px; border-radius: 3px; flex-shrink: 0; align-self: stretch; min-height: 40px; }
+.book-cover-num {
+  width: 30px; height: 40px; border-radius: 4px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 800; color: white;
+}
+.book-info { flex: 1; }
+.book-title { font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.3; }
+.book-author { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+.book-why { font-size: 0.75rem; color: #475569; margin-top: 4px; line-height: 1.4; }
+.book-tags { display: flex; gap: 5px; margin-top: 6px; flex-wrap: wrap; }
+.book-tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 8px; font-weight: 600; white-space: nowrap; }
+.book-tag-owned { background: #dcfce7; color: #16a34a; }
+.book-tag-buy { background: #fff7ed; color: #d97706; }
+.book-tag-current { background: #dbeafe; color: #2563eb; }
+.book-tag-next { background: #f3e8ff; color: #7c3aed; }
+.book-tag-future { background: #f1f5f9; color: #64748b; }
+.book-check {
+  width: 20px; height: 20px; border: 2px solid #cbd5e1; border-radius: 4px;
+  flex-shrink: 0; cursor: pointer; appearance: none; transition: all 0.15s;
+  position: relative;
+}
+.book-check:checked { background: #16a34a; border-color: #16a34a; }
+.book-check:checked::after {
+  content: '✓'; position: absolute; top: -1px; left: 3px;
+  color: white; font-size: 12px; font-weight: 700;
+}
+.book-reading-progress { margin-top: 5px; }
+.reading-now-banner {
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+  border: 1px solid #bfdbfe; border-radius: 12px;
+  padding: 14px 18px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.reading-now-icon { font-size: 2rem; flex-shrink: 0; }
+.reading-now-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #2563eb; margin-bottom: 2px; }
+.reading-now-title { font-size: 1rem; font-weight: 700; color: #0f172a; }
+.reading-now-sub { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
+.reading-stats-row { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 16px; }
+.reading-stat-box { background: white; border-radius: 10px; padding: 12px 16px; flex: 1; min-width: 90px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+.reading-stat-num { font-size: 1.4rem; font-weight: 800; }
+.reading-stat-label { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+
 /* ---- GRADIENT HEADER ---- */
 .header {
   border-radius: 16px;
@@ -548,6 +606,7 @@ body {
     <button class="tab-btn" onclick="switchTab('scores')">Exam scores</button>
     <button class="tab-btn" onclick="switchTab('boss')" style="border-color:#16a34a;color:#16a34a">Boss's Picks ★</button>
     <button class="tab-btn" onclick="switchTab('inspiration')">Daily inspiration</button>
+    <button class="tab-btn" onclick="switchTab('reading')" style="border-color:#d97706;color:#d97706">📖 Reading List</button>
   </div>
 
   <!-- ===================== OVERVIEW ===================== -->
@@ -1084,6 +1143,444 @@ body {
 
     <div class="section-heading">Full inspiration library — pull one before every session</div>
     <div id="fullInspiration"></div>
+
+  </div>
+
+  <!-- ===================== READING LIST ===================== -->
+  <div id="tab-reading" class="tab-content">
+
+    <!-- Currently reading banner -->
+    <div class="reading-now-banner">
+      <div class="reading-now-icon">📖</div>
+      <div style="flex:1">
+        <div class="reading-now-label">Currently reading</div>
+        <div class="reading-now-title" id="currentBookTitle">AWS Certified Solutions Architect Study Guide (Udemy — Stephane Maarek)</div>
+        <div class="reading-now-sub" id="currentBookSub">Phase 1 · Active now — 12 weeks to exam</div>
+      </div>
+    </div>
+
+    <!-- Reading stats -->
+    <div class="reading-stats-row">
+      <div class="reading-stat-box">
+        <div class="reading-stat-num" id="booksReadCount" style="color:#16a34a">0</div>
+        <div class="reading-stat-label">Books completed</div>
+      </div>
+      <div class="reading-stat-box">
+        <div class="reading-stat-num" style="color:#2563eb">21</div>
+        <div class="reading-stat-label">Books on route</div>
+      </div>
+      <div class="reading-stat-box">
+        <div class="reading-stat-num" style="color:#7c3aed">9</div>
+        <div class="reading-stat-label">Already owned</div>
+      </div>
+      <div class="reading-stat-box">
+        <div class="reading-stat-num" style="color:#d97706">12</div>
+        <div class="reading-stat-label">To purchase</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Your Sequential Reading Route · 2026–2032</div>
+      <div style="font-size:0.82rem;color:#64748b;margin-bottom:4px">One book at a time. Complete each before moving on — depth over breadth.</div>
+
+      <!-- PHASE 1 -->
+      <div class="book-phase-header">
+        <div class="book-phase-label" style="color:#2563eb">Phase 1 — Now · AWS SAA Prep</div>
+        <div class="book-phase-line"></div>
+      </div>
+      <div id="bookList-p1">
+        <div class="book-row">
+          <div class="book-spine" style="background:#2563eb"></div>
+          <div class="book-cover-num" style="background:#2563eb">1</div>
+          <div class="book-info">
+            <div class="book-title">AWS Certified Solutions Architect Study Guide (Udemy)</div>
+            <div class="book-author">Stephane Maarek</div>
+            <div class="book-why">Your primary path to the SAA-C03. Every video lecture builds the AWS foundation everything else in your career will stand on.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-current">▶ Reading now</span>
+              <span class="book-tag" style="background:#eff6ff;color:#2563eb">SAA Exam</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="1">
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="book-phase-header">
+        <div class="book-phase-label" style="color:#7c3aed">Phase 2 — SNHU Year 1 · CS Foundations</div>
+        <div class="book-phase-line"></div>
+      </div>
+      <div id="bookList-p2">
+        <div class="book-row">
+          <div class="book-spine" style="background:#7c3aed"></div>
+          <div class="book-cover-num" style="background:#7c3aed">2</div>
+          <div class="book-info">
+            <div class="book-title">Grokking Algorithms</div>
+            <div class="book-author">Aditya Bhargava</div>
+            <div class="book-why">Visual, beginner-friendly introduction to algorithms and data structures. Read this before anything else in SNHU — it makes CS coursework click.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-next">Next up</span>
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">CS Foundations</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="2">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#7c3aed"></div>
+          <div class="book-cover-num" style="background:#7c3aed">3</div>
+          <div class="book-info">
+            <div class="book-title">Computer Science Distilled</div>
+            <div class="book-author">Wladston Ferreira Filho</div>
+            <div class="book-why">Covers the breadth of CS — logic, algorithms, databases, networking — in one slim volume. Perfect companion to SNHU Y1 coursework.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">CS Foundations</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="2">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#7c3aed"></div>
+          <div class="book-cover-num" style="background:#7c3aed">4</div>
+          <div class="book-info">
+            <div class="book-title">Think Stats: Exploratory Data Analysis</div>
+            <div class="book-author">Allen B. Downey</div>
+            <div class="book-why">Statistics using Python, no calculus required. You need this before any ML work — AI is applied statistics. Free online at greenteapress.com.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase / Free PDF</span>
+              <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">Statistics</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="2">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#7c3aed"></div>
+          <div class="book-cover-num" style="background:#7c3aed">5</div>
+          <div class="book-info">
+            <div class="book-title">Fluent Python</div>
+            <div class="book-author">Luciano Ramalho</div>
+            <div class="book-why">The book that turns you from a Python user into a Python developer. SNHU's Gen AI concentration will demand real Python fluency — get this now.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">Python</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="2">
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="book-phase-header">
+        <div class="book-phase-label" style="color:#d97706">Phase 3 — SNHU Year 2 · Data + AI Security</div>
+        <div class="book-phase-line"></div>
+      </div>
+      <div id="bookList-p3">
+        <div class="book-row">
+          <div class="book-spine" style="background:#d97706"></div>
+          <div class="book-cover-num" style="background:#d97706">6</div>
+          <div class="book-info">
+            <div class="book-title">Designing Data-Intensive Applications</div>
+            <div class="book-author">Martin Kleppmann</div>
+            <div class="book-why">The definitive guide to building reliable, scalable systems. Required reading for any cloud architect. This bridges AWS knowledge to real engineering judgment.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#fef3c7;color:#d97706">Systems</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="3">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#d97706"></div>
+          <div class="book-cover-num" style="background:#d97706">7</div>
+          <div class="book-info">
+            <div class="book-title">Adversarial Machine Learning</div>
+            <div class="book-author">Yevgeniy Vorobeychik &amp; Murat Kantarcioglu</div>
+            <div class="book-why">AI security's core text. Covers evasion, poisoning, model theft, and defenses. Your CAISP exam will test this. Read alongside your SNHU AI security coursework.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#fef3c7;color:#d97706">AI Security</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="3">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#d97706"></div>
+          <div class="book-cover-num" style="background:#d97706">8</div>
+          <div class="book-info">
+            <div class="book-title">Hacking the AI — Adversarial Attacks on AI Systems</div>
+            <div class="book-author">Gary McGraw &amp; Harold Figueroa</div>
+            <div class="book-why">Practitioner-level guide to attacking and defending AI systems. Bridges theory from Adversarial ML to real-world red teaming. Read back-to-back with book 7.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#fef3c7;color:#d97706">AI Security</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="3">
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="book-phase-header">
+        <div class="book-phase-label" style="color:#16a34a">Phase 4 — SNHU Year 3 + GT Prep · Deep CS + AI Engineering</div>
+        <div class="book-phase-line"></div>
+      </div>
+      <div id="bookList-p4">
+        <div class="book-row">
+          <div class="book-spine" style="background:#16a34a"></div>
+          <div class="book-cover-num" style="background:#16a34a">9</div>
+          <div class="book-info">
+            <div class="book-title">Introduction to Algorithms (CLRS)</div>
+            <div class="book-author">Cormen, Leiserson, Rivest &amp; Stein</div>
+            <div class="book-why">The algorithms bible. Georgia Tech's OMSCS requires this level of rigor. Read it cover to cover — don't skip the proofs. It will change how you think.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f0fdf4;color:#16a34a">GT Prep</span>
+              <span class="book-tag" style="background:#f0fdf4;color:#16a34a">Algorithms</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="4">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#16a34a"></div>
+          <div class="book-cover-num" style="background:#16a34a">10</div>
+          <div class="book-info">
+            <div class="book-title">AI Engineering</div>
+            <div class="book-author">Chip Huyen</div>
+            <div class="book-why">Building production AI applications: RAG, fine-tuning, evaluation, deployment, and security. The practical bridge between theory and your career role.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#f0fdf4;color:#16a34a">AI Engineering</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="4">
+        </div>
+      </div>
+
+      <!-- PHASE 5 -->
+      <div class="book-phase-header">
+        <div class="book-phase-label" style="color:#0891b2">Phase 5 — Georgia Tech OMSCS · ML + Deep Learning</div>
+        <div class="book-phase-line"></div>
+      </div>
+      <div id="bookList-p5">
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">11</div>
+          <div class="book-info">
+            <div class="book-title">Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</div>
+            <div class="book-author">Aurélien Géron</div>
+            <div class="book-why">The most practical ML book written. GT's ML4T and other OMSCS courses assume this knowledge. Read before your first semester.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">Machine Learning</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">12</div>
+          <div class="book-info">
+            <div class="book-title">Deep Learning</div>
+            <div class="book-author">Goodfellow, Bengio &amp; Courville</div>
+            <div class="book-why">The textbook for deep learning theory. GT's deep learning courses are built around this. Dense but essential — work through it one chapter per week.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">Deep Learning</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">13</div>
+          <div class="book-info">
+            <div class="book-title">Human Compatible: Artificial Intelligence and the Problem of Control</div>
+            <div class="book-author">Stuart Russell</div>
+            <div class="book-why">GT OMSCS has an AI Ethics thread. Russell (Berkeley AI chair) argues for a new framework for safe AI. Essential for your AI security specialization's policy dimension.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">AI Safety</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">14</div>
+          <div class="book-info">
+            <div class="book-title">System Design Interview (Volumes I &amp; II)</div>
+            <div class="book-author">Alex Xu</div>
+            <div class="book-why">GT projects and your eventual CMU application essays will require you to articulate system design clearly. Treat this as a framework book — read alongside coursework.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">System Design</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">15</div>
+          <div class="book-info">
+            <div class="book-title">The Art of Invisibility</div>
+            <div class="book-author">Kevin Mitnick</div>
+            <div class="book-why">You already own this. A readable account of how the world's most wanted hacker operated — excellent for grounding security concepts in real attacker psychology. Read anytime.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">Security Mindset</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">16</div>
+          <div class="book-info">
+            <div class="book-title">The Hacker Mindset</div>
+            <div class="book-author">Phillip Wylie &amp; Kim Crawley</div>
+            <div class="book-why">You own this. Teaches you to think offensively — essential perspective for a defender who wants to truly understand what they're protecting against.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">Security Mindset</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#0891b2"></div>
+          <div class="book-cover-num" style="background:#0891b2">17</div>
+          <div class="book-info">
+            <div class="book-title">Cybersecurity Myths and Misconceptions</div>
+            <div class="book-author">Eugene Spafford, Leigh Metcalf &amp; Josiah Dykstra</div>
+            <div class="book-why">You own this. Challenges conventional security wisdom — exactly the kind of critical thinking that separates good practitioners from great ones. Perfect OMSCS-era read.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#ecfeff;color:#0891b2">Security Mindset</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="5">
+        </div>
+      </div>
+
+      <!-- PHASE 6 -->
+      <div class="book-phase-header">
+        <div class="book-phase-label" style="color:#64748b">Phase 6 — Career Ready · Production AI + Agentic Systems</div>
+        <div class="book-phase-line"></div>
+      </div>
+      <div id="bookList-p6">
+        <div class="book-row">
+          <div class="book-spine" style="background:#64748b"></div>
+          <div class="book-cover-num" style="background:#64748b">18</div>
+          <div class="book-info">
+            <div class="book-title">The LLM Engineer's Handbook</div>
+            <div class="book-author">Paul Iusztin &amp; Maxime Labonne</div>
+            <div class="book-why">End-to-end LLM engineering: data pipelines, fine-tuning, RAG, deployment, monitoring. This is the job description for AI engineers in 2028+. Read before your first senior role.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f1f5f9;color:#64748b">LLMs</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="6">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#64748b"></div>
+          <div class="book-cover-num" style="background:#64748b">19</div>
+          <div class="book-info">
+            <div class="book-title">Building Applications with AI Agents</div>
+            <div class="book-author">Michael Ludvig</div>
+            <div class="book-why">Practical patterns for building agentic AI: tool use, multi-agent coordination, memory, guardrails. The frameworks covered will be your daily tools.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f1f5f9;color:#64748b">Agents</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="6">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#64748b"></div>
+          <div class="book-cover-num" style="background:#64748b">20</div>
+          <div class="book-info">
+            <div class="book-title">Context Engineering for AI Agents</div>
+            <div class="book-author">Lucidata / Anthropic published resources</div>
+            <div class="book-why">The emerging discipline of designing what goes into an AI's context window — prompts, memory, retrieval, tool outputs. A differentiating skill as agents become mainstream.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase / Read online</span>
+              <span class="book-tag" style="background:#f1f5f9;color:#64748b">Agents</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="6">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#64748b"></div>
+          <div class="book-cover-num" style="background:#64748b">21</div>
+          <div class="book-info">
+            <div class="book-title">Architecting AI Software Systems</div>
+            <div class="book-author">Oreoluwa Alebiosu</div>
+            <div class="book-why">System design specifically for AI workloads: model serving, observability, cost, compliance. This connects your cloud architecture background to AI deployment at scale.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag" style="background:#f1f5f9;color:#64748b">AI Architecture</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="6">
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding:14px 16px;background:#f8fafc;border-radius:10px;font-size:0.8rem;color:#64748b;line-height:1.6">
+        💡 <strong style="color:#0f172a">Reading philosophy:</strong> Finish each book before opening the next. Understanding one book deeply beats skimming three. Check the box when you've genuinely finished it — not just started it.
+      </div>
+    </div>
+
+    <!-- Notes per book -->
+    <div class="card">
+      <div class="card-title">Reading notes</div>
+      <div style="font-size:0.82rem;color:#64748b;margin-bottom:12px">Capture your biggest insight from each book in your own words.</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Book</label>
+          <select class="form-select" id="bookNoteTitle">
+            <option value="">Select a book...</option>
+            <option>AWS SAA Study Guide (Udemy)</option>
+            <option>Grokking Algorithms</option>
+            <option>Computer Science Distilled</option>
+            <option>Think Stats</option>
+            <option>Fluent Python</option>
+            <option>Designing Data-Intensive Applications</option>
+            <option>Adversarial Machine Learning</option>
+            <option>Hacking the AI</option>
+            <option>Introduction to Algorithms (CLRS)</option>
+            <option>AI Engineering</option>
+            <option>Hands-On Machine Learning</option>
+            <option>Deep Learning (Goodfellow)</option>
+            <option>Human Compatible</option>
+            <option>System Design Interview</option>
+            <option>The Art of Invisibility</option>
+            <option>The Hacker Mindset</option>
+            <option>Cybersecurity Myths and Misconceptions</option>
+            <option>The LLM Engineer's Handbook</option>
+            <option>Building Applications with AI Agents</option>
+            <option>Context Engineering for AI Agents</option>
+            <option>Architecting AI Software Systems</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date finished</label>
+          <input type="date" class="form-input" id="bookNoteDate">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Biggest insight — in your own words</label>
+          <textarea class="form-textarea" id="bookNoteText" placeholder="What did this book change about how you think?"></textarea>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">How will you apply this?</label>
+          <input class="form-input" id="bookNoteApply" placeholder="Concrete action or concept you'll use...">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="saveBookNote()">Save note</button>
+
+      <div id="bookNotesList" style="margin-top:16px"></div>
+    </div>
 
   </div>
 
@@ -2401,7 +2898,7 @@ function togglePodcast(id, checked) {
 function switchTab(tabName) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','scores','boss','inspiration'];
+  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','scores','boss','inspiration','reading'];
   const idx = tabs.indexOf(tabName);
   if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-' + tabName).classList.add('active');
@@ -2751,7 +3248,84 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('qlDate').value   = t;
   document.getElementById('slDate').value   = t;
   document.getElementById('scoreDate').value = t;
+  document.getElementById('bookNoteDate').value = t;
+  loadBooks();
+  renderBookNotes();
 });
+
+// ============================================================
+// READING LIST
+// ============================================================
+
+function updateBookStats() {
+  const checks = document.querySelectorAll('.book-check');
+  let done = 0;
+  checks.forEach(c => { if (c.checked) done++; });
+  const el = document.getElementById('booksReadCount');
+  if (el) el.textContent = done;
+  saveBooks();
+}
+
+function saveBooks() {
+  const state = {};
+  document.querySelectorAll('.book-check').forEach((c, i) => {
+    state['book_' + i] = c.checked;
+    const row = c.closest('.book-row');
+    if (row) row.style.opacity = c.checked ? '0.55' : '1';
+  });
+  try { localStorage.setItem('reading_progress', JSON.stringify(state)); } catch(e) {}
+}
+
+function loadBooks() {
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem('reading_progress') || '{}'); } catch(e) {}
+  document.querySelectorAll('.book-check').forEach((c, i) => {
+    if (state['book_' + i]) {
+      c.checked = true;
+      const row = c.closest('.book-row');
+      if (row) row.style.opacity = '0.55';
+    }
+  });
+  updateBookStats();
+}
+
+function saveBookNote() {
+  const title = document.getElementById('bookNoteTitle').value;
+  const date  = document.getElementById('bookNoteDate').value;
+  const text  = document.getElementById('bookNoteText').value.trim();
+  const apply = document.getElementById('bookNoteApply').value.trim();
+  if (!title || !text) { alert('Please select a book and write your insight.'); return; }
+  let notes = [];
+  try { notes = JSON.parse(localStorage.getItem('book_notes') || '[]'); } catch(e) {}
+  notes.unshift({ title, date, text, apply, id: Date.now() });
+  try { localStorage.setItem('book_notes', JSON.stringify(notes)); } catch(e) {}
+  document.getElementById('bookNoteTitle').value = '';
+  document.getElementById('bookNoteText').value = '';
+  document.getElementById('bookNoteApply').value = '';
+  renderBookNotes();
+  showToast('Reading note saved!');
+}
+
+function renderBookNotes() {
+  let notes = [];
+  try { notes = JSON.parse(localStorage.getItem('book_notes') || '[]'); } catch(e) {}
+  const el = document.getElementById('bookNotesList');
+  if (!el) return;
+  if (!notes.length) { el.innerHTML = '<div class="empty-state">No notes yet — finish a book and capture what you learned.</div>'; return; }
+  el.innerHTML = notes.map(n => `
+    <div style="padding:12px 0;border-bottom:1px solid #f1f5f9">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div style="font-size:0.875rem;font-weight:700;color:#0f172a">${n.title}</div>
+        <div style="font-size:0.72rem;color:#94a3b8;white-space:nowrap">${n.date || ''}</div>
+      </div>
+      <div style="font-size:0.82rem;color:#374151;margin-top:5px;line-height:1.5;font-style:italic">"${n.text}"</div>
+      ${n.apply ? `<div style="font-size:0.78rem;color:#2563eb;margin-top:4px">→ ${n.apply}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+// Load reading data on tab switch and on init
+const _origSwitchTab = window.switchTab;
 
 // ---- Copy protection ----
 document.addEventListener('contextmenu', e => e.preventDefault());
