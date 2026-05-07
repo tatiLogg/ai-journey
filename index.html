@@ -431,6 +431,56 @@ body {
 .reading-stat-num { font-size: 1.4rem; font-weight: 800; }
 .reading-stat-label { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
 
+/* ---- STUDY NOTES ---- */
+.sn-section { margin-bottom: 10px; }
+.sn-section-header {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 100%);
+  color: white; border-radius: 10px 10px 0 0;
+  padding: 12px 18px; font-size: 1rem; font-weight: 800;
+  display: flex; align-items: center; gap: 8px;
+}
+.sn-body { background: white; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 10px 10px; padding: 18px; margin-bottom: 14px; }
+.sn-subhead { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: #7c3aed; margin: 16px 0 8px; }
+.sn-subhead:first-child { margin-top: 0; }
+.sn-p { font-size: 0.875rem; color: #374151; line-height: 1.65; margin-bottom: 8px; }
+.sn-exam-tip {
+  background: #fef3c7; border-left: 4px solid #f59e0b;
+  border-radius: 0 8px 8px 0; padding: 10px 14px;
+  margin: 10px 0; font-size: 0.84rem; color: #92400e; line-height: 1.5;
+}
+.sn-exam-tip strong { color: #b45309; }
+.sn-warn {
+  background: #fff1f2; border-left: 4px solid #f43f5e;
+  border-radius: 0 8px 8px 0; padding: 10px 14px;
+  margin: 10px 0; font-size: 0.84rem; color: #9f1239; line-height: 1.5;
+}
+.sn-tip {
+  background: #f0fdf4; border-left: 4px solid #16a34a;
+  border-radius: 0 8px 8px 0; padding: 10px 14px;
+  margin: 10px 0; font-size: 0.84rem; color: #15803d; line-height: 1.5;
+}
+.sn-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 10px 0; }
+.sn-table th { background: #f8fafc; padding: 8px 10px; text-align: left; font-weight: 700; color: #374151; border-bottom: 2px solid #e2e8f0; }
+.sn-table td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; color: #374151; vertical-align: top; }
+.sn-table tr:last-child td { border-bottom: none; }
+.sn-table tr:hover td { background: #fafafa; }
+.sn-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 8px; }
+.sn-yes { background: #dcfce7; color: #16a34a; }
+.sn-no  { background: #fee2e2; color: #dc2626; }
+.sn-mental-model {
+  background: #f5f3ff; border: 1px solid #ddd6fe; border-radius: 10px;
+  padding: 12px 16px; margin: 10px 0; font-size: 0.84rem; color: #4c1d95; line-height: 1.6;
+}
+.sn-cheat-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.84rem; }
+.sn-cheat-row:last-child { border-bottom: none; }
+.sn-cheat-q { flex: 1; color: #374151; }
+.sn-cheat-a { flex: 1; font-weight: 700; color: #1d4ed8; }
+.sn-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.sn-tab-btn { padding: 6px 14px; border-radius: 16px; border: 1.5px solid #e2e8f0; background: white; color: #64748b; font-size: 0.8rem; cursor: pointer; font-weight: 600; transition: all 0.15s; }
+.sn-tab-btn.active { background: #7c3aed; border-color: #7c3aed; color: white; }
+.sn-page { display: none; }
+.sn-page.active { display: block; }
+
 /* ---- GRADIENT HEADER ---- */
 .header {
   border-radius: 16px;
@@ -607,6 +657,7 @@ body {
     <button class="tab-btn" onclick="switchTab('boss')" style="border-color:#16a34a;color:#16a34a">Boss's Picks ★</button>
     <button class="tab-btn" onclick="switchTab('inspiration')">Daily inspiration</button>
     <button class="tab-btn" onclick="switchTab('reading')" style="border-color:#d97706;color:#d97706">📖 Reading List</button>
+    <button class="tab-btn owner-only-tab" id="studyNotesBtn" onclick="switchTab('studynotes')" style="border-color:#7c3aed;color:#7c3aed">📝 Study Notes 🔒</button>
   </div>
 
   <!-- ===================== OVERVIEW ===================== -->
@@ -1144,6 +1195,352 @@ body {
     <div class="section-heading">Full inspiration library — pull one before every session</div>
     <div id="fullInspiration"></div>
 
+    <!-- RDS -->
+    <div id="sn-rds" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">🗄️ Week 2 · Section 6: RDS — Relational Database Service</div>
+        <div class="sn-body">
+          <div class="sn-mental-model">💡 RDS is AWS's managed SQL database service. You pick an engine, AWS runs the server, patches the OS, takes backups, and handles failover. You focus only on your data — no SSH, no OS-level work.</div>
+          <div class="sn-subhead">7 Supported Engines — Memorize All</div>
+          <div class="sn-p">PostgreSQL · MySQL · MariaDB · Oracle · Microsoft SQL Server · IBM DB2 · Aurora (AWS proprietary)</div>
+          <div class="sn-warn">⚠️ No SSH on RDS. It's fully managed. The only exception is RDS Custom (Oracle + SQL Server only).</div>
+
+          <div class="sn-subhead">Read Replicas vs. Multi-AZ — Know This Cold</div>
+          <table class="sn-table">
+            <tr><th></th><th>Read Replicas</th><th>Multi-AZ</th></tr>
+            <tr><td>Purpose</td><td>Scale READ performance</td><td>Disaster recovery</td></tr>
+            <tr><td>Replication</td><td>Asynchronous (eventually consistent)</td><td>Synchronous (always in sync)</td></tr>
+            <tr><td>Readable?</td><td><span class="sn-tag sn-yes">Yes — SELECT only</span></td><td><span class="sn-tag sn-no">No — standby only</span></td></tr>
+            <tr><td>Max count</td><td>Up to 15</td><td>1 standby</td></tr>
+            <tr><td>Failover</td><td>Manual (must promote)</td><td>Automatic</td></tr>
+            <tr><td>DNS</td><td>Each replica has own endpoint</td><td>One DNS — auto-switches</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ Read Replicas = scaling reads, SELECT only. Multi-AZ = DR, standby is NEVER readable. Single → Multi-AZ migration = zero downtime (just click Modify).</div>
+
+          <div class="sn-subhead">RDS Proxy</div>
+          <div class="sn-p">Serverless connection pooler between your app and RDS. Maintains a small shared pool of real connections instead of thousands of direct connections.</div>
+          <table class="sn-table">
+            <tr><th>Benefit</th><th>What it solves</th></tr>
+            <tr><td>Connection pooling</td><td>Too many connections overwhelming the DB</td></tr>
+            <tr><td>Faster failover</td><td>Cuts failover time by up to 66%</td></tr>
+            <tr><td>IAM enforcement</td><td>Forces IAM auth instead of username/password</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>RDS Proxy triggers:</strong> Lambda + RDS problems · Too many open connections · Reduce failover 66% · Enforce IAM auth · Secrets Manager credentials · VPC-only — never publicly accessible.</div>
+
+          <div class="sn-subhead">RDS Custom</div>
+          <div class="sn-p">OS access, SSH/SSM, install patches, configure internals — but <strong>only for Oracle and Microsoft SQL Server</strong>.</div>
+          <div class="sn-exam-tip">⚡ Need OS-level access on managed DB? → RDS Custom. Deactivate automation mode first. Take a snapshot — you now have the power to break things.</div>
+
+          <div class="sn-subhead">Key Ports</div>
+          <table class="sn-table">
+            <tr><th>Port</th><th>Engine</th></tr>
+            <tr><td>3306</td><td>MySQL / Aurora MySQL</td></tr>
+            <tr><td>5432</td><td>PostgreSQL / Aurora PostgreSQL</td></tr>
+          </table>
+
+          <div class="sn-subhead">RDS Security</div>
+          <table class="sn-table">
+            <tr><th>Layer</th><th>How it works</th></tr>
+            <tr><td>Encryption at rest</td><td>KMS — must be set at LAUNCH. Unencrypted master = unencrypted replicas.</td></tr>
+            <tr><td>In-flight</td><td>TLS on by default. Use AWS TLS root certs.</td></tr>
+            <tr><td>IAM auth</td><td>EC2 instances with IAM roles connect without username/password</td></tr>
+            <tr><td>Audit logs</td><td>Send to CloudWatch Logs for long-term retention</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- AURORA -->
+    <div id="sn-aurora" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">⚡ Section 7: Amazon Aurora</div>
+        <div class="sn-body">
+          <div class="sn-mental-model">💡 AWS's proprietary cloud-optimized database engine. Compatible with MySQL and PostgreSQL drivers — you don't change your app code.</div>
+          <table class="sn-table">
+            <tr><th>Comparison</th><th>Aurora</th><th>Standard RDS</th></tr>
+            <tr><td>vs MySQL</td><td>5x faster</td><td>Baseline</td></tr>
+            <tr><td>vs PostgreSQL</td><td>3x faster</td><td>Baseline</td></tr>
+            <tr><td>Replica lag</td><td>Sub-10ms</td><td>Higher</td></tr>
+            <tr><td>Failover speed</td><td>&lt;30 seconds</td><td>~60–120 seconds</td></tr>
+            <tr><td>Storage</td><td>Auto-grows 10 GB → 256 TB</td><td>Manual provisioning</td></tr>
+            <tr><td>Cost</td><td>~20% more than RDS</td><td>Baseline</td></tr>
+          </table>
+
+          <div class="sn-subhead">Aurora HA — The 6-Copy Rule</div>
+          <div class="sn-p">6 copies across 3 AZs automatically. Need 4/6 for writes, 3/6 for reads. Self-healing via peer-to-peer replication. Spread across hundreds of volumes — no single point of failure.</div>
+
+          <div class="sn-subhead">Aurora Endpoints — Always Use These</div>
+          <table class="sn-table">
+            <tr><th>Endpoint</th><th>Points to</th><th>Use for</th></tr>
+            <tr><td>Writer Endpoint</td><td>Current master (auto-updates on failover)</td><td>All writes</td></tr>
+            <tr><td>Reader Endpoint</td><td>All read replicas (load balanced)</td><td>All reads</td></tr>
+          </table>
+          <div class="sn-warn">⚠️ Never hard-code individual instance endpoints — they break on failover. Always use cluster endpoints.</div>
+
+          <div class="sn-subhead">Aurora Advanced Features</div>
+          <table class="sn-table">
+            <tr><th>Feature</th><th>What it does</th><th>Exam trigger</th></tr>
+            <tr><td>Serverless v2</td><td>Set min/max ACUs — scales automatically</td><td>Unpredictable/infrequent workloads, pay per second</td></tr>
+            <tr><td>Global Aurora</td><td>10 secondary regions, &lt;1 sec replication, RTO &lt;1 min</td><td>Multi-region DR, &lt;1 second replication</td></tr>
+            <tr><td>Backtrack</td><td>Rewind DB to any point without a snapshot</td><td>"Restore without backup" → Backtrack</td></tr>
+            <tr><td>Babelfish</td><td>PostgreSQL understands T-SQL (SQL Server language)</td><td>Migrate SQL Server to Aurora with minimal code changes</td></tr>
+            <tr><td>Aurora ML</td><td>SQL query triggers SageMaker or Comprehend</td><td>Fraud detection, sentiment analysis via SQL</td></tr>
+            <tr><td>Cloning</td><td>Instant copy-on-write production clone</td><td>Spin up staging instantly, zero production impact</td></tr>
+          </table>
+
+          <div class="sn-subhead">Backups: RDS vs Aurora</div>
+          <table class="sn-table">
+            <tr><th></th><th>RDS</th><th>Aurora</th></tr>
+            <tr><td>Can disable backups?</td><td><span class="sn-tag sn-yes">Yes (set to 0)</span></td><td><span class="sn-tag sn-no">No — never</span></td></tr>
+            <tr><td>Point-in-time</td><td>Up to 5 min ago</td><td>Up to 5 min ago</td></tr>
+            <tr><td>Retention</td><td>1–35 days</td><td>1–35 days</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ Restore Aurora MySQL from on-premises → requires Percona XtraBackup → upload to S3 → restore to Aurora. Regular backup files won't work.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ELASTICACHE -->
+    <div id="sn-elasticache" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">🔴 Section 8: ElastiCache — In-Memory Database</div>
+        <div class="sn-body">
+          <div class="sn-mental-model">💡 Managed in-memory database running Redis or Memcached. Microsecond read latency. Reduces DB load by caching frequent queries in RAM. Requires application code changes — you must write the cache-check logic.</div>
+
+          <div class="sn-subhead">Two Core Use Cases</div>
+          <table class="sn-table">
+            <tr><th>Use Case</th><th>Pattern</th></tr>
+            <tr><td>DB Cache</td><td>Check cache first → cache hit = instant response · Cache miss = fetch from DB, write to cache · Must implement cache invalidation</td></tr>
+            <tr><td>Session Store</td><td>User logs in → write session to ElastiCache · Next request hits different EC2 → reads same session · Stateless app, user stays logged in</td></tr>
+          </table>
+
+          <div class="sn-subhead">Redis vs. Memcached</div>
+          <table class="sn-table">
+            <tr><th>Feature</th><th>Redis</th><th>Memcached</th></tr>
+            <tr><td>Multi-AZ + failover</td><td><span class="sn-tag sn-yes">Yes</span></td><td><span class="sn-tag sn-no">No</span></td></tr>
+            <tr><td>Read replicas</td><td><span class="sn-tag sn-yes">Yes</span></td><td><span class="sn-tag sn-no">No</span></td></tr>
+            <tr><td>Data persistence</td><td><span class="sn-tag sn-yes">AOF persistence</span></td><td><span class="sn-tag sn-no">No — lose on restart</span></td></tr>
+            <tr><td>Backup &amp; restore</td><td><span class="sn-tag sn-yes">Yes</span></td><td><span class="sn-tag sn-no">No</span></td></tr>
+            <tr><td>Sorted sets / leaderboards</td><td><span class="sn-tag sn-yes">Yes</span></td><td><span class="sn-tag sn-no">No</span></td></tr>
+            <tr><td>Multi-threaded</td><td><span class="sn-tag sn-no">No</span></td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>Architecture</td><td>Replication</td><td>Sharding</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>Simple rule:</strong> Need HA, persistence, backup, or leaderboards → <strong>Redis</strong>. Simple horizontal sharding, no HA → Memcached. Redis wins almost every exam scenario.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTE 53 -->
+    <div id="sn-r53" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">🌐 Section 9: Route 53 — DNS &amp; Routing</div>
+        <div class="sn-body">
+          <div class="sn-mental-model">💡 AWS's fully managed DNS service and domain registrar. The only AWS service with a <strong>100% availability SLA</strong>. Named after port 53 — the standard DNS port.</div>
+
+          <div class="sn-subhead">DNS Record Types</div>
+          <table class="sn-table">
+            <tr><th>Type</th><th>Maps</th><th>Key rule</th></tr>
+            <tr><td>A</td><td>Hostname → IPv4</td><td>Most common</td></tr>
+            <tr><td>AAAA</td><td>Hostname → IPv6</td><td>For IPv6 addresses</td></tr>
+            <tr><td>CNAME</td><td>Hostname → Hostname</td><td>Cannot be used at Zone Apex (root domain)</td></tr>
+            <tr><td>Alias</td><td>Hostname → AWS resource</td><td>Free, works at root domain, no TTL — use for AWS targets</td></tr>
+            <tr><td>NS</td><td>Zone → Name servers</td><td>Tells internet who answers DNS for your domain</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>CNAME vs Alias Trap:</strong> CNAME cannot be used at root domain (example.com). Use Alias. Alias is free. EC2 DNS names CANNOT be Alias targets. ELB, CloudFront, S3, API Gateway, Beanstalk → all valid Alias targets.</div>
+
+          <div class="sn-subhead">Routing Policies — Complete Cheat Sheet</div>
+          <table class="sn-table">
+            <tr><th>Policy</th><th>What it does</th><th>Exam trigger words</th></tr>
+            <tr><td>Simple</td><td>Single resource or multiple IPs (client picks randomly). No health checks.</td><td>One resource, random selection</td></tr>
+            <tr><td>Weighted</td><td>Split traffic by percentage. Can use health checks.</td><td>A/B testing, gradual traffic shift, percentage split</td></tr>
+            <tr><td>Latency</td><td>Routes to AWS region with lowest latency. Not geography — network speed.</td><td>Lowest latency, fastest response, global users</td></tr>
+            <tr><td>Failover</td><td>Primary + secondary. Automatic failover when primary fails. Primary MUST have health check.</td><td>Primary + DR, automatic failover</td></tr>
+            <tr><td>Geolocation</td><td>Routes based on user's country or continent. Static rules.</td><td>User's country, content localization, compliance</td></tr>
+            <tr><td>Geoproximity</td><td>Routes by geographic distance + bias. Requires Traffic Flow.</td><td>Shift traffic using bias, Traffic Flow</td></tr>
+            <tr><td>IP-Based</td><td>You define CIDR blocks → mapped to specific endpoints.</td><td>CIDR blocks, ISP routing, known IP ranges</td></tr>
+            <tr><td>Multi-Value</td><td>Returns up to 8 healthy records. Health check filtering.</td><td>Multiple healthy endpoints, client-side load balancing</td></tr>
+          </table>
+
+          <div class="sn-subhead">Health Checks</div>
+          <table class="sn-table">
+            <tr><th>Type</th><th>What it monitors</th><th>Key detail</th></tr>
+            <tr><td>Endpoint</td><td>Public IP/URL directly</td><td>15 global checkers — 18%+ healthy = healthy</td></tr>
+            <tr><td>Calculated</td><td>Combines child health checks</td><td>Up to 256 children, AND/OR/NOT logic</td></tr>
+            <tr><td>CloudWatch Alarm</td><td>Private/VPC resources</td><td>CloudWatch Metric → Alarm → Route 53 status</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>Private resource health check:</strong> Route 53 checkers are public — can't reach VPCs. Solution: CloudWatch Metric → Alarm → Route 53 health check linked to alarm.</div>
+
+          <div class="sn-subhead">Route 53 Resolver — Hybrid DNS</div>
+          <table class="sn-table">
+            <tr><th>Endpoint</th><th>Direction</th><th>Use case</th></tr>
+            <tr><td>Inbound Endpoint</td><td>On-premises → AWS</td><td>On-prem servers resolve AWS private hosted zone records</td></tr>
+            <tr><td>Outbound Endpoint</td><td>AWS → On-premises</td><td>EC2 instances resolve internal company hostnames</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ VPN or Direct Connect must be set up before DNS resolution can flow. DNS can't travel without the network path first.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div id="sn-s3" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">🪣 Section 11: Amazon S3</div>
+        <div class="sn-body">
+          <div class="sn-mental-model">💡 Infinitely scalable object storage. Max object size = 5 TB. Files over 5 GB must use multi-part upload. "Folders" don't actually exist — just key prefixes with slashes.</div>
+
+          <div class="sn-subhead">S3 Security</div>
+          <table class="sn-table">
+            <tr><th>Method</th><th>How it works</th><th>Common use</th></tr>
+            <tr><td>IAM Policies</td><td>Attached to users/roles — controls S3 API calls</td><td>EC2 instances, same-account users</td></tr>
+            <tr><td>Bucket Policy</td><td>JSON attached to the bucket</td><td>Public access, cross-account, all scenarios</td></tr>
+            <tr><td>Block Public Access</td><td>Safety override — overrides bucket policy if enabled</td><td>Prevent accidental public exposure</td></tr>
+          </table>
+          <div class="sn-warn">⚠️ <strong>Two steps to make S3 public:</strong> (1) Disable Block Public Access + (2) Add bucket policy with Principal * + Allow s3:GetObject. One step alone is not enough. Explicit Deny always wins.</div>
+          <div class="sn-exam-tip">⚡ <strong>Bucket Policy ARN trap:</strong> Objects = arn:aws:s3:::bucket-name/<strong>*</strong> (with /*). Missing the /* is a very common mistake — policy won't apply to objects.</div>
+
+          <div class="sn-subhead">S3 Versioning</div>
+          <table class="sn-table">
+            <tr><th>Action</th><th>What happens</th></tr>
+            <tr><td>Upload same file again</td><td>New version created, old version preserved</td></tr>
+            <tr><td>Delete without version ID</td><td>Adds a delete marker — reversible</td></tr>
+            <tr><td>Delete specific version ID</td><td>Permanently deleted — irreversible</td></tr>
+            <tr><td>Files before versioning</td><td>Get version ID = null</td></tr>
+          </table>
+
+          <div class="sn-subhead">S3 Replication (CRR &amp; SRR)</div>
+          <table class="sn-table">
+            <tr><th></th><th>CRR (Cross-Region)</th><th>SRR (Same-Region)</th></tr>
+            <tr><td>Use case</td><td>Compliance, global latency, cross-account</td><td>Log aggregation, prod→test sync</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ Versioning must be enabled on BOTH buckets. Only NEW objects replicated after enabling — use S3 Batch Replication for existing objects. Delete markers = optionally replicated (off by default). No chaining — replication doesn't cascade.</div>
+
+          <div class="sn-subhead">S3 Storage Classes</div>
+          <div class="sn-p">Durability = 11 nines (99.999999999%) for ALL classes. Availability varies.</div>
+          <table class="sn-table">
+            <tr><th>Class</th><th>Retrieval</th><th>Min duration</th><th>Use case</th></tr>
+            <tr><td>S3 Standard</td><td>Instant, free</td><td>None</td><td>Frequently accessed data</td></tr>
+            <tr><td>Standard-IA</td><td>Instant (fee)</td><td>None</td><td>DR backups, less frequent access</td></tr>
+            <tr><td>One Zone-IA</td><td>Instant (fee)</td><td>None</td><td>Secondary backups — single AZ, cheaper</td></tr>
+            <tr><td>Glacier Instant</td><td>Milliseconds (fee)</td><td>90 days</td><td>Quarterly access archives</td></tr>
+            <tr><td>Glacier Flexible</td><td>1–5 min / 3–5 hrs / 5–12 hrs</td><td>90 days</td><td>Archives, flexible retrieval</td></tr>
+            <tr><td>Glacier Deep Archive</td><td>12 hrs / 48 hrs</td><td>180 days</td><td>Lowest cost, rarely accessed</td></tr>
+            <tr><td>Intelligent-Tiering</td><td>Varies by tier</td><td>None</td><td>Unpredictable access — auto-moves, no retrieval fee</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ Cheapest long-term → Glacier Deep Archive. Instant retrieval archival → Glacier Instant. One Zone-IA = data lost if AZ destroyed. Min duration charges: Glacier = 90 days, Deep Archive = 180 days — billed even if deleted early.</div>
+
+          <div class="sn-subhead">S3 Express One Zone</div>
+          <div class="sn-p">High-performance single-AZ storage using a directory bucket. 10x faster, single-digit ms latency, 50% lower cost. Best for SageMaker, Athena, EMR workloads.</div>
+          <div class="sn-exam-tip">⚡ Directory bucket = S3 Express One Zone. Latency-sensitive + SageMaker + high-throughput → S3 Express One Zone.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARCHITECTURES -->
+    <div id="sn-arch" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">🏗️ Section 10: Solution Architectures</div>
+        <div class="sn-body">
+
+          <div class="sn-subhead">Architecture #1 — WhatIsTheTime.com (Stateless App)</div>
+          <table class="sn-table">
+            <tr><th>Problem</th><th>Solution Added</th></tr>
+            <tr><td>Single point of failure</td><td>Multiple EC2 instances</td></tr>
+            <tr><td>Managing many Elastic IPs</td><td>Route 53 Alias record</td></tr>
+            <tr><td>TTL caching dead IPs</td><td>ELB (IPs abstracted away)</td></tr>
+            <tr><td>Manual scaling</td><td>Auto Scaling Group</td></tr>
+            <tr><td>Entire AZ goes down</td><td>Multi-AZ ELB + ASG</td></tr>
+            <tr><td>High cost at minimum capacity</td><td>Reserved Instances for baseline</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ ELB always requires Alias record in Route 53 (never A record — ELB IPs change). EC2 SGs should only accept traffic from the ELB SG. ASG + ELB + Multi-AZ = standard HA pattern.</div>
+
+          <div class="sn-subhead">Architecture #2 — MyClothes.com (Stateful App)</div>
+          <table class="sn-table">
+            <tr><th>Session Solution</th><th>Verdict</th></tr>
+            <tr><td>ELB Sticky Sessions</td><td>Quick fix — cart lost if instance dies</td></tr>
+            <tr><td>User Cookies</td><td>Stateless but 4KB limit, security risk</td></tr>
+            <tr><td>ElastiCache Session Store ✅</td><td>Best — fast, secure, any instance looks it up</td></tr>
+          </table>
+          <div class="sn-mental-model">Final layers: Route 53 → Multi-AZ ELB → Multi-AZ ASG → ElastiCache (sessions) + RDS Multi-AZ (data) + RDS Read Replicas (scale reads). Security groups chain: Internet → ALB only → ALB → EC2 only → EC2 → ElastiCache/RDS only.</div>
+
+          <div class="sn-subhead">Architecture #3 — MyWordPress.com (Shared Storage)</div>
+          <div class="sn-warn">⚠️ Core problem: User uploads image to Instance 1 → Instance 2 has no image → 404. EBS is per-instance and AZ-locked.</div>
+          <div class="sn-tip">✅ Fix: EFS — one shared drive, all instances read/write across all AZs. Upload once, available everywhere.</div>
+          <div class="sn-exam-tip">⚡ WordPress on multiple EC2 instances → always EFS, never EBS. Images not loading on some instances after scaling → EBS is the problem, EFS is the fix.</div>
+
+          <div class="sn-subhead">Instantiating Applications Quickly</div>
+          <table class="sn-table">
+            <tr><th>Service</th><th>Fast launch method</th><th>How</th></tr>
+            <tr><td>EC2</td><td>Golden AMI</td><td>Pre-install everything — nothing to install at boot</td></tr>
+            <tr><td>EC2 dynamic config</td><td>Golden AMI + User Data</td><td>Static software in AMI, dynamic env vars via User Data</td></tr>
+            <tr><td>RDS</td><td>Restore from snapshot</td><td>Schema + data already in place</td></tr>
+            <tr><td>EBS</td><td>Restore from snapshot</td><td>Pre-formatted, pre-populated</td></tr>
+          </table>
+
+          <div class="sn-subhead">Elastic Beanstalk</div>
+          <div class="sn-p">Developer uploads code → Beanstalk creates and manages all infrastructure (ELB, ASG, EC2, RDS). Free — you only pay for underlying resources. Uses CloudFormation under the hood.</div>
+          <table class="sn-table">
+            <tr><th>Tier</th><th>Architecture</th><th>Use for</th></tr>
+            <tr><td>Web Server Tier</td><td>ELB → ASG → EC2</td><td>HTTP web applications</td></tr>
+            <tr><td>Worker Tier</td><td>SQS queue → ASG → EC2</td><td>Background processing — scales by queue depth</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ Developer wants to deploy code without managing infrastructure → Elastic Beanstalk. Web tier pushes to SQS → Worker tier processes it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHEAT SHEET WEEK 2 -->
+    <div id="sn-cheat2" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header" style="background:linear-gradient(135deg,#92400e,#d97706)">📝 Week 2 Exam Cheat Sheet</div>
+        <div class="sn-body">
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Lambda connecting to RDS / too many DB connections</div><div class="sn-cheat-a">RDS Proxy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Reduce RDS failover time by 66%</div><div class="sn-cheat-a">RDS Proxy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Scale reads on RDS</div><div class="sn-cheat-a">Read Replicas (up to 15, SELECT only)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">RDS disaster recovery</div><div class="sn-cheat-a">Multi-AZ (synchronous, standby not readable)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Single → Multi-AZ without downtime</div><div class="sn-cheat-a">Just click Modify (zero downtime)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">OS access on managed DB</div><div class="sn-cheat-a">RDS Custom (Oracle + SQL Server only)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Fastest failover / most replicas / lowest lag</div><div class="sn-cheat-a">Amazon Aurora</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Multi-region DB, &lt;1 sec replication, RTO &lt;1 min</div><div class="sn-cheat-a">Aurora Global Database</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Create staging DB from production instantly</div><div class="sn-cheat-a">Aurora Cloning</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">DB backup that can never be disabled</div><div class="sn-cheat-a">Aurora (RDS can be disabled)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">SQL Server migrates to AWS minimal code changes</div><div class="sn-cheat-a">Babelfish for Aurora PostgreSQL</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Restore Aurora MySQL from on-premises</div><div class="sn-cheat-a">Percona XtraBackup → S3 → Aurora</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Reduce DB read load / cache frequent queries</div><div class="sn-cheat-a">ElastiCache</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Cache with HA, persistence, backup, leaderboards</div><div class="sn-cheat-a">Redis</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Cache with simple sharding, no HA needed</div><div class="sn-cheat-a">Memcached</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Route 53 100% SLA</div><div class="sn-cheat-a">Only AWS service with this guarantee</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Point root domain (example.com) to ALB</div><div class="sn-cheat-a">Alias A record (not CNAME)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">EC2 DNS as Route 53 target</div><div class="sn-cheat-a">Cannot use Alias — EC2 DNS ≠ valid Alias target</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Private resource health check in Route 53</div><div class="sn-cheat-a">CloudWatch Metric → Alarm → Route 53 health check</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">On-premises servers resolve AWS private DNS</div><div class="sn-cheat-a">Route 53 Inbound Resolver Endpoint</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">EC2 resolves on-premises hostnames</div><div class="sn-cheat-a">Route 53 Outbound Resolver Endpoint</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">A/B testing, gradual traffic shift</div><div class="sn-cheat-a">Weighted routing policy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Route to fastest region for user</div><div class="sn-cheat-a">Latency routing policy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">DNS-level disaster recovery / automatic failover</div><div class="sn-cheat-a">Failover routing policy + health check</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Route by user's country</div><div class="sn-cheat-a">Geolocation routing policy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Shift traffic between regions with bias control</div><div class="sn-cheat-a">Geoproximity + Traffic Flow</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Route by specific IP ranges / CIDR</div><div class="sn-cheat-a">IP-based routing policy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">WordPress images missing on some instances</div><div class="sn-cheat-a">Switch from EBS to EFS</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Speed up EC2 auto-scaling launches</div><div class="sn-cheat-a">Golden AMI</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Deploy code without managing infrastructure</div><div class="sn-cheat-a">Elastic Beanstalk</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Beanstalk background jobs</div><div class="sn-cheat-a">Worker tier with SQS queue</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Make S3 bucket public</div><div class="sn-cheat-a">Disable Block Public Access + add bucket policy</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Protect against accidental S3 delete</div><div class="sn-cheat-a">S3 Versioning</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Replicate S3 across regions for compliance</div><div class="sn-cheat-a">S3 CRR (Cross-Region Replication)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Existing S3 objects not being replicated</div><div class="sn-cheat-a">S3 Batch Replication</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Cheapest long-term S3 storage</div><div class="sn-cheat-a">Glacier Deep Archive</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Archival with instant retrieval</div><div class="sn-cheat-a">Glacier Instant Retrieval</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Ultra-high performance S3, single-digit ms</div><div class="sn-cheat-a">S3 Express One Zone (directory bucket)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Host a static website cheaply</div><div class="sn-cheat-a">S3 Static Website Hosting</div></div>
+
+          <div style="margin-top:20px;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;text-align:center;font-style:italic;color:#15803d;font-size:0.9rem;line-height:1.6">
+            "Whatever your hand finds to do, do it with all your might." — Ecclesiastes 9:10<br>
+            <span style="font-size:0.78rem;font-style:normal;color:#94a3b8;margin-top:4px;display:block">IAM · EC2 · Storage · LB · ASG · RDS · Aurora · ElastiCache · Route 53 · S3 · Keep going. 💪</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ===================== READING LIST ===================== -->
@@ -1580,6 +1977,371 @@ body {
       <button class="btn-primary" onclick="saveBookNote()">Save note</button>
 
       <div id="bookNotesList" style="margin-top:16px"></div>
+    </div>
+
+  </div>
+
+  <!-- ===================== STUDY NOTES (OWNER ONLY) ===================== -->
+  <div id="tab-studynotes" class="tab-content owner-only-tab">
+
+    <div style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #ddd6fe;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:1.8rem">🔒</div>
+      <div>
+        <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:#7c3aed">Owner only</div>
+        <div style="font-size:0.95rem;font-weight:700;color:#1e1b4b;margin-top:2px">AWS SAA Study Notes · SAA-C03</div>
+        <div style="font-size:0.78rem;color:#6d28d9;margin-top:2px">Sections 1–5 · IAM · EC2 · Storage · Load Balancers · ASG</div>
+      </div>
+    </div>
+
+    <!-- Section sub-tabs -->
+    <div class="sn-tabs">
+      <button class="sn-tab-btn active" onclick="snSwitch('iam',this)">🔐 IAM</button>
+      <button class="sn-tab-btn" onclick="snSwitch('ec2',this)">🖥️ EC2</button>
+      <button class="sn-tab-btn" onclick="snSwitch('storage',this)">💾 Storage</button>
+      <button class="sn-tab-btn" onclick="snSwitch('lb',this)">⚖️ Load Balancers</button>
+      <button class="sn-tab-btn" onclick="snSwitch('asg',this)">📈 ASG</button>
+      <button class="sn-tab-btn" onclick="snSwitch('cheat',this)">📝 Cheat Sheet W1</button>
+      <button class="sn-tab-btn" onclick="snSwitch('rds',this)" style="border-color:#d97706;color:#d97706">🗄️ RDS</button>
+      <button class="sn-tab-btn" onclick="snSwitch('aurora',this)" style="border-color:#d97706;color:#d97706">⚡ Aurora</button>
+      <button class="sn-tab-btn" onclick="snSwitch('elasticache',this)" style="border-color:#d97706;color:#d97706">🔴 ElastiCache</button>
+      <button class="sn-tab-btn" onclick="snSwitch('r53',this)" style="border-color:#d97706;color:#d97706">🌐 Route 53</button>
+      <button class="sn-tab-btn" onclick="snSwitch('s3',this)" style="border-color:#d97706;color:#d97706">🪣 S3</button>
+      <button class="sn-tab-btn" onclick="snSwitch('arch',this)" style="border-color:#d97706;color:#d97706">🏗️ Architectures</button>
+      <button class="sn-tab-btn" onclick="snSwitch('cheat2',this)" style="border-color:#d97706;color:#d97706">📝 Cheat Sheet W2</button>
+    </div>
+
+    <!-- IAM -->
+    <div id="sn-iam" class="sn-page active">
+      <div class="sn-section">
+        <div class="sn-section-header">🔐 Section 1: IAM — Identity &amp; Access Management</div>
+        <div class="sn-body">
+
+          <div class="sn-mental-model">💡 <strong>Mental Model:</strong> Think of IAM like a company's HR + security badge system. HR (IAM) decides who gets hired (users), what department they're in (groups), what doors they can open (policies), and what temporary tasks they can do (roles).</div>
+
+          <div class="sn-subhead">Users, Groups &amp; Policies</div>
+          <div class="sn-p"><strong>Users</strong> = real people (or apps) with their own login — get permissions via policies.<br>
+          <strong>Groups</strong> = departments. Attach ONE policy to the group, everyone in it inherits it.<br>
+          <strong>Policies</strong> = JSON documents that say "Allow" or "Deny" on specific actions + resources.</div>
+          <div class="sn-exam-tip">⚡ <strong>Exam Trap:</strong> "What can an IAM group contain?" → <strong>Users only.</strong> Not roles, not other groups. Groups are flat — never nested.</div>
+
+          <div class="sn-subhead">Policy Structure — Know This Cold</div>
+          <table class="sn-table">
+            <tr><th>Field</th><th>What it means</th><th>Required?</th></tr>
+            <tr><td>Version</td><td>Always "2012-10-17" — never change it</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>Statement</td><td>The list of permission rules</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>Effect</td><td>"Allow" or "Deny" — what the rule does</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>Action</td><td>Which AWS actions are covered (e.g. s3:GetObject)</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>Resource</td><td>Which AWS resource (* = everything)</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>Principal</td><td>WHO the policy applies to (resource policies)</td><td>Sometimes</td></tr>
+            <tr><td>Condition</td><td>Extra rules (e.g. only from this IP)</td><td>Optional</td></tr>
+          </table>
+          <div class="sn-tip">💡 <strong>Least privilege</strong> = only give people exactly what they need. Nothing more.</div>
+
+          <div class="sn-subhead">MFA — Multi-Factor Authentication</div>
+          <table class="sn-table">
+            <tr><th>Device Type</th><th>Example</th><th>Notes</th></tr>
+            <tr><td>Virtual MFA App</td><td>Google Authenticator, Authy</td><td>Multiple accounts on one phone</td></tr>
+            <tr><td>Hardware Security Key</td><td>YubiKey by Yubico</td><td>Physical USB key — one key, many users</td></tr>
+            <tr><td>Hardware Key Fob</td><td>Gemalto device</td><td>3rd party physical device</td></tr>
+            <tr><td>GovCloud Key Fob</td><td>SurePassID device</td><td>US government accounts only</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>Exam Fact:</strong> AWS allows up to <strong>8 MFA devices</strong> per account. Always enable MFA on root account first.</div>
+
+          <div class="sn-subhead">3 Ways to Access AWS</div>
+          <table class="sn-table">
+            <tr><th>Method</th><th>Protected by</th><th>Best for</th></tr>
+            <tr><td>🖥️ Console</td><td>Password + MFA</td><td>Learning, visual management</td></tr>
+            <tr><td>💻 CLI</td><td>Access Keys</td><td>Terminal automation</td></tr>
+            <tr><td>⚙️ SDK</td><td>Access Keys</td><td>Code inside applications</td></tr>
+          </table>
+          <div class="sn-warn">⚠️ <strong>Critical:</strong> Access Keys are like passwords. Never share them, never put them in code that goes to GitHub. Treat your Secret Access Key like your bank PIN.</div>
+
+          <div class="sn-subhead">IAM Roles</div>
+          <div class="sn-p">A Role is a permission set that an AWS service (EC2, Lambda) can temporarily assume. Like a contractor badge — access while on the job, expires when done.</div>
+          <div class="sn-exam-tip">⚡ <strong>Exam Rule #1:</strong> EC2 needs AWS access? → <strong>Attach an IAM Role.</strong> Never type access keys directly into an EC2 instance. This is the #1 security mistake and #1 exam wrong answer trap.</div>
+
+          <div class="sn-subhead">Permission Boundaries</div>
+          <div class="sn-p">A ceiling on what a user or role can ever do — even if other policies try to give them more. The boundary always wins.</div>
+          <div class="sn-mental-model">Example: User has AdministratorAccess BUT boundary only allows S3 + EC2. Result? They can only do S3 and EC2.</div>
+
+          <div class="sn-subhead">IAM Security Tools</div>
+          <table class="sn-table">
+            <tr><th>Tool</th><th>Level</th><th>What it shows</th></tr>
+            <tr><td>Credential Report</td><td>Account-wide</td><td>All users + status of passwords, access keys, MFA</td></tr>
+            <tr><td>Access Advisor</td><td>Per-user</td><td>Which services a user has permission to AND when last used — helps prune unused access</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- EC2 -->
+    <div id="sn-ec2" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header">🖥️ Section 2: EC2 — Elastic Compute Cloud</div>
+        <div class="sn-body">
+
+          <div class="sn-mental-model">💡 EC2 is how you rent a computer from AWS. You pick the size, OS, and configuration. The cloud is just this — someone else's computer, available on demand.</div>
+
+          <div class="sn-subhead">Instance Type Naming — How to Read It</div>
+          <div class="sn-p">Example: <strong>m5.2xlarge</strong></div>
+          <table class="sn-table">
+            <tr><th>Part</th><th>Meaning</th></tr>
+            <tr><td>m</td><td>Instance family (m = general purpose)</td></tr>
+            <tr><td>5</td><td>Generation (higher = newer, better hardware)</td></tr>
+            <tr><td>2xlarge</td><td>Size (micro → small → large → xlarge → 2xlarge)</td></tr>
+          </table>
+
+          <div class="sn-subhead">The 4 Instance Families</div>
+          <table class="sn-table">
+            <tr><th>Family</th><th>Types</th><th>Optimized for</th><th>Use case</th></tr>
+            <tr><td>General Purpose</td><td>T, M</td><td>Balanced CPU + RAM</td><td>Web servers · t2.micro = FREE TIER</td></tr>
+            <tr><td>Compute Optimized</td><td>C</td><td>Heavy CPU</td><td>Gaming, ML, batch jobs</td></tr>
+            <tr><td>Memory Optimized</td><td>R, X</td><td>Huge RAM datasets</td><td>Redis, real-time analytics</td></tr>
+            <tr><td>Storage Optimized</td><td>I, D, H</td><td>Fast local disk</td><td>OLTP databases, NoSQL</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>Memory Trick:</strong> R = RAM · C = CPU · T = tiny/general (free tier). Match workload to what it needs MOST.</div>
+
+          <div class="sn-subhead">Security Groups — The Firewall</div>
+          <div class="sn-p">Security groups contain <strong>ONLY allow rules</strong> — you can never write a "deny." Traffic not explicitly allowed is blocked. Locked to a region/VPC. Firewall lives OUTSIDE the instance.</div>
+          <div class="sn-warn">⚠️ <strong>The #1 Rule:</strong> Timeout = Security Group issue (fix inbound rules). Connection refused instantly = app problem (SG is fine). Default: all inbound BLOCKED, all outbound ALLOWED.</div>
+
+          <div class="sn-subhead">Important Ports</div>
+          <table class="sn-table">
+            <tr><th>Port</th><th>Protocol</th><th>Use</th></tr>
+            <tr><td>22</td><td>SSH / SFTP</td><td>Log into Linux EC2</td></tr>
+            <tr><td>21</td><td>FTP</td><td>File transfer (unsecured)</td></tr>
+            <tr><td>80</td><td>HTTP</td><td>Unsecured websites</td></tr>
+            <tr><td>443</td><td>HTTPS</td><td>Secured websites</td></tr>
+            <tr><td>3389</td><td>RDP</td><td>Log into Windows instances</td></tr>
+          </table>
+
+          <div class="sn-subhead">EC2 Purchasing Options</div>
+          <table class="sn-table">
+            <tr><th>Option</th><th>Best for</th><th>Discount</th></tr>
+            <tr><td>On-Demand</td><td>Short-term, unpredictable</td><td>None</td></tr>
+            <tr><td>Reserved (1–3 yr)</td><td>Steady long-term (databases)</td><td>Up to 72%</td></tr>
+            <tr><td>Convertible Reserved</td><td>Long-term, need flexibility</td><td>Up to 66%</td></tr>
+            <tr><td>Savings Plan</td><td>Commit to $ amount, not type</td><td>Up to 70%</td></tr>
+            <tr><td>Spot</td><td>Batch jobs — can be interrupted</td><td>Up to 90%</td></tr>
+            <tr><td>Dedicated Host</td><td>Compliance / BYOL licensing</td><td>Varies</td></tr>
+            <tr><td>Capacity Reservation</td><td>Guarantee capacity in AZ</td><td>None — always billed</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>Spot Trap:</strong> Cancel the spot REQUEST first, THEN terminate instances. If you terminate instances first, the request auto-relaunches them.</div>
+
+          <div class="sn-subhead">Placement Groups</div>
+          <table class="sn-table">
+            <tr><th>Strategy</th><th>How</th><th>Use case</th><th>Limit</th></tr>
+            <tr><td>Cluster</td><td>Same hardware, same AZ</td><td>Big data, HPC, extreme low latency</td><td>No limit — but all fail together</td></tr>
+            <tr><td>Spread</td><td>Different hardware, different AZs</td><td>Critical apps, max isolation</td><td>7 instances per AZ</td></tr>
+            <tr><td>Partition</td><td>Isolated hardware racks</td><td>Hadoop, Kafka, Cassandra</td><td>Hundreds of instances</td></tr>
+          </table>
+
+          <div class="sn-subhead">EC2 Hibernate</div>
+          <table class="sn-table">
+            <tr><th>Action</th><th>RAM</th><th>EBS</th><th>Boot speed</th></tr>
+            <tr><td>Stop</td><td>Lost</td><td>Kept</td><td>Full boot (slow)</td></tr>
+            <tr><td>Terminate</td><td>Lost</td><td>Deleted (default)</td><td>N/A</td></tr>
+            <tr><td>Hibernate</td><td>Saved to EBS</td><td>Kept + RAM dumped to it</td><td>Fast — OS never stopped</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ <strong>Hibernate Requirements:</strong> Root volume must be EBS · must be ENCRYPTED · RAM under 150 GB · max 60 days.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STORAGE -->
+    <div id="sn-storage" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header">💾 Section 3: EC2 Storage — EBS, EFS &amp; Instance Store</div>
+        <div class="sn-body">
+
+          <div class="sn-subhead">EBS — Elastic Block Store</div>
+          <div class="sn-mental-model">💡 Think of EBS as a USB stick that plugs into your EC2 instance over the network. Persistent — data survives even if the instance is stopped.</div>
+          <div class="sn-p">Key rules: Bound to ONE AZ · attaches to ONE instance at a time (basic level) · pay for provisioned GB not used GB.</div>
+          <div class="sn-warn">⚠️ <strong>Delete on Termination Trap:</strong> Root EBS → deleted on termination BY DEFAULT. Additional volumes → KEPT by default. Classic exam: "How do I preserve data after termination?" → Disable delete on termination for root volume.</div>
+
+          <div class="sn-subhead">EBS Volume Types</div>
+          <table class="sn-table">
+            <tr><th>Type</th><th>Category</th><th>Use case</th><th>Can boot?</th></tr>
+            <tr><td>gp3</td><td>General SSD</td><td>Most workloads — IOPS &amp; throughput independent</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>gp2</td><td>General SSD</td><td>Older — IOPS linked to size (3 IOPS/GB)</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>io1 / io2</td><td>Provisioned IOPS SSD</td><td>Databases needing >16,000 IOPS</td><td><span class="sn-tag sn-yes">Yes</span></td></tr>
+            <tr><td>st1</td><td>Throughput HDD</td><td>Big data, warehousing, logs</td><td><span class="sn-tag sn-no">No</span></td></tr>
+            <tr><td>sc1</td><td>Cold HDD</td><td>Archive, lowest cost, rarely accessed</td><td><span class="sn-tag sn-no">No</span></td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ Only SSDs (gp2, gp3, io1, io2) can be boot volumes. HDDs CANNOT boot. Need >32,000 IOPS → must use EC2 Nitro + io1/io2.</div>
+
+          <div class="sn-subhead">EBS Multi-Attach</div>
+          <div class="sn-p">Same EBS volume attached to MULTIPLE EC2 instances simultaneously with full read+write.</div>
+          <div class="sn-exam-tip">⚡ Only io1 and io2 · all instances in SAME AZ · max 16 instances · must use cluster-aware file system (not ext4/XFS).</div>
+
+          <div class="sn-subhead">Encrypting an Existing Unencrypted Volume</div>
+          <div class="sn-p">You CANNOT directly encrypt it. Process: Snapshot → Copy with encryption enabled → Create new encrypted volume → Attach to instance.</div>
+
+          <div class="sn-subhead">EFS vs EBS Comparison</div>
+          <table class="sn-table">
+            <tr><th>Feature</th><th>EFS</th><th>EBS</th></tr>
+            <tr><td>Instances at once</td><td>Hundreds, cross-AZ</td><td>One at a time</td></tr>
+            <tr><td>OS compatibility</td><td>Linux only</td><td>Any OS</td></tr>
+            <tr><td>Capacity</td><td>Auto-scales, pay per use</td><td>Provisioned upfront</td></tr>
+            <tr><td>Cost</td><td>~3x EBS (use lifecycle tiers)</td><td>Standard</td></tr>
+          </table>
+
+          <div class="sn-subhead">Storage Decision Guide</div>
+          <table class="sn-table">
+            <tr><th>Scenario</th><th>Answer</th></tr>
+            <tr><td>Persistent storage for one EC2</td><td>EBS</td></tr>
+            <tr><td>Shared storage across multiple instances/AZs</td><td>EFS</td></tr>
+            <tr><td>Fastest possible storage, data loss OK</td><td>Instance Store</td></tr>
+            <tr><td>Move storage to different AZ</td><td>EBS Snapshot → restore</td></tr>
+            <tr><td>Shared Linux file system (WordPress)</td><td>EFS</td></tr>
+            <tr><td>Temporary scratch/cache/buffer data</td><td>Instance Store</td></tr>
+            <tr><td>Storage that survives instance termination</td><td>EBS or EFS</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOAD BALANCERS -->
+    <div id="sn-lb" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header">⚖️ Section 4: Load Balancers &amp; High Availability</div>
+        <div class="sn-body">
+
+          <div class="sn-subhead">Scalability Concepts</div>
+          <table class="sn-table">
+            <tr><th>Concept</th><th>What it means</th><th>AWS how</th></tr>
+            <tr><td>Vertical Scaling (Scale Up)</td><td>Make one instance bigger</td><td>Change instance type</td></tr>
+            <tr><td>Horizontal Scaling (Scale Out)</td><td>Add more instances</td><td>Auto Scaling Group</td></tr>
+            <tr><td>High Availability</td><td>Run in 2+ AZs</td><td>ASG + Load Balancer across AZs</td></tr>
+          </table>
+
+          <div class="sn-subhead">The 4 Load Balancer Types</div>
+          <table class="sn-table">
+            <tr><th>Type</th><th>Layer</th><th>Protocols</th><th>Use case</th></tr>
+            <tr><td>ALB (Application)</td><td>Layer 7</td><td>HTTP, HTTPS, WebSocket</td><td>Web apps, microservices, containers</td></tr>
+            <tr><td>NLB (Network)</td><td>Layer 4</td><td>TCP, UDP, TLS</td><td>Ultra-high performance, static IP</td></tr>
+            <tr><td>GWLB (Gateway)</td><td>Layer 3</td><td>IP</td><td>Firewalls, deep packet inspection</td></tr>
+            <tr><td>CLB (Classic)</td><td>4/7</td><td>Various</td><td>❌ Deprecated — never use</td></tr>
+          </table>
+
+          <div class="sn-subhead">ALB Routing Rules</div>
+          <table class="sn-table">
+            <tr><th>Rule type</th><th>Example</th></tr>
+            <tr><td>Path-based</td><td>example.com/users → users service · /search → search service</td></tr>
+            <tr><td>Host-based</td><td>app.example.com → app servers · api.example.com → API servers</td></tr>
+            <tr><td>Query string</td><td>?Platform=Mobile → mobile servers</td></tr>
+          </table>
+          <div class="sn-exam-tip">⚡ ALB terminates your connection and uses its OWN IP to talk to EC2. Find real client IP in <strong>X-Forwarded-For</strong> header.</div>
+
+          <div class="sn-subhead">NLB Exam Trigger Words</div>
+          <div class="sn-mental-model">UDP traffic · TCP traffic · "extreme performance" · "millions of requests/second" · "static IP" · "fixed IP" · "ultra-low latency"<br><br>
+          NLB + ALB combo = static IPs (NLB) + intelligent HTTP routing (ALB). Valid and common architecture.</div>
+
+          <div class="sn-subhead">GWLB Exam Trigger Words</div>
+          <div class="sn-mental-model">Firewall · Intrusion detection · Deep packet inspection · "inspect traffic before app" · GENEVE protocol · Port 6081 · Third-party network appliances</div>
+
+          <div class="sn-subhead">Cross-Zone Load Balancing</div>
+          <table class="sn-table">
+            <tr><th>Load Balancer</th><th>Default</th><th>Charge if enabled</th></tr>
+            <tr><td>ALB</td><td><span class="sn-tag sn-yes">ON — always</span></td><td>❌ Free</td></tr>
+            <tr><td>NLB</td><td><span class="sn-tag sn-no">OFF</span></td><td>✅ Charged</td></tr>
+            <tr><td>GWLB</td><td><span class="sn-tag sn-no">OFF</span></td><td>✅ Charged</td></tr>
+          </table>
+
+          <div class="sn-subhead">SNI — Server Name Indication</div>
+          <div class="sn-p">Allows multiple SSL certs on one load balancer. Client says which hostname it wants, LB loads the correct cert.</div>
+          <div class="sn-exam-tip">⚡ SNI works on <strong>ALB and NLB only</strong>. CLB = one SSL cert only. "Need multiple SSL certs on one LB?" → ALB or NLB.</div>
+
+          <div class="sn-subhead">Connection Draining / Deregistration Delay</div>
+          <table class="sn-table">
+            <tr><th>Setting</th><th>Value</th></tr>
+            <tr><td>Name on CLB</td><td>Connection Draining</td></tr>
+            <tr><td>Name on ALB/NLB</td><td>Deregistration Delay</td></tr>
+            <tr><td>Default</td><td>300 seconds (5 min)</td></tr>
+            <tr><td>Set to 0</td><td>Disabled — instant removal</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASG -->
+    <div id="sn-asg" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header">📈 Section 5: Auto Scaling Groups (ASG)</div>
+        <div class="sn-body">
+
+          <div class="sn-mental-model">💡 An ASG automatically adds or removes EC2 instances based on real-time demand. Always the right number of servers — not too many (waste money), not too few (crash under load).</div>
+
+          <div class="sn-subhead">3 Capacity Settings</div>
+          <table class="sn-table">
+            <tr><th>Setting</th><th>Meaning</th></tr>
+            <tr><td>Minimum</td><td>Never goes below this — fewest instances ever running</td></tr>
+            <tr><td>Desired</td><td>Target right now — ASG tries to maintain this number</td></tr>
+            <tr><td>Maximum</td><td>Never goes above this — cost protection ceiling</td></tr>
+          </table>
+
+          <div class="sn-subhead">The 4 Scaling Policies</div>
+          <table class="sn-table">
+            <tr><th>Policy</th><th>How it works</th><th>Best for</th></tr>
+            <tr><td>🎯 Target Tracking</td><td>Set a target (e.g. CPU 40%) — ASG auto-manages to hit it</td><td>Simplest option — use by default</td></tr>
+            <tr><td>📊 Step Scaling</td><td>CloudWatch alarm triggers (CPU >70% → add 2 instances)</td><td>More manual control</td></tr>
+            <tr><td>🗓️ Scheduled</td><td>Known patterns ("Every Friday 5PM → scale up")</td><td>Predictable traffic spikes</td></tr>
+            <tr><td>🤖 Predictive</td><td>ML analyzes history, forecasts &amp; pre-scales</td><td>Cyclical repeating patterns</td></tr>
+          </table>
+
+          <div class="sn-subhead">Scaling Cooldown</div>
+          <div class="sn-p">After every scaling action, ASG pauses and does nothing during cooldown. Lets new instances start and metrics stabilize before deciding again.</div>
+          <table class="sn-table">
+            <tr><th>Setting</th><th>Value</th></tr>
+            <tr><td>Default cooldown</td><td>300 seconds (5 minutes)</td></tr>
+            <tr><td>During cooldown</td><td>ASG ignores all new scaling triggers</td></tr>
+          </table>
+          <div class="sn-tip">💡 Reduce cooldown: Use a pre-configured AMI so instances serve traffic immediately. Enable detailed CloudWatch monitoring (1-min vs 5-min intervals).</div>
+
+          <div class="sn-exam-tip">⚡ <strong>Launch Configuration = Deprecated.</strong> Always prefer Launch Template. If asked which is newer/better → Launch Template.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHEAT SHEET -->
+    <div id="sn-cheat" class="sn-page">
+      <div class="sn-section">
+        <div class="sn-section-header">📝 Exam Cheat Sheet — When You See This, Pick This</div>
+        <div class="sn-body">
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Connection times out</div><div class="sn-cheat-a">Security Group issue — fix inbound rules</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Connection refused (instant)</div><div class="sn-cheat-a">App problem — security group is fine</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">EC2 needs AWS service access</div><div class="sn-cheat-a">Attach IAM Role — never use access keys on EC2</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Short-term unpredictable workload</div><div class="sn-cheat-a">On-Demand EC2</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Database running 3+ years</div><div class="sn-cheat-a">Reserved Instance</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Batch jobs, data analysis, fault-tolerant</div><div class="sn-cheat-a">Spot Instance</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Compliance / BYOL licensing</div><div class="sn-cheat-a">Dedicated Host</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">UDP / extreme performance / static IP</div><div class="sn-cheat-a">Network Load Balancer (NLB)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Web app / microservices / HTTP routing</div><div class="sn-cheat-a">Application Load Balancer (ALB)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Firewall / deep packet inspection</div><div class="sn-cheat-a">Gateway Load Balancer (GWLB)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Multiple SSL certs on one load balancer</div><div class="sn-cheat-a">ALB or NLB with SNI</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Shared file system across multiple instances</div><div class="sn-cheat-a">EFS</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Fastest storage, data loss OK</div><div class="sn-cheat-a">Instance Store</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Need >16,000 IOPS for database</div><div class="sn-cheat-a">EBS io1 or io2</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Big data / warehousing / log processing</div><div class="sn-cheat-a">EBS st1 (Throughput HDD)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Archive storage, cheapest option</div><div class="sn-cheat-a">EBS sc1 or EFS Archive tier</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Move EBS to different AZ</div><div class="sn-cheat-a">Snapshot → restore in new AZ</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Encrypt existing unencrypted EBS</div><div class="sn-cheat-a">Snapshot → copy with encryption → new volume</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Cancel Spot instance properly</div><div class="sn-cheat-a">Cancel REQUEST first, then terminate instances</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Instance needs to resume instantly from pause</div><div class="sn-cheat-a">EC2 Hibernate</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Known traffic spike every Friday</div><div class="sn-cheat-a">ASG Scheduled Scaling</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Repeating cyclical traffic pattern</div><div class="sn-cheat-a">ASG Predictive Scaling</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">What can groups contain?</div><div class="sn-cheat-a">Users only — not other groups, not roles</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Cross-zone LB default ON + free</div><div class="sn-cheat-a">ALB only</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">High performance distributed big data (Kafka/Hadoop)</div><div class="sn-cheat-a">Partition Placement Group</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Critical app, max failure isolation, small scale</div><div class="sn-cheat-a">Spread Placement Group (max 7/AZ)</div></div>
+          <div class="sn-cheat-row"><div class="sn-cheat-q">Extreme network speed between instances</div><div class="sn-cheat-a">Cluster Placement Group</div></div>
+
+          <div style="margin-top:20px;padding:14px 18px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;text-align:center;font-style:italic;color:#15803d;font-size:0.9rem;line-height:1.6">
+            "Whatever your hand finds to do, do it with all your might." — Ecclesiastes 9:10<br>
+            <span style="font-size:0.78rem;font-style:normal;color:#94a3b8;margin-top:4px;display:block">Keep going. One lunch break at a time. 💪</span>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -2898,7 +3660,7 @@ function togglePodcast(id, checked) {
 function switchTab(tabName) {
   document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','scores','boss','inspiration','reading'];
+  const tabs = ['overview','certifications','projects','linkedin','studylog','cissp','costs','scores','boss','inspiration','reading','studynotes'];
   const idx = tabs.indexOf(tabName);
   if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-' + tabName).classList.add('active');
@@ -2989,6 +3751,7 @@ function logAccess(name, email, role, note) {
 
 // ---- Recruiter mode: hide Cost Tracker + Re-Review + all forms ----
 function applyGuestMode() {
+  document.querySelectorAll('.owner-only-tab').forEach(el => el.style.display = 'none');
   document.querySelectorAll('.tab-btn').forEach(btn => {
     if (btn.textContent.trim() === 'Cost tracker') btn.style.display = 'none';
   });
@@ -3013,6 +3776,7 @@ function applyGuestMode() {
 
 // ---- Family mode: all tabs visible, forms hidden ----
 function applyFamilyMode() {
+  document.querySelectorAll('.owner-only-tab').forEach(el => el.style.display = 'none');
   ['#backupBar','.btn-primary','.form-input','.form-select','.form-label',
    '#focusStudy','#focusBuild','#focusPost','#focusHistoryToggle'].forEach(sel => {
     document.querySelectorAll(sel).forEach(el => el.style.display = 'none');
@@ -3252,6 +4016,17 @@ document.addEventListener('DOMContentLoaded', () => {
   loadBooks();
   renderBookNotes();
 });
+
+// ============================================================
+// STUDY NOTES SUB-TAB SWITCHER
+// ============================================================
+function snSwitch(page, btn) {
+  document.querySelectorAll('.sn-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sn-tab-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('sn-' + page);
+  if (el) el.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
 
 // ============================================================
 // READING LIST
