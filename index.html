@@ -1563,15 +1563,15 @@ body {
         <div class="reading-stat-label">Books completed</div>
       </div>
       <div class="reading-stat-box">
-        <div class="reading-stat-num" style="color:#2563eb">21</div>
+        <div class="reading-stat-num" style="color:#2563eb">23</div>
         <div class="reading-stat-label">Books on route</div>
       </div>
       <div class="reading-stat-box">
-        <div class="reading-stat-num" style="color:#7c3aed">9</div>
+        <div class="reading-stat-num" style="color:#7c3aed">15</div>
         <div class="reading-stat-label">Already owned</div>
       </div>
       <div class="reading-stat-box">
-        <div class="reading-stat-num" style="color:#d97706">12</div>
+        <div class="reading-stat-num" style="color:#d97706">7</div>
         <div class="reading-stat-label">To purchase</div>
       </div>
     </div>
@@ -1595,6 +1595,20 @@ body {
             <div class="book-why">Your primary path to the SAA-C03. Every video lecture builds the AWS foundation everything else in your career will stand on.</div>
             <div class="book-tags">
               <span class="book-tag book-tag-current">▶ Reading now</span>
+              <span class="book-tag" style="background:#eff6ff;color:#2563eb">SAA Exam</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="1">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#2563eb"></div>
+          <div class="book-cover-num" style="background:#2563eb">1b</div>
+          <div class="book-info">
+            <div class="book-title">AWS Certified Solutions Architect Study Guide (3rd Edition)</div>
+            <div class="book-author">Ben Piper &amp; David Clinton</div>
+            <div class="book-why">Your physical companion to the Udemy course. Chapters map directly to SAA-C03 exam domains. Use it for deep-dive reading on topics where you need more than video — especially when you're away from a screen.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
               <span class="book-tag" style="background:#eff6ff;color:#2563eb">SAA Exam</span>
             </div>
           </div>
@@ -1631,7 +1645,7 @@ body {
             <div class="book-author">Wladston Ferreira Filho</div>
             <div class="book-why">Covers the breadth of CS — logic, algorithms, databases, networking — in one slim volume. Perfect companion to SNHU Y1 coursework.</div>
             <div class="book-tags">
-              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag book-tag-owned">✓ You own this</span>
               <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">CS Foundations</span>
             </div>
           </div>
@@ -1641,11 +1655,11 @@ body {
           <div class="book-spine" style="background:#7c3aed"></div>
           <div class="book-cover-num" style="background:#7c3aed">4</div>
           <div class="book-info">
-            <div class="book-title">Think Stats: Exploratory Data Analysis</div>
-            <div class="book-author">Allen B. Downey</div>
-            <div class="book-why">Statistics using Python, no calculus required. You need this before any ML work — AI is applied statistics. Free online at greenteapress.com.</div>
+            <div class="book-title">The Art of Statistics: How to Learn from Data</div>
+            <div class="book-author">David Spiegelhalter</div>
+            <div class="book-why">Statistics through real-world stories — no heavy math required. Teaches you how to think statistically, which is the foundation every AI and ML concept builds on. A better fit for your learning style than a pure textbook approach.</div>
             <div class="book-tags">
-              <span class="book-tag book-tag-buy">Purchase / Free PDF</span>
+              <span class="book-tag book-tag-owned">✓ You own this</span>
               <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">Statistics</span>
             </div>
           </div>
@@ -1661,6 +1675,20 @@ body {
             <div class="book-tags">
               <span class="book-tag book-tag-buy">Purchase</span>
               <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">Python</span>
+            </div>
+          </div>
+          <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="2">
+        </div>
+        <div class="book-row">
+          <div class="book-spine" style="background:#7c3aed"></div>
+          <div class="book-cover-num" style="background:#7c3aed">5b</div>
+          <div class="book-info">
+            <div class="book-title">Clean Code: A Handbook of Agile Software Craftsmanship</div>
+            <div class="book-author">Robert C. Martin</div>
+            <div class="book-why">The standard text on writing code that others (and future you) can read, understand, and maintain. As you build AWS projects and write Terraform and Python, this will reshape how you structure everything. Read alongside Fluent Python.</div>
+            <div class="book-tags">
+              <span class="book-tag book-tag-owned">✓ You own this</span>
+              <span class="book-tag" style="background:#f5f3ff;color:#7c3aed">Software Craft</span>
             </div>
           </div>
           <input type="checkbox" class="book-check" onchange="updateBookStats()" data-phase="2">
@@ -1681,7 +1709,7 @@ body {
             <div class="book-author">Martin Kleppmann</div>
             <div class="book-why">The definitive guide to building reliable, scalable systems. Required reading for any cloud architect. This bridges AWS knowledge to real engineering judgment.</div>
             <div class="book-tags">
-              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag book-tag-owned">✓ You own this</span>
               <span class="book-tag" style="background:#fef3c7;color:#d97706">Systems</span>
             </div>
           </div>
@@ -1692,10 +1720,10 @@ body {
           <div class="book-cover-num" style="background:#d97706">7</div>
           <div class="book-info">
             <div class="book-title">Adversarial Machine Learning</div>
-            <div class="book-author">Yevgeniy Vorobeychik &amp; Murat Kantarcioglu</div>
+            <div class="book-author">Anthony D. Joseph &amp; Blaine Nelson</div>
             <div class="book-why">AI security's core text. Covers evasion, poisoning, model theft, and defenses. Your CAISP exam will test this. Read alongside your SNHU AI security coursework.</div>
             <div class="book-tags">
-              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag book-tag-owned">✓ You own this</span>
               <span class="book-tag" style="background:#fef3c7;color:#d97706">AI Security</span>
             </div>
           </div>
@@ -1806,11 +1834,11 @@ body {
           <div class="book-spine" style="background:#0891b2"></div>
           <div class="book-cover-num" style="background:#0891b2">14</div>
           <div class="book-info">
-            <div class="book-title">System Design Interview (Volumes I &amp; II)</div>
+            <div class="book-title">System Design Interview (Second Edition)</div>
             <div class="book-author">Alex Xu</div>
             <div class="book-why">GT projects and your eventual CMU application essays will require you to articulate system design clearly. Treat this as a framework book — read alongside coursework.</div>
             <div class="book-tags">
-              <span class="book-tag book-tag-buy">Purchase</span>
+              <span class="book-tag book-tag-owned">✓ You own this</span>
               <span class="book-tag" style="background:#ecfeff;color:#0891b2">System Design</span>
             </div>
           </div>
@@ -1938,11 +1966,13 @@ body {
           <label class="form-label">Book</label>
           <select class="form-select" id="bookNoteTitle">
             <option value="">Select a book...</option>
-            <option>AWS SAA Study Guide (Udemy)</option>
+            <option>AWS SAA Study Guide (Udemy — Stephane Maarek)</option>
+            <option>AWS Certified Solutions Architect Study Guide 3E (Ben Piper)</option>
             <option>Grokking Algorithms</option>
             <option>Computer Science Distilled</option>
-            <option>Think Stats</option>
+            <option>The Art of Statistics (David Spiegelhalter)</option>
             <option>Fluent Python</option>
+            <option>Clean Code (Robert C. Martin)</option>
             <option>Designing Data-Intensive Applications</option>
             <option>Adversarial Machine Learning</option>
             <option>Hacking the AI</option>
